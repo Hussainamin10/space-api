@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 11, 2024 at 05:56 PM
+-- Generation Time: Sep 12, 2024 at 05:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -108,8 +108,8 @@ CREATE TABLE `spacecompany` (
   `founder` varchar(100) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `totalNumOfMissions` int(11) DEFAULT NULL,
-  `missionSuccessRate` float DEFAULT NULL,
-  `annualRevenue` float DEFAULT NULL,
+  `missionSuccessRate` decimal(10,2) DEFAULT NULL,
+  `annualRevenue` decimal(10,2) DEFAULT NULL,
   `numberOfEmployees` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
