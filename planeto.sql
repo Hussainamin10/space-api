@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 16, 2024 at 11:13 PM
+-- Generation Time: Sep 24, 2024 at 04:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `planeto`
 --
+CREATE DATABASE IF NOT EXISTS `planeto` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `planeto`;
+
 -- --------------------------------------------------------
 
 --
@@ -30,39 +33,43 @@ CREATE TABLE `astronauts` (
   `astronautID` int(11) NOT NULL,
   `firstName` varchar(100) DEFAULT NULL,
   `lastName` varchar(100) DEFAULT NULL,
-  `dateOfBirth` date DEFAULT NULL,
   `numOfMissions` int(11) DEFAULT NULL,
   `nationality` varchar(50) DEFAULT NULL,
   `inSpace` tinyint(1) DEFAULT NULL,
   `dateOfDeath` date DEFAULT NULL,
-  `flightsCount` int(11) DEFAULT NULL
+  `flightsCount` int(11) DEFAULT NULL,
+  `dateOfBirth` date DEFAULT NULL,
+  `bio` text DEFAULT NULL,
+  `wiki` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `astronauts`
 --
 
-INSERT INTO `astronauts` (`astronautID`, `firstName`, `lastName`, `dateOfBirth`, `numOfMissions`, `nationality`, `inSpace`, `dateOfDeath`, `flightsCount`) VALUES
-(1, 'Yuri', 'Gagarin', '1934-03-09', 1, 'Russian', 0, '1968-03-27', 1),
-(2, 'Neil', 'Armstrong', '1930-08-05', 1, 'American', 0, '2012-08-25', 1),
-(3, 'Buzz', 'Aldrin', '1930-01-20', 3, 'American', 0, NULL, 2),
-(4, 'Sally', 'Ride', '1951-05-26', 1, 'American', 0, '2012-07-23', 1),
-(5, 'Valentina', 'Tereshkova', '1937-03-06', 1, 'Russian', 0, NULL, 1),
-(6, 'John', 'Glenn', '1921-07-18', 2, 'American', 0, '2016-12-08', 2),
-(7, 'Gherman', 'Titov', '1935-09-11', 1, 'Russian', 0, '2000-09-20', 1),
-(8, 'Mae', 'Jemison', '1956-10-17', 1, 'American', 0, NULL, 1),
-(9, 'Alexander', 'Gerst', '1976-11-27', 3, 'German', 1, NULL, 2),
-(10, 'André', 'Kuipers', '1958-10-05', 2, 'Dutch', 0, NULL, 2),
-(11, 'Peggy', 'Whitson', '1960-02-09', 10, 'American', 0, NULL, 6),
-(12, 'Chris', 'Hadfield', '1959-08-29', 3, 'Canadian', 0, NULL, 3),
-(13, 'Michael', 'Collins', '1930-10-31', 1, 'American', 0, '2021-04-28', 1),
-(14, 'Eileen', 'Collins', '1956-11-19', 6, 'American', 0, NULL, 6),
-(15, 'Jim', 'Lovell', '1928-03-25', 2, 'American', 0, NULL, 2),
-(16, 'Alan', 'Bean', '1932-03-15', 4, 'American', 0, '2018-05-26', 4),
-(17, 'Wally', 'Funk', '1939-02-01', 1, 'American', 0, NULL, 1),
-(18, 'Serena', 'Aunon-Chancellor', '1966-12-19', 2, 'American', 0, NULL, 2),
-(19, 'Tim', 'Peake', '1972-04-24', 2, 'British', 0, NULL, 2),
-(20, 'Robert', 'Behnken', '1970-07-28', 2, 'American', 0, NULL, 2);
+INSERT INTO `astronauts` (`astronautID`, `firstName`, `lastName`, `numOfMissions`, `nationality`, `inSpace`, `dateOfDeath`, `flightsCount`, `dateOfBirth`, `bio`, `wiki`, `image`, `thumbnail`) VALUES
+(1, 'Yuri', 'Gagarin', 1, 'Russian', 0, '1968-03-27', 1, '1934-03-09', 'Yuri Alekseyevich Gagarin was a Soviet pilot and cosmonaut. He became the first human to journey into outer space when his Vostok spacecraft completed one orbit of the Earth on 12 April 1961.', 'https://en.wikipedia.org/wiki/Yuri_Gagarin', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/yuri2520gagarin_image_20200211151614.jpg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305191209.jpeg'),
+(2, 'Neil', 'Armstrong', 1, 'American', 0, '2012-08-25', 1, '1930-08-05', 'Neil Alden Armstrong was an American astronaut and aeronautical engineer who was the first person to walk on the Moon. He was also a naval aviator, test pilot, and university professor.', 'https://en.wikipedia.org/wiki/Neil_Armstrong', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/neil2520armstrong_image_20190426143653.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190707.jpeg'),
+(3, 'Buzz', 'Aldrin', 3, 'American', 0, NULL, 2, '1930-01-20', 'Buzz Aldrin; born Edwin Eugene Aldrin Jr.; is an American engineer, former astronaut, and fighter pilot. As Lunar Module Pilot on the Apollo 11 mission, he and mission commander Neil Armstrong were the first two humans to land on the Moon.', 'https://en.wikipedia.org/wiki/Buzz_Aldrin', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/buzz_aldrin_image_20220911034547.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185225.jpeg'),
+(4, 'Sally', 'Ride', 1, 'American', 0, '2012-07-23', 1, '1951-05-26', 'Sally Kristen Ride was an American astronaut, physicist, and engineer. Born in Los Angeles, she joined NASA in 1978 and became the first American woman in space in 1983. Ride was the third woman in space overall, after USSR cosmonauts Valentina Tereshkova (1963) and Svetlana Savitskaya (1982). Ride remains the youngest American astronaut to have traveled to space, having done so at the age of 32. After flying twice on the Orbiter Challenger, she left NASA in 1987. She worked for two years at Stanford University\'s Center for International Security and Arms Control, then at the University of California, San Diego as a professor of physics, primarily researching nonlinear optics and Thomson scattering. She served on the committees that investigated the Challenger and Columbia space shuttle disasters, the only person to participate in both. Ride died of pancreatic cancer on July 23, 2012.', 'https://en.wikipedia.org/wiki/Sally_Ride', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/sally2520ride_image_20190421143600.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185614.jpeg'),
+(5, 'Valentina', 'Tereshkova', 1, 'Russian', 0, NULL, 1, '1937-03-06', 'Valentina Vladimirovna Tereshkova (born 6 March 1937) is a retired Russian cosmonaut, engineer, and politician. She is the first woman to have flown in space, having been selected from more than 400 applicants and five finalists to pilot Vostok 6 on 16 June 1963. In order to join the Cosmonaut Corps, Tereshkova was honorarily inducted into the Soviet Air Force and thus she also became the first civilian to fly in space.', 'https://en.wikipedia.org/wiki/Valentina_Tereshkova', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/valentina2520tereshkova_image_20181201222143.jpg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185716.jpeg'),
+(6, 'John', 'Glenn', 2, 'American', 0, '2016-12-08', 2, '1921-07-18', 'Colonel John Herschel Glenn Jr. was a United States Marine Corps aviator, engineer, astronaut, businessman, and politician. He was the first American to orbit the Earth, circling it three times in 1962. Following his retirement from NASA, he served from 1974 to 1999 as a Democratic United States Senator from Ohio.', 'https://en.wikipedia.org/wiki/John_Glenn', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/john2520glenn_image_20181128141704.jpg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190045.jpeg'),
+(7, 'Gherman', 'Titov', 1, 'Russian', 0, '2000-09-20', 1, '1935-09-11', 'Gherman Stepanovich Titov was a Soviet cosmonaut who, on 6 August 1961, became the second human to orbit the Earth, aboard Vostok 2, preceded by Yuri Gagarin on Vostok 1. He was the fourth person in space, counting suborbital voyages of US astronauts Alan Shepard and Gus Grissom.', 'https://en.wikipedia.org/wiki/Gherman_Titov', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/gherman2520titov_image_20181201222559.jpg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190117.jpeg'),
+(8, 'Mae', 'Jemison', 1, 'American', 0, NULL, 1, '1956-10-17', 'Mae Carol Jemison is an American engineer, physician and NASA astronaut. She became the first African American woman to travel in space when she went into orbit aboard the Space Shuttle Endeavour on September 12, 1992. After medical school and a brief general practice, Jemison served in the Peace Corps from 1985 until 1987, when she was selected by NASA to join the astronaut corps. She resigned from NASA in 1993 to found a company researching the application of technology to daily life. She has appeared on television several times, including as an actress in an episode of Star Trek: The Next Generation. She is a dancer and holds nine honorary doctorates in science, engineering, letters, and the humanities. She is the current principal of the 100 Year Starship organization.', 'https://en.wikipedia.org/wiki/Mae_Jemison', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/mae_jemison_image_20220911033619.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190022.jpeg'),
+(9, 'Alexander', 'Gerst', 3, 'German', 1, NULL, 2, '1976-05-03', 'Alexander Gerst is a German European Space Agency astronaut and geophysicist, who was selected in 2009 to take part in space training. He was part of the International Space Station Expedition 40 and 41 from May to November 2014. Gerst returned to space on June 6, 2018, as part of Expedition 56/57 as the ISS Commander.', 'https://en.wikipedia.org/wiki/Alexander_Gerst', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alexander2520gerst_image_20181127211820.jpg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190641.jpeg'),
+(10, 'André', 'Kuipers', 2, 'Dutch', 0, NULL, 2, '1958-10-05', 'André Kuipers is a Dutch physician and ESA astronaut. He became the second Dutch citizen, third Dutch-born and fifth Dutch-speaking astronaut upon launch of Soyuz TMA-4 on 19 April 2004. Kuipers returned to Earth aboard Soyuz TMA-3 11 days later.\r\n\r\nKuipers is the first Dutch astronaut to return to space. On 5 August 2009, Dutch minister of economic affairs Maria van der Hoeven, announced Kuipers was selected as an astronaut for International Space Station (ISS) Expeditions 30 and 31. He was launched to space on 21 December 2011 and returned to Earth on 1 July 2012.', 'https://en.wikipedia.org/wiki/Andr%C3%A9_Kuipers', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/andr25c325a92520kuipers_image_20181129234401.jpg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190327.jpeg'),
+(11, 'Peggy', 'Whitson', 10, 'American', 0, NULL, 6, '1960-02-09', 'Peggy Annette Whitson is an American biochemistry researcher, retired NASA astronaut, and former NASA Chief Astronaut. Her first space mission was in 2002, with an extended stay aboard the International Space Station as a member of Expedition 5. Her second mission launched October 10, 2007, as the first female commander of the ISS with Expedition 16. She was on her third long-duration space flight and was the commander of the International Space Station for Expedition 51, before handing over command to Fyodor Yurchikhin on June 1, 2017.', 'https://en.wikipedia.org/wiki/Peggy_Whitson', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/peggy_whitson_image_20210210144848.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190851.jpeg'),
+(12, 'Chris', 'Hadfield', 3, 'Canadian', 0, NULL, 3, '1959-08-29', 'Chris Austin Hadfield is a Canadian retired astronaut, engineer, and former Royal Canadian Air Force fighter pilot. The first Canadian to walk in space, Hadfield has flown two space shuttle missions and served as commander of the International Space Station.', 'https://en.wikipedia.org/wiki/Chris_Hadfield', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/chris_hadfield_image_20220911034200.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190208.jpeg'),
+(13, 'Michael', 'Collins', 1, 'American', 0, '2021-04-28', 1, '1930-10-31', 'Michael Collins (born October 31, 1930) (Major General, USAF, Ret.) was an American former astronaut and test pilot. Selected as part of the third group of fourteen astronauts in 1963, he flew into space twice. His first spaceflight was on Gemini 10, in which he and Command Pilot John Young performed two rendezvous with different spacecraft and undertook two extra-vehicular activities (EVAs, also known as spacewalks). His second spaceflight was as the Command Module Pilot for Apollo 11. While he stayed in orbit around the Moon, Neil Armstrong and Buzz Aldrin left in the Lunar Module to make the first manned landing on its surface. He is one of 24 people to have flown to the Moon. Collins was the fourth person, and third American, to perform an EVA; and is the first person to have performed more than one EVA.', 'https://en.wikipedia.org/wiki/Michael_Collins_(astronaut)', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/michael_collins_image_20210428162316.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185402.jpeg'),
+(14, 'Eileen', 'Collins', 6, 'American', 0, NULL, 6, '1956-11-19', 'Eileen Marie Collins is a retired NASA astronaut and a retired United States Air Force colonel. A former military instructor and test pilot, Collins was the first female pilot and first female commander of a Space Shuttle. She was awarded several medals for her work. Colonel Collins has logged 38 days 8 hours and 20 minutes in outer space. Collins retired on May 1, 2006, to pursue private interests, including service as a board member of USAA.', 'https://en.wikipedia.org/wiki/Eileen_Collins', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/eileen_collins_image_20220911034300.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190225.jpeg'),
+(15, 'Jim', 'Lovell', 2, 'American', 0, NULL, 2, '1928-03-25', 'James Arthur Lovell Jr. is a former NASA astronaut, Naval Aviator, and retired Navy captain. Lovell is known for being the commander of the ill-fated Apollo 13 mission, which suffered a critical failure en route to the Moon but was brought back safely to Earth through the efforts of the crew and mission control. In addition to being part of the Apollo 13 crew, Lovell was the command module pilot of Apollo 8, the first Apollo mission to enter lunar orbit.', 'https://en.wikipedia.org/wiki/Jim_Lovell', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/jim2520lovell_image_20181128143638.jpg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190932.jpeg'),
+(16, 'Alan', 'Bean', 4, 'American', 0, '2018-05-26', 4, '1932-03-15', 'Alan LaVern Bean was an American naval officer and naval aviator, aeronautical engineer, test pilot, and NASA astronaut; he was the fourth person to walk on the Moon. He was selected to become an astronaut by NASA in 1963 as part of Astronaut Group 3.\n\nHe made his first flight into space aboard Apollo 12, the second manned mission to land on the Moon, at age 37 in November 1969. He made his second and final flight into space on the Skylab 3 mission in 1973, the second manned mission to the Skylab space station. After retiring from the United States Navy in 1975 and NASA in 1981, he pursued his interest in painting, depicting various space-related scenes and documenting his own experiences in space as well as that of his fellow Apollo program astronauts. He was the last living crew member of Apollo 12.', 'https://en.wikipedia.org/wiki/Alan_Bean', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alan2520bean_image_20181128145355.jpg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305191125.jpeg'),
+(17, 'Wally', 'Funk', 1, 'American', 0, NULL, 1, '1938-02-01', 'Mary Wallace \"Wally\" Funk is an American aviator and Goodwill Ambassador. She was the first female air safety investigator for the National Transportation Safety Board, the first female civilian flight instructor at Fort Sill, Oklahoma, and the first female Federal Aviation Agency inspector, as well as one of the Mercury 13.', 'https://en.wikipedia.org/wiki/Wally_Funk', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/wally_funk_image_20220911033704.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185840.jpeg'),
+(18, 'Serena', 'Aunon-Chancellor', 2, 'American', 0, NULL, 2, '1976-04-09', 'Serena Maria Auñón-Chancellor is an American physician, engineer, and NASA astronaut. She has been in space since June 6, 2018, serving as a flight engineer in Expedition 56/57 to the International Space Station.', 'https://en.wikipedia.org/wiki/Serena_Au%C3%B1%C3%B3n-Chancellor', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/serena_au25c3_image_20220911033856.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185714.jpeg'),
+(19, 'Tim', 'Peake', 2, 'British', 0, NULL, 2, '1972-04-07', 'Major Timothy Nigel Peake CMG is a British Army Air Corps officer, former European Space Agency astronaut and International Space Station (ISS) crew member. He is the first British ESA astronaut, the second astronaut to bear a flag of the United Kingdom patch, the sixth person born in the United Kingdom to go on board the International Space Station and the seventh UK-born person in space. He began the ESA\'s intensive astronaut basic training course in September 2009 and graduated on 22 November 2010.', 'https://en.wikipedia.org/wiki/Tim_Peake', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/tim_peake_image_20230120154350.jpg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185843.jpeg'),
+(20, 'Robert', 'Behnken', 2, 'American', 0, NULL, 2, '1970-07-28', 'Robert Louis \"Bob\" Behnken is a United States Air Force officer, retired NASA astronaut and former Chief of the Astronaut Office. Behnken holds a Ph.D in Mechanical Engineering and holds the rank of Colonel in the U.S. Air Force. Col. Behnken has logged over 1,000 flight hours in 25 different aircraft. He flew aboard Space Shuttle missions STS-123 and STS-130 as a Mission Specialist, accumulating over 378 hours in space, including 19 hours of spacewalk time. Behnken was also assigned as Mission Specialist 1 to the STS-400 rescue mission. He is married to fellow astronaut K. Megan McArthur.', NULL, 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/robert_l._behnk_image_20200421075919.jpeg', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190951.jpeg');
 
 -- --------------------------------------------------------
 
@@ -100,6 +107,42 @@ INSERT INTO `astronautspacemission` (`astronautID`, `missionID`) VALUES
 (18, 29),
 (19, 30),
 (20, 31);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `locations`
+--
+
+CREATE TABLE `locations` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `countryCode` varchar(10) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `mapImage` varchar(255) DEFAULT NULL,
+  `timezone` varchar(100) DEFAULT NULL,
+  `launchCount` int(11) DEFAULT NULL,
+  `landingCount` int(11) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `locations`
+--
+
+INSERT INTO `locations` (`id`, `name`, `countryCode`, `description`, `mapImage`, `timezone`, `launchCount`, `landingCount`, `url`) VALUES
+(4, 'Palmachim Airbase, State of Israel', 'ISR', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg', 'Asia/Jerusalem', 12, 0, 'https://lldev.thespacedevs.com/2.2.0/location/4/'),
+(12, 'Cape Canaveral, FL', 'USA', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_12_20200803142519.jpg', 'America/New_York', 974, 56, 'https://lldev.thespacedevs.com/2.2.0/location/12/'),
+(13, 'Guiana Space Centre, French Guiana', 'GUF', 'The Guiana Space Centre is a European spaceport to the northwest of Kourou in French Guiana, a region of France in South America. Kourou is located at a latitude of 5°. In operation since 1968, it is a suitable location for a spaceport because of its equatorial location and open sea to the east.', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_13_20200803142412.jpg', 'America/Cayenne', 322, 0, 'https://lldev.thespacedevs.com/2.2.0/location/13/'),
+(15, 'Baikonur Cosmodrome', 'KAZ', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_15_20200803142517.jpg', 'Asia/Qyzylorda', 1551, 0, 'https://lldev.thespacedevs.com/2.2.0/location/15/'),
+(18, 'Vostochny Cosmodrome, Siberia, Russian Federation', 'RUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_18_20200803142401.jpg', 'Asia/Yakutsk', 17, 0, 'https://lldev.thespacedevs.com/2.2.0/location/18/'),
+(19, 'Taiyuan Satellite Launch Center, People\'s Republic of China', 'CHN', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_19_20200803142421.jpg', 'Asia/Shanghai', 131, 0, 'https://lldev.thespacedevs.com/2.2.0/location/19/'),
+(27, 'Kennedy Space Center, FL', 'USA', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_27_20200803142447.jpg', 'America/New_York', 243, 0, 'https://lldev.thespacedevs.com/2.2.0/location/27/'),
+(30, 'Kapustin Yar, Russian Federation', 'RUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_30_20200803142515.jpg', 'Europe/Volgograd', 101, 0, 'https://lldev.thespacedevs.com/2.2.0/location/30/'),
+(146, 'Svobodny Cosmodrome, Russian Federation', 'RUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_146_20200803142450.jpg', 'Asia/Yakutsk', 5, 0, 'https://lldev.thespacedevs.com/2.2.0/location/146/'),
+(150, 'Alcântara Space Center, Federative Republic of Brazil', 'BRA', 'The Alcântara Space Center, formerly known as Alcântara Launch Center is a space center and launching facility of the Brazilian Space Agency in the city of Alcântara, located on Brazil\'s northern Atlantic coast, in the state of Maranhão.', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_150_20200803142405.jpg', 'America/Fortaleza', 2, 0, 'https://lldev.thespacedevs.com/2.2.0/location/150/'),
+(153, 'Tonghae Satellite Launching Ground', 'PRK', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_153_20200803142503.jpg', 'Asia/Pyongyang', 2, 0, 'https://lldev.thespacedevs.com/2.2.0/location/153/'),
+(156, 'Whalers Way Orbital Launch Complex, South Australia', 'AUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_whalers_way_orbital_launch_complex_20210910042508.jpg', 'Australia/Adelaide', 1, 0, 'https://lldev.thespacedevs.com/2.2.0/location/156/');
 
 -- --------------------------------------------------------
 
@@ -261,51 +304,51 @@ CREATE TABLE `spacemissions` (
   `missionID` int(11) NOT NULL,
   `companyName` varchar(100) DEFAULT NULL,
   `spaceStationId` int(11) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
   `launchDate` date DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `costOfTheMissions` decimal(12,2) DEFAULT NULL,
   `missionDuration` decimal(10,2) DEFAULT NULL,
-  `crewSize` int(11) DEFAULT NULL
+  `crewSize` int(11) DEFAULT NULL,
+  `location_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `spacemissions`
 --
 
-INSERT INTO `spacemissions` (`missionID`, `companyName`, `spaceStationId`, `location`, `launchDate`, `status`, `costOfTheMissions`, `missionDuration`, `crewSize`) VALUES
-(1, 'Roscosmos', NULL, 'Baikonur Cosmodrome', '1961-04-12', 1, 100000.00, 1.00, 1),
-(2, 'NASA', NULL, 'Kennedy Space Center, FL', '1969-07-16', 1, 355000000.00, 8.00, 3),
-(3, 'NASA', NULL, 'Kennedy Space Center, FL', '1969-07-16', 1, 355000000.00, 8.00, 3),
-(4, 'NASA', NULL, 'Cape Canaveral, FL', '1966-11-11', 1, 19000000.00, 5.00, 2),
-(5, 'NASA', NULL, 'Kennedy Space Center, FL', '1983-06-18', 1, 150000000.00, 6.00, 5),
-(6, 'Roscosmos', NULL, 'Baikonur Cosmodrome', '1963-06-16', 1, 100000.00, 3.00, 1),
-(7, 'NASA', NULL, 'Cape Canaveral, FL', '1962-02-20', 1, 50000000.00, 1.00, 1),
-(8, 'NASA', NULL, 'Kennedy Space Center, FL', '1998-10-29', 1, 150000000.00, 9.00, 7),
-(9, 'Roscosmos', NULL, 'Baikonur Cosmodrome', '1961-08-06', 1, 100000.00, 1.00, 1),
-(10, 'NASA', NULL, 'Kennedy Space Center, FL', '1992-09-12', 1, 150000000.00, 8.00, 7),
-(11, 'ESA', 1, 'Baikonur Cosmodrome', '2014-05-28', 1, 70000000.00, 166.00, 6),
-(12, 'ESA', 1, 'Baikonur Cosmodrome', '2016-07-07', 1, 70000000.00, 139.00, 3),
-(13, 'ESA', 1, 'Baikonur Cosmodrome', '2011-12-21', 1, 70000000.00, 6.00, 6),
-(14, 'NASA', 1, 'Baikonur Cosmodrome', '2002-04-09', 1, 70000000.00, 183.00, 6),
-(15, 'NASA', 1, 'Baikonur Cosmodrome', '2007-10-10', 1, 70000000.00, 188.00, 6),
-(16, 'NASA', 1, 'Baikonur Cosmodrome', '2010-10-07', 1, 70000000.00, 182.00, 6),
-(17, 'NASA', 1, 'Baikonur Cosmodrome', '2016-11-17', 1, 70000000.00, 153.00, 6),
-(18, 'NASA', NULL, 'Kennedy Space Center, FL', '2001-04-19', 1, 150000000.00, 11.00, 7),
-(19, 'ESA', 1, 'Baikonur Cosmodrome', '2013-12-19', 1, 70000000.00, 146.00, 6),
-(20, 'NASA', NULL, 'Kennedy Space Center, FL', '1969-07-16', 1, 355000000.00, 8.00, 3),
-(21, 'NASA', NULL, 'Kennedy Space Center, FL', '1995-02-03', 1, 150000000.00, 7.00, 7),
-(22, 'NASA', NULL, 'Kennedy Space Center, FL', '1997-05-03', 1, 150000000.00, 11.00, 7),
-(23, 'NASA', NULL, 'Kennedy Space Center, FL', '1999-07-23', 1, 150000000.00, 9.00, 7),
-(24, 'NASA', NULL, 'Kennedy Space Center, FL', '2005-07-26', 1, 150000000.00, 13.00, 7),
-(25, 'NASA', NULL, 'Kennedy Space Center, FL', '1970-04-11', 1, 355000000.00, 5.00, 3),
-(26, 'NASA', NULL, 'Kennedy Space Center, FL', '1969-11-14', 1, 355000000.00, 10.00, 3),
-(27, 'NASA', 1, 'Kennedy Space Center, FL', '1973-07-26', 1, 150000000.00, 59.00, 3),
-(28, 'Blue Origin', NULL, 'Blue Origin Launch Site, TX', '2021-07-20', 1, NULL, 0.18, 4),
-(29, 'NASA', 1, 'Baikonur Cosmodrome', '2018-06-06', 1, 70000000.00, 197.00, 6),
-(30, 'ESA', 1, 'Baikonur Cosmodrome', '2015-12-15', 1, 70000000.00, 186.00, 6),
-(31, 'SpaceX', 1, 'Kennedy Space Center, FL', '2020-05-30', 1, 220000000.00, 64.00, 2),
-(32, 'SpaceX', 1, 'Kennedy Space Center, FL', '2021-04-23', 1, 220000000.00, 180.00, 4);
+INSERT INTO `spacemissions` (`missionID`, `companyName`, `spaceStationId`, `launchDate`, `status`, `costOfTheMissions`, `missionDuration`, `crewSize`, `location_id`) VALUES
+(1, 'Roscosmos', NULL, '1961-04-12', 1, 100000.00, 1.00, 1, 15),
+(2, 'NASA', NULL, '1969-07-16', 1, 355000000.00, 8.00, 3, 27),
+(3, 'NASA', NULL, '1969-07-16', 1, 355000000.00, 8.00, 3, 27),
+(4, 'NASA', NULL, '1966-11-11', 1, 19000000.00, 5.00, 2, 12),
+(5, 'NASA', NULL, '1983-06-18', 1, 150000000.00, 6.00, 5, 27),
+(6, 'Roscosmos', NULL, '1963-06-16', 1, 100000.00, 3.00, 1, 15),
+(7, 'NASA', NULL, '1962-02-20', 1, 50000000.00, 1.00, 1, 12),
+(8, 'NASA', NULL, '1998-10-29', 1, 150000000.00, 9.00, 7, 27),
+(9, 'Roscosmos', NULL, '1961-08-06', 1, 100000.00, 1.00, 1, 15),
+(10, 'NASA', NULL, '1992-09-12', 1, 150000000.00, 8.00, 7, 27),
+(11, 'ESA', 1, '2014-05-28', 1, 70000000.00, 166.00, 6, 15),
+(12, 'ESA', 1, '2016-07-07', 1, 70000000.00, 139.00, 3, 15),
+(13, 'ESA', 1, '2011-12-21', 1, 70000000.00, 6.00, 6, 15),
+(14, 'NASA', 1, '2002-04-09', 1, 70000000.00, 183.00, 6, 15),
+(15, 'NASA', 1, '2007-10-10', 1, 70000000.00, 188.00, 6, 15),
+(16, 'NASA', 1, '2010-10-07', 1, 70000000.00, 182.00, 6, 15),
+(17, 'NASA', 1, '2016-11-17', 1, 70000000.00, 153.00, 6, 15),
+(18, 'NASA', NULL, '2001-04-19', 1, 150000000.00, 11.00, 7, 27),
+(19, 'ESA', 1, '2013-12-19', 1, 70000000.00, 146.00, 6, 15),
+(20, 'NASA', NULL, '1969-07-16', 1, 355000000.00, 8.00, 3, 27),
+(21, 'NASA', NULL, '1995-02-03', 1, 150000000.00, 7.00, 7, 27),
+(22, 'NASA', NULL, '1997-05-03', 1, 150000000.00, 11.00, 7, 27),
+(23, 'NASA', NULL, '1999-07-23', 1, 150000000.00, 9.00, 7, 27),
+(24, 'NASA', NULL, '2005-07-26', 1, 150000000.00, 13.00, 7, 27),
+(25, 'NASA', NULL, '1970-04-11', 1, 355000000.00, 5.00, 3, 27),
+(26, 'NASA', NULL, '1969-11-14', 1, 355000000.00, 10.00, 3, 27),
+(27, 'NASA', 1, '1973-07-26', 1, 150000000.00, 59.00, 3, 27),
+(28, 'Blue Origin', NULL, '2021-07-20', 1, NULL, 0.18, 4, NULL),
+(29, 'NASA', 1, '2018-06-06', 1, 70000000.00, 197.00, 6, 15),
+(30, 'ESA', 1, '2015-12-15', 1, 70000000.00, 186.00, 6, 15),
+(31, 'SpaceX', 1, '2020-05-30', 1, 220000000.00, 64.00, 2, 27),
+(32, 'SpaceX', 1, '2021-04-23', 1, 220000000.00, 180.00, 4, 27);
 
 -- --------------------------------------------------------
 
@@ -348,6 +391,12 @@ ALTER TABLE `astronautspacemission`
   ADD KEY `missionID` (`missionID`);
 
 --
+-- Indexes for table `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `planet`
 --
 ALTER TABLE `planet`
@@ -379,7 +428,8 @@ ALTER TABLE `spacecompany`
 ALTER TABLE `spacemissions`
   ADD PRIMARY KEY (`missionID`),
   ADD KEY `companyName` (`companyName`),
-  ADD KEY `spaceStationId` (`spaceStationId`);
+  ADD KEY `spaceStationId` (`spaceStationId`),
+  ADD KEY `fk_location` (`location_id`);
 
 --
 -- Indexes for table `spacestation`
@@ -415,6 +465,7 @@ ALTER TABLE `rocketspacemission`
 -- Constraints for table `spacemissions`
 --
 ALTER TABLE `spacemissions`
+  ADD CONSTRAINT `fk_location` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`),
   ADD CONSTRAINT `spacemissions_ibfk_1` FOREIGN KEY (`companyName`) REFERENCES `spacecompany` (`companyName`),
   ADD CONSTRAINT `spacemissions_ibfk_2` FOREIGN KEY (`spaceStationId`) REFERENCES `spacestation` (`stationID`);
 COMMIT;
