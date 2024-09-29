@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Controllers\AboutController;
-use App\Controllers\PlayersController;
+use App\Controllers\LocationsController;
 use App\Controllers\RocketsController;
-use App\Controllers\StadiumsController;
+use App\Controllers\SpaceStationsController;
 use App\Helpers\DateTimeHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,12 +17,20 @@ return static function (Slim\App $app): void {
     // Routes with authentication
     //* ROUTE: GET /
     $app->get('/', [AboutController::class, 'handleAboutWebService']);
+
+    //Rocket Routes
     $app->get('/rockets', [RocketsController::class, 'handleGetRockets']);
     $app->get('/rockets/{rocketID}', [RocketsController::class, 'handleGetRocketByID']);
-    //$app->get('/players/{player_id}', [PlayersController::class, 'handleGetPlayerId']);
+
+    //Space Station Routes
+    $app->get('/spacestations', [SpaceStationsController::class, 'handleGetSpaceStations']);
+    $app->get('/spacestations/{stationID}', [SpaceStationsController::class, 'handleGetSpaceStationByID']);
+
+    //Location Routes
+    $app->get('/locations', [LocationsController::class, 'handleGetLocations']);
+    $app->get('/locations/{locationID}', [LocationsController::class, 'handleGetLocationByID']);
 
 
-    // $app->get('/test', [TestController::class, 'handleTest']);
 
     //* ROUTE: GET /ping
     $app->get('/ping', function (Request $request, Response $response, $args) {

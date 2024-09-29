@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2024 at 04:15 AM
+-- Generation Time: Sep 29, 2024 at 05:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -372,7 +372,14 @@ CREATE TABLE `spacestation` (
 --
 
 INSERT INTO `spacestation` (`stationID`, `name`, `status`, `type`, `founded`, `description`, `owners`) VALUES
-(1, 'International Space Station', 1, 'Space Station', '1998-11-20', 'The International Space Station is a large spacecraft in low Earth orbit that serves as a home and research laboratory for astronauts.', 'International cooperation among NASA, Roscosmos, ESA, JAXA, and CSA');
+(1, 'International Space Station', 1, 'Space Station', '1998-11-20', 'The International Space Station is a large spacecraft in low Earth orbit that serves as a home and research laboratory for astronauts.', 'International cooperation among NASA, Roscosmos, ESA, JAXA, and CSA'),
+(2, 'Tiangong space station', 1, 'Government', '2021-04-29', 'The Tiangong space station is a space station placed in Low Earth orbit between 340 and 450 km above the surface. It will be roughly one-fifth the mass of the International Space Station and about the size of the Mir space station.', 'China Aerospace Science and Technology Corporation'),
+(3, 'Mir Space Station', 0, 'Government', '1986-02-20', 'The Mir Space Station was a Soviet space station that operated in low Earth orbit from 1986 to 2001. It served as a pioneering modular space station.', 'Soviet Space Program, Russian Space Agency'),
+(4, 'Skylab', 0, 'Government', '1973-05-14', 'Skylab was the United States\' first space station, orbiting Earth from 1973 to 1979. It was used for scientific research and solar observations.', 'NASA'),
+(5, 'Almaz', 0, 'Military', '1973-04-03', 'Almaz was a series of military space stations developed by the Soviet Union in the 1970s for reconnaissance and research purposes.', 'Soviet Space Program'),
+(6, 'Freedom Space Station', 0, 'International', '0000-00-00', 'Freedom was a proposed modular space station that was a precursor to the International Space Station. It was a collaborative project involving NASA, ESA, JAXA, and Canada, but was never launched.', 'NASA, ESA, JAXA, CSA'),
+(9, 'Buran Space Station', 0, 'Government', '0000-00-00', 'The Buran Space Station was a proposed Soviet space station that would have supported the Buran space shuttle program. It was ultimately never built.', 'Soviet Space Program'),
+(10, 'Salyut 1', 0, 'Government', '1971-04-19', 'Salyut 1 was the world\'s first space station, launched by the Soviet Union in 1971. It paved the way for future modular space stations.', 'Soviet Space Program');
 
 --
 -- Indexes for dumped tables
@@ -438,6 +445,16 @@ ALTER TABLE `spacemissions`
 --
 ALTER TABLE `spacestation`
   ADD PRIMARY KEY (`stationID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `spacestation`
+--
+ALTER TABLE `spacestation`
+  MODIFY `stationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
