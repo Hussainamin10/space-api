@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Core\PDOService;
+use App\Helpers\PaginationHelper;
 use PDO;
 use Exception;
 
@@ -84,6 +85,41 @@ abstract class BaseModel
     protected function fetchAll($sql, $args = [], $fetchMode = PDO::FETCH_ASSOC): array
     {
         return (array) $this->run($sql, $args)->fetchAll($fetchMode);
+    }
+
+    //* OFFSET-BASED PAGINATION: limit, offset
+    protected function paginate($sql, $args = [], $fetchMode = PDO::FETCH_ASSOC): array
+    {
+        //*step1) Count: Get the number of records/rows will be produced upon executing the supplied SQL query($sql)
+        $rows_count = $this->count($sql, $args);
+
+
+        //!Step2 Instantiate the PaginationHelper class, and pass the required inputs to its constructor.
+        $pagination_helper = new PaginationHelper($this->current_page, $this->records_per_page, $rows_count);
+
+
+
+        //? Step 3) Retreive the offset from the paginationHelper's instance.
+        $offset = $pagination_helper->getOffset();
+
+
+        //*-- Step 4) Constrain the number of records: Append the LIMIT directive to the SQL query: -> LIMIT and OFFSET
+        $sql .= " LIMIT {$this->records_per_page} OFFSET {$offset}";
+
+        //* Step 5) Execute the query: fetchAll?
+        $data = $this->fetchAll($sql, $args);
+
+
+        //* Step 6) Include/combine the metadata with data?
+
+        $meta = $pagination_helper->getPaginationMetadata();
+
+        $results = array(
+            "meta" => $meta,
+            "data" => $data
+        );
+
+        return $results;
     }
 
     /**

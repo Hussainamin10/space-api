@@ -2,7 +2,7 @@
   // PHP-related settings
   // Font settings
   "editor.fontLigatures": true,
-  "editor.fontFamily": "'Fira Code' , Consolas, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "Consolas, Menlo, Monaco, 'Courier New', monospace",
   "editor.fontWeight": "normal",
   "editor.fontSize": 24,
   "editor.lineHeight": 32,
@@ -119,6 +119,5 @@
   //   Warning - Report Spelling Issues as Warnings
   //   Information - Report Spelling Issues as Information (default)
   //   Hint - Report Spelling Issues as Hints, will not show up in Problems
-  "cSpell.diagnosticLevel": "Information",
-  "intelliphp.inlineSuggestionsEnabled": false
+  "cSpell.diagnosticLevel": "Information"
 }
