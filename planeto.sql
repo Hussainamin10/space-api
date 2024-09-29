@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2024 at 04:11 PM
+-- Generation Time: Sep 29, 2024 at 04:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -195,6 +195,7 @@ INSERT INTO `planet` (`planetID`, `name`, `sideralOrbit`, `sideralRotation`, `ma
 --
 
 CREATE TABLE `rocket` (
+  `rocketID` int(11) NOT NULL,
   `rocketName` varchar(100) NOT NULL,
   `companyName` varchar(100) DEFAULT NULL,
   `rocketHeight` decimal(10,2) DEFAULT NULL,
@@ -209,14 +210,14 @@ CREATE TABLE `rocket` (
 -- Dumping data for table `rocket`
 --
 
-INSERT INTO `rocket` (`rocketName`, `companyName`, `rocketHeight`, `status`, `liftOfThrust`, `rocketWeight`, `numberOfStages`, `launchCost`) VALUES
-('Atlas-Agena', 'NASA', 32.00, 'Retired', 1900, 58000.00, 2, 11000000.00),
-('Falcon 9', 'SpaceX', 70.00, 'Active', 7600, 54900.00, 2, 62000000.00),
-('New Shepard', 'Blue Origin', 18.30, 'Active', 7400, 15000.00, 2, 10000000.00),
-('Saturn V', 'NASA', 110.00, 'Retired', 7600, 297000.00, 3, 35000000.00),
-('Soyuz FG', 'Roscosmos', 46.00, 'Active', 4000, 30500.00, 2, 50000000.00),
-('Space Shuttle', 'NASA', 56.00, 'Retired', 2800, 204000.00, 2, 150000000.00),
-('Vostok-K', 'Roscosmos', 29.00, 'Retired', 2450, 29200.00, 2, 1000000.00);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `companyName`, `rocketHeight`, `status`, `liftOfThrust`, `rocketWeight`, `numberOfStages`, `launchCost`) VALUES
+(1, 'Atlas-Agena', 'NASA', 32.00, 'Retired', 1900, 58000.00, 2, 11000000.00),
+(2, 'Falcon 9', 'SpaceX', 70.00, 'Active', 7600, 54900.00, 2, 62000000.00),
+(3, 'New Shepard', 'Blue Origin', 18.30, 'Active', 7400, 15000.00, 2, 10000000.00),
+(4, 'Saturn V', 'NASA', 110.00, 'Retired', 7600, 297000.00, 3, 35000000.00),
+(5, 'Soyuz FG', 'Roscosmos', 46.00, 'Active', 4000, 30500.00, 2, 50000000.00),
+(6, 'Space Shuttle', 'NASA', 56.00, 'Retired', 2800, 204000.00, 2, 150000000.00),
+(7, 'Vostok-K', 'Roscosmos', 29.00, 'Retired', 2450, 29200.00, 2, 1000000.00);
 
 -- --------------------------------------------------------
 
@@ -225,7 +226,7 @@ INSERT INTO `rocket` (`rocketName`, `companyName`, `rocketHeight`, `status`, `li
 --
 
 CREATE TABLE `rocketspacemission` (
-  `rocketName` varchar(100) NOT NULL,
+  `rocketID` int(11) NOT NULL,
   `missionID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -233,38 +234,38 @@ CREATE TABLE `rocketspacemission` (
 -- Dumping data for table `rocketspacemission`
 --
 
-INSERT INTO `rocketspacemission` (`rocketName`, `missionID`) VALUES
-('Atlas-Agena', 4),
-('Falcon 9', 31),
-('Falcon 9', 32),
-('New Shepard', 28),
-('Saturn V', 2),
-('Saturn V', 3),
-('Saturn V', 20),
-('Saturn V', 25),
-('Saturn V', 26),
-('Saturn V', 27),
-('Soyuz FG', 11),
-('Soyuz FG', 12),
-('Soyuz FG', 13),
-('Soyuz FG', 14),
-('Soyuz FG', 15),
-('Soyuz FG', 16),
-('Soyuz FG', 17),
-('Soyuz FG', 19),
-('Soyuz FG', 29),
-('Soyuz FG', 30),
-('Space Shuttle', 7),
-('Space Shuttle', 8),
-('Space Shuttle', 10),
-('Space Shuttle', 18),
-('Space Shuttle', 21),
-('Space Shuttle', 22),
-('Space Shuttle', 23),
-('Space Shuttle', 24),
-('Vostok-K', 1),
-('Vostok-K', 5),
-('Vostok-K', 9);
+INSERT INTO `rocketspacemission` (`rocketID`, `missionID`) VALUES
+(1, 4),
+(2, 31),
+(2, 32),
+(3, 28),
+(4, 2),
+(4, 3),
+(4, 20),
+(4, 25),
+(4, 26),
+(4, 27),
+(5, 11),
+(5, 12),
+(5, 13),
+(5, 14),
+(5, 15),
+(5, 16),
+(5, 17),
+(5, 19),
+(5, 29),
+(5, 30),
+(6, 7),
+(6, 8),
+(6, 10),
+(6, 18),
+(6, 21),
+(6, 22),
+(6, 23),
+(6, 24),
+(7, 1),
+(7, 5),
+(7, 9);
 
 -- --------------------------------------------------------
 
@@ -406,14 +407,15 @@ ALTER TABLE `planet`
 -- Indexes for table `rocket`
 --
 ALTER TABLE `rocket`
-  ADD PRIMARY KEY (`rocketName`),
+  ADD PRIMARY KEY (`rocketID`) USING BTREE,
+  ADD UNIQUE KEY `rocketName` (`rocketName`),
   ADD KEY `companyName` (`companyName`);
 
 --
 -- Indexes for table `rocketspacemission`
 --
 ALTER TABLE `rocketspacemission`
-  ADD PRIMARY KEY (`rocketName`,`missionID`),
+  ADD PRIMARY KEY (`rocketID`,`missionID`) USING BTREE,
   ADD KEY `missionID` (`missionID`);
 
 --
@@ -458,8 +460,8 @@ ALTER TABLE `rocket`
 -- Constraints for table `rocketspacemission`
 --
 ALTER TABLE `rocketspacemission`
-  ADD CONSTRAINT `rocketspacemission_ibfk_1` FOREIGN KEY (`rocketName`) REFERENCES `rocket` (`rocketName`),
-  ADD CONSTRAINT `rocketspacemission_ibfk_2` FOREIGN KEY (`missionID`) REFERENCES `spacemissions` (`missionID`);
+  ADD CONSTRAINT `rocketspacemission_ibfk_2` FOREIGN KEY (`missionID`) REFERENCES `spacemissions` (`missionID`),
+  ADD CONSTRAINT `rocketspacemission_ibfk_3` FOREIGN KEY (`rocketID`) REFERENCES `rocket` (`rocketID`);
 
 --
 -- Constraints for table `spacemissions`
