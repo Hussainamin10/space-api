@@ -18,17 +18,85 @@ class RocketsModel extends BaseModel
         $named_params_values = [];
         $query = "SELECT * FROM {$this->table_name} WHERE 1 ";
 
-
+        //Filer Rocket Name
         if (isset($filter_params['rocketName'])) {
             $query .= " AND rocketName LIKE
             CONCAT('%', :rocketName, '%') ";
             $named_params_values['rocketName'] = $filter_params['rocketName'];
         }
 
+        //Filter Company Name
         if (isset($filter_params['companyName'])) {
             $query .= " AND companyName LIKE CONCAT(:companyName,'%')";
             $named_params_values['companyName'] = $filter_params['companyName'];
         }
+
+        //Filter Status
+        if (isset($filter_params['status'])) {
+            $query .= " AND status = :status";
+            $named_params_values['status'] = $filter_params['status'];
+        }
+
+        //Filter Height Range
+        //Min
+        if (isset($filter_params['minHeight'])) {
+            $query .= " AND rocketHeight >= :minHeight";
+            $named_params_values['minHeight'] = $filter_params['minHeight'];
+        }
+        //Max
+        if (isset($filter_params['maxHeight'])) {
+            $query .= " AND rocketHeight <= :maxHeight";
+            $named_params_values['maxHeight'] = $filter_params['maxHeight'];
+        }
+
+        //Filter Weight Range
+        //Min
+        if (isset($filter_params['minWeight'])) {
+            $query .= " AND rocketWeight >= :minWeight";
+            $named_params_values['minWeight'] = $filter_params['minWeight'];
+        }
+        //Max
+        if (isset($filter_params['maxWeight'])) {
+            $query .= " AND rocketWeight <= :maxWeight";
+            $named_params_values['maxWeight'] = $filter_params['maxWeight'];
+        }
+
+        //Filter Cost Range
+        //Min
+        if (isset($filter_params['minCost'])) {
+            $query .= " AND launchCost >= :minCost";
+            $named_params_values['minCost'] = $filter_params['minCost'];
+        }
+        //Max
+        if (isset($filter_params['maxCost'])) {
+            $query .= " AND launchCost <= :maxCost";
+            $named_params_values['maxCost'] = $filter_params['maxCost'];
+        }
+
+        //Filter Thrust Range
+        //Min
+        if (isset($filter_params['minThrust'])) {
+            $query .= " AND liftOfThrust >= :minThrust";
+            $named_params_values['minThrust'] = $filter_params['minThrust'];
+        }
+        //Max
+        if (isset($filter_params['maxThrust'])) {
+            $query .= " AND liftOfThrust <= :maxThrust";
+            $named_params_values['maxThrust'] = $filter_params['maxThrust'];
+        }
+
+        //Filter Stages Range
+        //Min
+        if (isset($filter_params['minStages'])) {
+            $query .= " AND numberOfStages >= :minStages";
+            $named_params_values['minStages'] = $filter_params['minStages'];
+        }
+        //Max
+        if (isset($filter_params['maxStages'])) {
+            $query .= " AND numberOfStages <= :maxStages";
+            $named_params_values['maxStages'] = $filter_params['maxStages'];
+        }
+
         // $players = (array)$this->fetchAll($query, $named_params_values);
         $rockets = $this->paginate($query, $named_params_values);
         return $rockets;

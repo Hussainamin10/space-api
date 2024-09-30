@@ -28,21 +28,14 @@ class RocketsController extends BaseController
         if (isset($filter_params['current_page']) && isset($filter_params['pageSize'])) {
             $this->rockets_model->setPaginationOptions((int)$filter_params['current_page'], (int)$filter_params['pageSize']);
         }
+        //!TODO Validate Filter parameters
+        //!Is Numerical
+        //!Maximum has to be bigger or equal to min values
+        //!Incorrect Parameters passed
 
         $players = $this->rockets_model->getRockets(
             $filter_params
         );
-        //dd($players);
-        /*$json_paylod = json_encode($players);
-
-        $response->getBody()->write("$json_paylod");
-
-
-        return $response->withHeader(
-            "Content-Type",
-            "application/json"
-        )->withStatus(201);
-        */
         return $this->renderJson($response, $players);
     }
     //!TODO get Rockets by Name
