@@ -29,20 +29,40 @@ class SpaceStationsController extends BaseController
             $this->space_station_model->setPaginationOptions((int)$filter_params['current_page'], (int)$filter_params['pageSize']);
         }
 
+        //* Step 2) Retrieve the sorting params
+
+        $sort_params = [];
+        $order = isset($filter_params['order']) ? strtolower($filter_params['order']) : 'asc';
+
+        //Check if sort_by is set
+        if (isset($filter_params['sort_by'])) {
+            $sort_fields = explode(',', $filter_params['sort_by']);
+            //Check if the sort params and order params are valid
+            $allowed_order = ['asc', 'desc'];
+            $allowed_sort = ['name', 'founded', 'owners'];
+
+            //Validate order params
+            if (!in_array($order, $allowed_order)) {
+                throw new HttpInvalidInputsException($request, "Invalid order provided. Only asc or desc allowed");
+            }
+
+            //*Validate sort parameters
+            foreach ($sort_fields as $field) {
+                $field = trim($field);
+                if (!in_array($field, $allowed_sort)) {
+                    throw new HttpInvalidInputsException($request, "Invalid sort_by provided. Only name, founded (yyyy-mm-dd) and owners allowed");
+                }
+                $sort_params[] = $field;
+            }
+        }
+
+        $sorting_params = ["sortBy" => $sort_params, "order" => $order];
+
         $players = $this->space_station_model->getSpaceStations(
-            $filter_params
+            $filter_params,
+            $sorting_params
         );
-        //dd($players);
-        /*$json_paylod = json_encode($players);
 
-        $response->getBody()->write("$json_paylod");
-
-
-        return $response->withHeader(
-            "Content-Type",
-            "application/json"
-        )->withStatus(201);
-        */
         return $this->renderJson($response, $players);
     }
 
