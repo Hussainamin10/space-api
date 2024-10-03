@@ -13,7 +13,7 @@ class RocketsModel extends BaseModel
         parent::__construct($dbo);
     }
 
-    public function getRockets(array $filter_params = []): array
+    public function getRockets(array $filter_params = [], array $sort_params = []): array
     {
         $named_params_values = [];
         $query = "SELECT * FROM {$this->table_name} WHERE 1 ";
@@ -85,19 +85,16 @@ class RocketsModel extends BaseModel
             $named_params_values['maxThrust'] = $filter_params['maxThrust'];
         }
 
-        //Filter Stages Range
-        //Min
-        if (isset($filter_params['minStages'])) {
-            $query .= " AND numberOfStages >= :minStages";
-            $named_params_values['minStages'] = $filter_params['minStages'];
+        if (!empty($sort_params['sortBy'])) {
+            $query .= " ORDER BY";
+            foreach ($sort_params['sortBy'] as $field) {
+                $query .= " $field " . $sort_params['order'];
+                //*Check if the current value is the last element, to add ',' to seperate the sort params
+                if (end($sort_params['sortBy']) !== $field) {
+                    $query .= ",";
+                }
+            }
         }
-        //Max
-        if (isset($filter_params['maxStages'])) {
-            $query .= " AND numberOfStages <= :maxStages";
-            $named_params_values['maxStages'] = $filter_params['maxStages'];
-        }
-
-        // $players = (array)$this->fetchAll($query, $named_params_values);
         $rockets = $this->paginate($query, $named_params_values);
         return $rockets;
     }
