@@ -70,5 +70,4 @@ class Result
     {
         return $this->message;
     }
-    //TODO: toString errors? @see: Valitron
 }
