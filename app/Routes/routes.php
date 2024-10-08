@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Controllers\AboutController;
+use App\Controllers\MissionController;
+use App\Controllers\PlanetController;
 use App\Controllers\PlayersController;
 use App\Controllers\RocketsController;
 use App\Controllers\StadiumsController;
@@ -19,7 +21,22 @@ return static function (Slim\App $app): void {
     $app->get('/', [AboutController::class, 'handleAboutWebService']);
     $app->get('/rockets', [RocketsController::class, 'handleGetRockets']);
     $app->get('/rockets/{rocketID}', [RocketsController::class, 'handleGetRocketByID']);
+
+    $app->get('/planets', [PlanetController::class, 'handleGetPlanet']);
+    $app->get('/planets/{planetID}', [PlanetController::class, 'handleGetPlanetId']);
+
+    $app->get('/missions', [MissionController::class, 'handleGetMission']);
+    $app->get('/missions/{missionID}', [MissionController::class, 'handleGetMissionId']);
     //$app->get('/players/{player_id}', [PlayersController::class, 'handleGetPlayerId']);
+
+    $app->get('/missions/{mission_id}/astronauts', [MissionController::class, 'handleGetAstronautsByMissionID']);
+
+
+
+
+    //* ROUTE: POST /
+    $app->post('/planets', [PlanetController::class, 'handleCreatePlanet']);
+
 
 
     // $app->get('/test', [TestController::class, 'handleTest']);
