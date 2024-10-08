@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use App\Controllers\AboutController;
+use App\Controllers\AstronautsController;
 use App\Controllers\PlayersController;
 use App\Controllers\RocketsController;
+use App\Controllers\SpaceCompaniesController;
 use App\Controllers\StadiumsController;
 use App\Helpers\DateTimeHelper;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -19,6 +21,24 @@ return static function (Slim\App $app): void {
     $app->get('/', [AboutController::class, 'handleAboutWebService']);
     $app->get('/rockets', [RocketsController::class, 'handleGetRockets']);
     $app->get('/rockets/{rocketID}', [RocketsController::class, 'handleGetRocketByID']);
+
+    //! Get astronauts
+    $app->get('/astronauts', [AstronautsController::class, 'handleGetAstronauts']);
+
+    //! Get astronaut by Id
+    $app->get('/astronauts/{astronautId}', [AstronautsController::class, 'handleGetAstronautByID']);
+
+    //! Get spaceCompanies
+    $app->get('/spaceCompanies', [SpaceCompaniesController::class, 'handleGetSpaceCompanies']);
+
+    //! Get rockets by companyName
+    $app->get('/spaceCompanies/{companyName}/rockets', [SpaceCompaniesController::class, 'handleRocketsByCompanyName']);
+
+    //! Post rockets
+    $app->post('/astronauts', [AstronautsController::class, 'handleCreateAstronaut']);
+
+
+
     //$app->get('/players/{player_id}', [PlayersController::class, 'handleGetPlayerId']);
 
 
