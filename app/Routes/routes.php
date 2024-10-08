@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Controllers\AboutController;
 use App\Controllers\LocationsController;
-use App\Controllers\RocketsController;
 use App\Controllers\SpaceStationsController;
 
 use App\Controllers\MissionController;
