@@ -111,6 +111,7 @@ class RocketsModel extends BaseModel
 
     public function createRocket(array $newRocket): mixed
     {
+        
         $newRocketID = $this->insert($this->table_name, $newRocket);
         return $newRocketID;
     }
