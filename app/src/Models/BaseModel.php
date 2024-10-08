@@ -171,7 +171,7 @@ abstract class BaseModel
     {
         //add columns into comma separated string
         $columns = implode(',', array_keys($data));
-
+        echo $columns;
         //get values
         $values = array_values($data);
 
@@ -182,6 +182,7 @@ abstract class BaseModel
         //convert array into comma separated string
         $placeholders = implode(',', array_values($placeholders));
 
+        //echo "INSERT INTO " .  $table . " " . $columns . " VALUES ($placeholders)";
         $this->run("INSERT INTO $table ($columns) VALUES ($placeholders)", $values);
 
         return $this->lastInsertId();

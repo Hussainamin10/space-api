@@ -19,9 +19,11 @@ return static function (Slim\App $app): void {
     $app->get('/', [AboutController::class, 'handleAboutWebService']);
 
     //Rocket Routes
+    //*GET
     $app->get('/rockets', [RocketsController::class, 'handleGetRockets']);
     $app->get('/rockets/{rocketID}', [RocketsController::class, 'handleGetRocketByID']);
-
+    //*POST
+    $app->post('/rockets', [RocketsController::class, 'handleCreateRocket']);
     //Space Station Routes
     $app->get('/spacestations', [SpaceStationsController::class, 'handleGetSpaceStations']);
     $app->get('/spacestations/{stationID}', [SpaceStationsController::class, 'handleGetSpaceStationByID']);

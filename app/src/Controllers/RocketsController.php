@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Exceptions\HttpInvalidInputsException;
 use App\Models\RocketsModel;
+use App\Services\RocketsService;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,9 +14,10 @@ class RocketsController extends BaseController
 {
 
 
-    public function __construct(private RocketsModel $rockets_model)
+    public function __construct(private RocketsModel $rocketsModel, private RocketsService $rocketsService)
     {
-        parent::__construct();
+        $this->rocketsService = $rocketsService;
+        $this->rocketsModel = $rocketsModel;
     }
     //Route:GET /players
     public function handleGetRockets(Request $request, Response $response): Response
@@ -24,10 +26,9 @@ class RocketsController extends BaseController
         //* Step 1) Retrieve the filter params
         $filter_params = $request->getQueryParams();
         if (isset($filter_params['current_page']) && isset($filter_params['pageSize'])) {
-            $this->rockets_model->setPaginationOptions((int)$filter_params['current_page'], (int)$filter_params['pageSize']);
+            $this->rocketsModel->setPaginationOptions((int)$filter_params['current_page'], (int)$filter_params['pageSize']);
         }
         //* Step 2) Retrieve the sorting params
-
         $sort_params = [];
         $order = isset($filter_params['order']) ? strtolower($filter_params['order']) : 'asc';
 
@@ -55,7 +56,7 @@ class RocketsController extends BaseController
 
         $sorting_params = ["sortBy" => $sort_params, "order" => $order];
         //The expected filter values can instead be documented in the proposal instead of validating here.
-        $rockets = $this->rockets_model->getRockets(
+        $rockets = $this->rocketsModel->getRockets(
             $filter_params,
             $sorting_params
         );
@@ -80,18 +81,43 @@ class RocketsController extends BaseController
                 StatusCodeInterface::STATUS_BAD_REQUEST
             );
         }
-        //Pattern to check rocket id only contains integer
+        //*Pattern to check rocket id only contains integer
         $rocket_id_pattern = "/^[0-9]+$/";
         $rocketID = $uri_args["rocketID"];
         if (preg_match($rocket_id_pattern, $rocketID) === 0) {
             throw new HttpInvalidInputsException($request, "Invalid rocket id provided");
         }
         //* Step 3) if Valid, fetch the rocket's info from the DB
-        $rocket = $this->rockets_model->getRocketByID(rocketID: $rocketID);
+        $rocket = $this->rocketsModel->getRocketByID(rocketID: $rocketID);
         if ($rocket === false) {
             throw new HttpNotFoundException($request, "No matching rockets found");
         }
         //* Step 4) Prepare valid json response
         return $this->renderJson($response, $rocket);
+    }
+
+    public function handleCreateRocket(Request $request, Response $response): Response
+    {
+
+        // Retrieve POST request embedded body
+        $newRocket = $request->getParsedBody();
+        // Pass receive data to service
+        //dd($newRocket);
+        $result = $this->rocketsService->createRocket($newRocket[0]);
+        $payload = [];
+
+        $statusCode = 201;
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $statusCode = 400;
+            $payload['success'] = false;
+        }
+
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData();
+        $payload['status'] = $statusCode;
+
+        return $this->renderJson($response, $payload, $statusCode);
     }
 }

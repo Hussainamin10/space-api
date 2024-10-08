@@ -108,4 +108,10 @@ class RocketsModel extends BaseModel
         );
         return $rocket_info;
     }
+
+    public function createRocket(array $newRocket): mixed
+    {
+        $newRocketID = $this->insert($this->table_name, $newRocket);
+        return $newRocketID;
+    }
 }
