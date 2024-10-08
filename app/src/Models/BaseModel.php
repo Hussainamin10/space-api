@@ -170,8 +170,8 @@ abstract class BaseModel
     protected function insert($table, $data)
     {
         //add columns into comma separated string
-        $columns = implode(',', array_keys($data));
-        echo $columns;
+        $columns = implode(separator: ',', array: array_keys($data));
+
         //get values
         $values = array_values($data);
 

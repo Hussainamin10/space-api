@@ -6,6 +6,16 @@ use App\Controllers\AboutController;
 use App\Controllers\LocationsController;
 use App\Controllers\RocketsController;
 use App\Controllers\SpaceStationsController;
+
+use App\Controllers\MissionController;
+use App\Controllers\PlanetController;
+
+use App\Controllers\AstronautsController;
+
+use App\Controllers\PlayersController;
+use App\Controllers\RocketsController;
+use App\Controllers\SpaceCompaniesController;
+use App\Controllers\StadiumsController;
 use App\Helpers\DateTimeHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -31,6 +41,42 @@ return static function (Slim\App $app): void {
     //Location Routes
     $app->get('/locations', [LocationsController::class, 'handleGetLocations']);
     $app->get('/locations/{locationID}', [LocationsController::class, 'handleGetLocationByID']);
+
+
+    $app->get('/planets', [PlanetController::class, 'handleGetPlanet']);
+    $app->get('/planets/{planetID}', [PlanetController::class, 'handleGetPlanetId']);
+
+    $app->get('/missions', [MissionController::class, 'handleGetMission']);
+    $app->get('/missions/{missionID}', [MissionController::class, 'handleGetMissionId']);
+
+    //! Get astronauts
+    $app->get('/astronauts', [AstronautsController::class, 'handleGetAstronauts']);
+
+    //! Get astronaut by Id
+    $app->get('/astronauts/{astronautId}', [AstronautsController::class, 'handleGetAstronautByID']);
+
+    //! Get spaceCompanies
+    $app->get('/spaceCompanies', [SpaceCompaniesController::class, 'handleGetSpaceCompanies']);
+
+    //! Get rockets by companyName
+    $app->get('/spaceCompanies/{companyName}/rockets', [SpaceCompaniesController::class, 'handleRocketsByCompanyName']);
+
+    //! Post rockets
+    $app->post('/astronauts', [AstronautsController::class, 'handleCreateAstronaut']);
+
+
+
+
+    //$app->get('/players/{player_id}', [PlayersController::class, 'handleGetPlayerId']);
+
+    $app->get('/missions/{mission_id}/astronauts', [MissionController::class, 'handleGetAstronautsByMissionID']);
+
+
+
+
+    //* ROUTE: POST /
+    $app->post('/planets', [PlanetController::class, 'handleCreatePlanet']);
+
 
 
 
