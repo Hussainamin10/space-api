@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Exceptions\HttpInvalidInputsException;
 use App\Models\RocketsModel;
 use App\Services\RocketsService;
+use App\Validation\Validator;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -119,5 +120,27 @@ class RocketsController extends BaseController
         $payload['status'] = $statusCode;
 
         return $this->renderJson($response, $payload, $statusCode);
+    }
+
+    public function  handleGetMissionsByRocketID(Request $request, Response $response, array $uri_args): Response
+    {
+        $rocketID = $uri_args["rocketID"];
+        $validator = new Validator(['ID' => $rocketID]);
+
+        $validator->rule('integer', 'ID');
+
+        //IF Id Provided is not an integer
+        if (!$validator->validate()) {
+            throw new HttpInvalidInputsException($request, "Invalid rocket id provided");
+        }
+
+        $result = $this->rocketsModel->getMissionsByRocketID($rocketID);
+
+        //IF rocket doesn't exist
+        if (!$result['rocket']) {
+            throw new HttpNotFoundException($request, "No matching rockets found");
+        }
+
+        return $this->renderJson($response, $result);
     }
 }
