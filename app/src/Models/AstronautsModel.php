@@ -15,10 +15,9 @@ class AstronautsModel extends BaseModel
     //! Get astronauts
     public function getAstronauts(array $filter_params = []): array
     {
-        $named_params_values = [];
-        $query = "SELECT * FROM {$this->table_name} WHERE 1 ";
-
         //! Filters
+        $named_params_values = [];
+        $query = "SELECT * FROM {$this->table_name} WHERE 1";
 
         //! firstName
         if (isset($filter_params['firstName'])) {
@@ -91,6 +90,17 @@ class AstronautsModel extends BaseModel
         if (isset($filter_params['maxFlightsCount'])) {
             $query .= " AND flightsCount <= :maxFlightsCount";
             $named_params_values['maxFlightsCount'] = $filter_params['maxFlightsCount'];
+        }
+
+        //! Sorting
+        if (isset($filter_params['sort_by']) && isset($filter_params['order'])) {
+
+            $sortBy = isset($filter_params['sort_by']) ?
+                $filter_params['sort_by'] : 'astronautID';
+
+            $order = isset($filter_params['order']) ? $filter_params['order'] : 'asc';
+
+            $query .= " ORDER BY $sortBy $order";
         }
 
         $astronauts = $this->paginate($query, $named_params_values);

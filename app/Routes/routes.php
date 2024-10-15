@@ -53,6 +53,9 @@ return static function (Slim\App $app): void {
     //! Get spaceCompanies
     $app->get('/spaceCompanies', [SpaceCompaniesController::class, 'handleGetSpaceCompanies']);
 
+    //! Get spaceCompany by Name
+    $app->get('/spaceCompanies/{companyName}', [SpaceCompaniesController::class, 'handleGetCompanyByName']);
+
     //! Get rockets by companyName
     $app->get('/spaceCompanies/{companyName}/rockets', [SpaceCompaniesController::class, 'handleRocketsByCompanyName']);
 

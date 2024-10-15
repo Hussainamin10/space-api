@@ -59,7 +59,13 @@ class AstronautsController extends BaseController
             );
         }
 
+        //Pattern to check astronautID only contains integer
+        $isIntPattern = "/^[0-9]+$/";
         $astronautId = $uri_args["astronautId"];
+        if (preg_match($isIntPattern, $astronautId) === 0) {
+            throw new HttpInvalidInputsException($request, "Invalid astronautID provided");
+        }
+
         //* Step 3) if Valid, fetch the astronaut's info from the DB
         $astronaut = $this->astronauts_model->getAstronautByID(astronautId: $astronautId);
         if ($astronaut === false) {

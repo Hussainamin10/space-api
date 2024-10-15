@@ -21,7 +21,7 @@ class SpaceCompaniesModel extends BaseModel
 
         //! Filters
 
-        //! companyName
+        // //! companyName
         if (isset($filter_params['companyName'])) {
             $query .= " AND companyName LIKE CONCAT(:companyName,'%')";
             $named_params_values['companyName'] = $filter_params['companyName'];
@@ -100,6 +100,7 @@ class SpaceCompaniesModel extends BaseModel
             $named_params_values['maxNumberOfEmployees'] = $filter_params['maxNumberOfEmployees'];
         }
 
+        //! Sorting
         $sortBy = isset($filter_params['sort_by']) ?
             $filter_params['sort_by'] : 'companyName';
 
@@ -112,22 +113,39 @@ class SpaceCompaniesModel extends BaseModel
         return $astronauts;
     }
 
+    //! Get a space company by name
+    public function getCompanyByName(string $companyName): mixed
+    {
+        $sql = "SELECT * FROM {$this->table_name} WHERE companyName = :companyName";
+
+        $spaceCompanies_info = $this->fetchSingle($sql, ['companyName' => $companyName]);
+
+        return $spaceCompanies_info;
+    }
+
 
     //! Get rockets by companyName
-    public function getRocketsByCompanyName(string $companyName): array
+    public function getRocketsByCompanyName(string $companyName): mixed
     {
-        $query = <<<SQL
-         SELECT r.* FROM rocket r
-         JOIN spacecompany sc ON r.companyName = sc.companyName
-         WHERE sc.companyName = :companyName
-         SQL;
+        // 1) Fetch the company info
+        $company = $this->getCompanyByName($companyName);
 
-        $named_params_values = [
-            'companyName' => $companyName,
+        // 2) Query to fetch rockets related to the company
+        $query = <<<SQL
+    SELECT r.* FROM rocket r
+    JOIN spacecompany sc ON r.companyName = sc.companyName
+    WHERE sc.companyName = :companyName
+    SQL;
+
+        // 3) Execute the query to fetch the rockets
+        $rockets = $this->fetchAll($query, ['companyName' => $companyName]);
+
+        // 4) Structure the response
+        $result = [
+            "company" => $company,
+            "rockets" => $rockets
         ];
 
-        $rockets = $this->paginate($query, $named_params_values);
-
-        return $rockets;
+        return $result;
     }
 }
