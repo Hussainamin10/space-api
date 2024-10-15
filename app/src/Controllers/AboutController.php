@@ -24,6 +24,10 @@ class AboutController extends BaseController
             'Space Companies' => '/space-api/spaceCompanies',
             'Astronauts' => '/space-api/astronauts',
             'SpaceCompaniesRockets' => '/spaceCompanies/{companyName}/rockets',
+            'Planets' => '/space-api/planets',
+            'Space Missions' => '/space-api/missions',
+            'MissionsAstronauts' => '/space-api/missions/{mission_id}/astronauts',
+
         ];
 
         $data = array(

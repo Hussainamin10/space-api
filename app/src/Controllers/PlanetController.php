@@ -61,9 +61,11 @@ class PlanetController extends BaseController
             );
         }
 
-
+        $isIntPattern = "/^[0-9]+$/";
         $planet_id = $uri_args["planetID"];
-
+        if (preg_match($isIntPattern, $planet_id) === 0) {
+            throw new HttpInvalidInputsException($request, "Invalid planet id provided");
+        }
 
         //* Step 3) if Valid, fetch the player's info from the DB
         $planet = $this->planet_model->getPlanetById($planet_id);

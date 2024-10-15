@@ -8,6 +8,8 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
+use App\Validation\Validator;
+
 
 
 class MissionController extends BaseController
@@ -58,9 +60,12 @@ class MissionController extends BaseController
             );
         }
 
-
+        $isIntPattern = "/^[0-9]+$/";
         $mission_id = $uri_args["missionID"];
 
+        if (preg_match($isIntPattern, $mission_id) === 0) {
+            throw new HttpInvalidInputsException($request, "Invalid mission id provided");
+        }
 
         //* Step 3) if Valid, fetch the player's info from the DB
         $mission = $this->mission_model->getMissionById($mission_id);
@@ -76,7 +81,21 @@ class MissionController extends BaseController
     public function  handleGetAstronautsByMissionID(Request $request, Response $response, array $uri_args): Response
     {
         $mission_id = $uri_args["mission_id"];
+        $validator = new Validator(['ID' => $mission_id]);
+
+        $validator->rule('integer', 'ID');
+
+        //IF Id Provided is not an integer
+        if (!$validator->validate()) {
+            throw new HttpInvalidInputsException($request, "Invalid mission id provided");
+        }
+
         $result = $this->mission_model->getAstronautsByMissionID($mission_id);
+
+        //IF rocket doesn't exist
+        if (!$result['mission']) {
+            throw new HttpNotFoundException($request, "No matching missions found");
+        }
 
         return $this->renderJson($response, $result);
     }

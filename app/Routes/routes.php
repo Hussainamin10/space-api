@@ -9,6 +9,7 @@ use App\Controllers\MissionController;
 use App\Controllers\PlanetController;
 use App\Controllers\AstronautsController;
 use App\Controllers\SpaceCompaniesController;
+use App\Controllers\RocketsController;
 use App\Helpers\DateTimeHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
