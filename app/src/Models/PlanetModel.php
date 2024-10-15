@@ -71,19 +71,16 @@ class PlanetModel extends BaseModel
             $named_params_values['discoveryDate'] = $filter_params['discoveryDate'];
         }
 
-        if (isset($filter_params['discoveredBy'])) {
-            $query .= " AND discoveredBy LIKE
-            CONCAT(:discoveredBy, '%') ";
-            $named_params_values['discoveredBy'] = $filter_params['discoveredBy'];
+        //! Sorting
+        if (isset($filter_params['sort_by']) && isset($filter_params['order'])) {
+
+            $sortBy = isset($filter_params['sort_by']) ?
+                $filter_params['sort_by'] : 'astronautID';
+
+            $order = isset($filter_params['order']) ? $filter_params['order'] : 'asc';
+
+            $query .= " ORDER BY $sortBy $order";
         }
-
-        $sortBy = isset($filter_params['sort_by']) ? $filter_params['sort_by'] : 'planetID';
-
-        $order = isset($filter_params['order']) ? $filter_params['order'] : 'asc';
-
-        $query = "SELECT * FROM {$this->table_name} ORDER BY $sortBy $order";
-
-
 
         $planets = $this->paginate($query, $named_params_values);
         return $planets;

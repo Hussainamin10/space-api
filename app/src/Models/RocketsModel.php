@@ -109,8 +109,30 @@ class RocketsModel extends BaseModel
         return $rocket_info;
     }
 
+    public function getMissionsByRocketID(string $rocketID): mixed
+    {
+        $rocket = $this->getRocketById($rocketID);
+
+        $missions_query = <<<SQL
+                        SELECT * FROM spacemissions s
+                        JOIN rocketspacemission rs ON s.missionID = rs.missionID
+                        WHERE rs.rocketID = :rocketID
+                        SQL;
+
+        $missions = $this->fetchAll(
+            $missions_query,
+            ["rocketID" => $rocketID]
+        );
+
+        $result = [
+            "rocket" => $rocket,
+            "missions" => $missions
+        ];
+        return $result;
+    }
     public function createRocket(array $newRocket): mixed
     {
+
         $newRocketID = $this->insert($this->table_name, $newRocket);
         return $newRocketID;
     }

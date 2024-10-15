@@ -5,16 +5,10 @@ declare(strict_types=1);
 use App\Controllers\AboutController;
 use App\Controllers\LocationsController;
 use App\Controllers\SpaceStationsController;
-
 use App\Controllers\MissionController;
 use App\Controllers\PlanetController;
-
 use App\Controllers\AstronautsController;
-
-use App\Controllers\PlayersController;
-use App\Controllers\RocketsController;
 use App\Controllers\SpaceCompaniesController;
-use App\Controllers\StadiumsController;
 use App\Helpers\DateTimeHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -31,6 +25,7 @@ return static function (Slim\App $app): void {
     //*GET
     $app->get('/rockets', [RocketsController::class, 'handleGetRockets']);
     $app->get('/rockets/{rocketID}', [RocketsController::class, 'handleGetRocketByID']);
+    $app->get('/rockets/{rocketID}/missions', [RocketsController::class, 'handleGetMissionsByRocketID']);
     //*POST
     $app->post('/rockets', [RocketsController::class, 'handleCreateRocket']);
     //Space Station Routes
@@ -56,6 +51,9 @@ return static function (Slim\App $app): void {
 
     //! Get spaceCompanies
     $app->get('/spaceCompanies', [SpaceCompaniesController::class, 'handleGetSpaceCompanies']);
+
+    //! Get spaceCompany by Name
+    $app->get('/spaceCompanies/{companyName}', [SpaceCompaniesController::class, 'handleGetCompanyByName']);
 
     //! Get rockets by companyName
     $app->get('/spaceCompanies/{companyName}/rockets', [SpaceCompaniesController::class, 'handleRocketsByCompanyName']);

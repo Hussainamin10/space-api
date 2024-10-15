@@ -22,7 +22,7 @@ class RocketsService
         if errors not empty -> return fail
         */
         //return Result::fail("I BIRTHED A ROCKET", ["Missing ME"]);
-        $this->rocketsModel->createRocket($newRocket);
-        return Result::success("I BIRTHED A ROCKET");
+        $id = $this->rocketsModel->createRocket($newRocket);
+        return Result::success("I BIRTHED A ROCKET", $id);
     }
 }

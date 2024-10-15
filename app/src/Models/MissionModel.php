@@ -104,17 +104,16 @@ class MissionModel extends BaseModel
             $named_params_values['maxCrewSize'] = $filter_params['maxCrewSize'];
         }
 
+        //! Sorting
+        if (isset($filter_params['sort_by']) && isset($filter_params['order'])) {
 
+            $sortBy = isset($filter_params['sort_by']) ?
+                $filter_params['sort_by'] : 'astronautID';
 
-        $sortBy = isset($filter_params['sort_by']) ? $filter_params['sort_by'] : 'missionID';
+            $order = isset($filter_params['order']) ? $filter_params['order'] : 'asc';
 
-        $order = isset($filter_params['order']) ? $filter_params['order'] : 'asc';
-
-        $query = "SELECT * FROM {$this->table_name} ORDER BY $sortBy $order";
-
-
-
-
+            $query .= " ORDER BY $sortBy $order";
+        }
 
         $missions = $this->paginate($query, $named_params_values);
         return $missions;
