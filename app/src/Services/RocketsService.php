@@ -4,25 +4,108 @@ namespace App\Services;
 
 use App\Core\Result;
 use App\Models\RocketsModel;
+use App\Models\SpaceCompaniesModel;
+use App\Validation\Validator;
 
 class RocketsService
 {
-    public function __construct(private RocketsModel $rocketsModel)
+    public function __construct(private RocketsModel $rocketsModel, private SpaceCompaniesModel $spaceCompaniesModel)
     {
         $this->rocketsModel = $rocketsModel;
+        $this->spaceCompaniesModel = $spaceCompaniesModel;
     }
 
     public function createRocket(array $newRocket): Result
     {
-        /*LOOP:
-            //TODO Validate the newRocket with Valitron
-            - if all valid, insert the newRocket into Rocket Table
-            - if not, add an error message about the current item into errors array
-        END_LOOP
-        if errors not empty -> return fail
-        */
-        //return Result::fail("I BIRTHED A ROCKET", ["Missing ME"]);
+        $data = [];
+        //*Company name must exist in Space Company Table
+        //*Get All names of space company
+        $spaceCompanies = $this->spaceCompaniesModel->getAllCompanies();
+        $companyNames = [];
+        foreach ($spaceCompanies as $spaceCompany) {
+            $companyNames[] = $spaceCompany['companyName'];
+        }
+        //*Rocket Name Must be Unique
+        $rockets = $this->rocketsModel->getAllRockets();
+        $rocketNames = [];
+        foreach ($rockets as $rocket) {
+            $rocketNames[] = $rocket['rocketName'];
+        }
+        //*Validate Data Passed
+        $validator = new Validator($newRocket);
+        $validator->rules([
+            'required' => [
+                'rocketName',
+                'companyName',
+                'rocketHeight',
+                'status',
+                'liftOfThrust',
+                'rocketWeight',
+                'numberOfStages',
+                'launchCost'
+            ],
+            'numeric' => [
+                'rocketHeight',
+                'liftOfThrust',
+                'rocketWeight',
+                'launchCost'
+            ],
+            'in' => [
+                ['companyName', $companyNames],
+                ['status', ['Active', 'Retired', 'active', 'retired']]
+            ],
+            'notIn' => [['rocketName', $rocketNames]],
+            'integer' => ['numberOfStages']
+        ]);
+
+        //*If Invalid Return Fail result
+        if (!$validator->validate()) {
+            $data['data'] = $validator->errorsToString();
+            $data['status'] = 400;
+            return Result::fail("Provided value(s) is(are) not valid", $data);
+        }
+
+        //*Round the numerical value to 2 decimal before adding
+        $newRocket["rocketHeight"] = round($newRocket["rocketHeight"], 2);
+        $newRocket["liftOfThrust"] = round($newRocket["liftOfThrust"], 2);
+        $newRocket["rocketWeight"] = round($newRocket["rocketWeight"], 2);
+        $newRocket["launchCost"] = round($newRocket["launchCost"], 2);
+
         $id = $this->rocketsModel->createRocket($newRocket);
-        return Result::success("I BIRTHED A ROCKET", $id);
+        $data['data'] = $this->rocketsModel->getRocketByID($id);
+        $data['status'] = 200;
+        return Result::success("Rocket Added", $data);
+    }
+
+
+
+    //*Rocket Delete
+    public function deleteRocket(string $rocketID): Result
+    {
+        $validator = new Validator(['ID' => $rocketID]);
+        $validator->rule('integer', 'ID');
+        $data = [];
+
+        //*If Id Provided is not an integer
+        if (!$validator->validate()) {
+            $data['data'] = $validator->errorsToString();
+            $data['status'] = 400;
+            return Result::fail("Provided ID is not Valid", $data);
+        }
+
+        //*Delete Rocket
+        $delete = $this->rocketsModel->deleteRocket($rocketID);
+
+        //*If No Item Deleted
+        if ($delete == 0) {
+            $data['data'] = $delete;
+            $data['status'] = 200;
+            return Result::success("No rocket deleted.", $data);
+        }
+
+        //*Item Deleted
+        $data['data'] = $delete;
+        $data['status'] = 200;
+        return Result::success("Rocket Deleted", $data);
     }
 }

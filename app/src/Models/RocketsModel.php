@@ -99,6 +99,12 @@ class RocketsModel extends BaseModel
         return $rockets;
     }
 
+    public function getAllRockets(): mixed
+    {
+        $query = "SELECT * FROM {$this->table_name}";
+        $rockets = $this->fetchAll($query);
+        return $rockets;
+    }
     public function getRocketByID(string $rocketID): mixed
     {
         $sql = "SELECT * FROM {$this->table_name} WHERE rocketID = :rocketID";
@@ -135,5 +141,11 @@ class RocketsModel extends BaseModel
 
         $newRocketID = $this->insert($this->table_name, $newRocket);
         return $newRocketID;
+    }
+
+    public function deleteRocket(string $rocketID): mixed
+    {
+        $delete = $this->delete($this->table_name, ["rocketID" => $rocketID]);
+        return $delete;
     }
 }
