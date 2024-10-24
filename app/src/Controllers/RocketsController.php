@@ -134,6 +134,24 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+    public function handleUpdateRocket(Request $request, Response $response, array $uri_args): Response
+    {
+        $rocketID = $uri_args['rocketID'];
+        // Retrieve POST request embedded body
+        $rocket = $request->getParsedBody()[0];
+        $result = $this->rocketsService->updateRocket($rocketID, $rocket);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
+
     public function  handleGetMissionsByRocketID(Request $request, Response $response, array $uri_args): Response
     {
         $rocketID = $uri_args["rocketID"];

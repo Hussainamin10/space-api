@@ -73,11 +73,9 @@ class RocketsService
 
         $id = $this->rocketsModel->createRocket($newRocket);
         $data['data'] = $this->rocketsModel->getRocketByID($id);
-        $data['status'] = 200;
+        $data['status'] = '201 Created';
         return Result::success("Rocket Added", $data);
     }
-
-
 
     //*Rocket Delete
     public function deleteRocket(string $rocketID): Result
@@ -107,5 +105,88 @@ class RocketsService
         $data['data'] = $delete;
         $data['status'] = 200;
         return Result::success("Rocket Deleted", $data);
+    }
+
+    public function updateRocket(mixed $rocketID, array $newRocket): Result
+    {
+        $data = [];
+        //* Check if rocket id provided is Valid
+        $validator = new Validator(["rocketID" => $rocketID]);
+        $validator->rule("integer", "rocketID");
+        $validator->rule("required", "rocketID");
+        if (!$validator->validate()) {
+            $data['data'] = "ID provided: " . $rocketID;
+            $data['status'] = 400;
+            return Result::fail("Rocket ID is invalid", $data);
+        }
+        //* Check if Rocket exist
+        $rocket = $this->rocketsModel->getRocketByID($rocketID);
+        if (!$rocket) {
+            $data['data'] = "ID provided: " . $rocketID;
+            $data['status'] = 404;
+            return Result::fail("Rocket does not exist", $data);
+        }
+
+        //* Validate if the fields to be updated exist
+        $updateFields = [
+            'rocketName',
+            'companyName',
+            'rocketHeight',
+            'status',
+            'liftOfThrust',
+            'rocketWeight',
+            'numberOfStages',
+            'launchCost'
+        ];
+        foreach ($newRocket as $key => $value) {
+            if (!in_array($key, $updateFields)) {
+                $data['data'] = "Invalid Field: " . $key;
+                $data['status'] = 400;
+                return Result::fail("No existing field to update", $data);
+            }
+        }
+
+
+        //TODO Validate the value of fields to be updated
+        $validator = new Validator($newRocket);
+        //Company name must exist in Space Company Table
+        //Get All names of space company
+        $spaceCompanies = $this->spaceCompaniesModel->getAllCompanies();
+        $companyNames = [];
+        foreach ($spaceCompanies as $spaceCompany) {
+            $companyNames[] = $spaceCompany['companyName'];
+        }
+        //Rocket Name Must be Unique
+        $rockets = $this->rocketsModel->getAllRockets();
+        $rocketNames = [];
+        foreach ($rockets as $rocket) {
+            $rocketNames[] = $rocket['rocketName'];
+        }
+        $validator->rules([
+            'numeric' => [
+                'rocketHeight',
+                'liftOfThrust',
+                'rocketWeight',
+                'launchCost'
+            ],
+            'in' => [
+                ['companyName', $companyNames],
+                ['status', ['Active', 'Retired', 'active', 'retired']]
+            ],
+            'notIn' => [['rocketName', $rocketNames]],
+            'integer' => ['numberOfStages']
+        ]);
+        //*If Invalid Return Fail result
+        if (!$validator->validate()) {
+            $data['data'] = $validator->errorsToString();
+            $data['status'] = 400;
+            return Result::fail("Provided value(s) is(are) not valid", $data);
+        }
+
+        $update = $this->rocketsModel->updateRocket($rocketID, $newRocket);
+        //*Item Deleted
+        $data['data'] = $update;
+        $data['status'] = 200;
+        return Result::success("Rocket Updated", $data);
     }
 }
