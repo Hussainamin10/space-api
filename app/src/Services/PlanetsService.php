@@ -32,7 +32,7 @@ class PlanetsService
 l
 
      */
-
-        return Result::fail("RANDOM failure MESSAGE!");
+        $id = $this->planetModel->insertPlanet($new_planet);
+        return Result::success("RANDOM failure MESSAGE!", $id);
     }
 }

@@ -64,7 +64,8 @@ class PlanetController extends BaseController
         $isIntPattern = "/^[0-9]+$/";
         $planet_id = $uri_args["planetID"];
         if (preg_match($isIntPattern, $planet_id) === 0) {
-            throw new HttpInvalidInputsException($request, "Invalid planet id provided");
+            //TODO fix me later
+            //throw new HttpInvalidInputsException($request, "Invalid planet id provided");
         }
 
         //* Step 3) if Valid, fetch the player's info from the DB
@@ -90,7 +91,7 @@ class PlanetController extends BaseController
         //dd($new_planet);
 
         //2) Pass the received data to the service
-        $result = $this->planetsService->createPlanet($new_planet);
+        $result = $this->planetsService->createPlanet($new_planet[0]);
 
         $payload = [];
 
