@@ -124,4 +124,12 @@ class AstronautsModel extends BaseModel
         $last_id = $this->insert($this->table_name, $new_astronaut_info);
         return $last_id;
     }
+
+
+    public function updateAstronaut(array $astronaut_info): int
+    {
+        $astronaut_id = $astronaut_info["astronaut_id"];
+        unset($astronaut_info["astronaut_id"]);
+        return $this->update($this->table_name, $astronaut_info, ["astronaut_id" => $astronaut_id]);
+    }
 }

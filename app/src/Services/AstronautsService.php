@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Core\Result;
 use App\Models\AstronautsModel;
+use App\Validation\Validator;
 
 class AstronautsService
 {
@@ -11,29 +12,28 @@ class AstronautsService
     {
         $this->astronautsModel = $astronautsModel;
     }
+
+    //! Create Astronaut
     public function createAstronaut(array $new_astronaut): Result
     {
+        $data = [];
+        //! Astronaut full name must be unique
 
-        /*
+        //! Validate Data
 
-        errors[]
-
-        LOOP:
-        TODO 1) Validate the data of the new [your collection resource] using Valtron
-
-        - If valid INSERT it into the DB
-        - If not an error message related the the current item
-
-        //* 2) INSERT into the DB
+        //! If invalid return fail result
 
 
-    END_LOOP
-    if errors not empty -> return fail
-        */
         $id = $this->astronautsModel->insertAstronaut($new_astronaut);
 
 
 
         return Result::success("The astronaut has been created!", $id);
+    }
+
+    //! Delete Astronaut
+    public function deleteAstronaut(string $astronautID): Result
+    {
+
     }
 }
