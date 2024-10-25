@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Exceptions\HttpInvalidInputsException;
+use App\Exceptions\HttpSuccessfulRequestNoContent;
 use App\Models\RocketsModel;
 use App\Services\RocketsService;
 use App\Validation\Validator;
@@ -99,27 +100,38 @@ class RocketsController extends BaseController
 
     public function handleCreateRocket(Request $request, Response $response): Response
     {
-
         // Retrieve POST request embedded body
         $newRocket = $request->getParsedBody();
         // Pass receive data to service
-        //dd($newRocket);
         $result = $this->rocketsService->createRocket($newRocket[0]);
         $payload = [];
-
-        $statusCode = 201;
         if ($result->isSuccess()) {
             $payload['success'] = true;
         } else {
-            $statusCode = 400;
             $payload['success'] = false;
         }
-
         $payload['message'] = $result->getMessage();
-        $payload['data'] = $result->getData();
-        $payload['status'] = $statusCode;
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
 
-        return $this->renderJson($response, $payload, $statusCode);
+    public function handleDeleteRocket(Request $request, Response $response, array $uri_args): Response
+    {
+        // Retrieve POST request embedded body
+        $rocketID = $request->getParsedBody()['rocketID'] ?? null;
+        $result = $this->rocketsService->deleteRocket($rocketID);
+        $payload = [];
+
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
     }
 
     public function  handleGetMissionsByRocketID(Request $request, Response $response, array $uri_args): Response

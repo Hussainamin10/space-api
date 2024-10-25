@@ -148,4 +148,11 @@ class SpaceCompaniesModel extends BaseModel
 
         return $result;
     }
+
+    public function getAllCompanies(): mixed
+    {
+        $query = "SELECT * FROM {$this->table_name}";
+        $companies = $this->fetchAll($query);
+        return $companies;
+    }
 }
