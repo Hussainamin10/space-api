@@ -26,10 +26,14 @@ class AstronautsService
 
         //* 2) INSERT into the DB
 
+
     END_LOOP
     if errors not empty -> return fail
         */
+        $id = $this->astronautsModel->insertAstronaut($new_astronaut);
 
-        return Result::success("RANDOM MESSAGE!");
+
+
+        return Result::success("The astronaut has been created!", $id);
     }
 }

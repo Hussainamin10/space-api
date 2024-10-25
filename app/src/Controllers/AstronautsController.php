@@ -84,8 +84,9 @@ class AstronautsController extends BaseController
         // dd($new_astronaut);
 
         // 2) Pass the received data to the service
-        $result = $this->astronautsService->createAstronaut($new_astronaut);
+        $result = $this->astronautsService->createAstronaut($new_astronaut[0]);
         $payload = [];
+
         $status_code = 201;
         if ($result->isSuccess()) {
             // successful message
