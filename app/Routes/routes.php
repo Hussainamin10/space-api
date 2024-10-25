@@ -29,6 +29,8 @@ return static function (Slim\App $app): void {
     $app->get('/rockets/{rocketID}/missions', [RocketsController::class, 'handleGetMissionsByRocketID']);
     //*POST
     $app->post('/rockets', [RocketsController::class, 'handleCreateRocket']);
+    //*DELETE
+    $app->delete('/rockets', [RocketsController::class, 'handleDeleteRocket']);
     //Space Station Routes
     $app->get('/spacestations', [SpaceStationsController::class, 'handleGetSpaceStations']);
     $app->get('/spacestations/{stationID}', [SpaceStationsController::class, 'handleGetSpaceStationByID']);
