@@ -22,6 +22,7 @@ class PlanetController extends BaseController
         $this->planetsService = $planetsService;
     }
 
+    //? Get All planets callBack function
     public function handleGetPlanet(Request $request, Response $response): Response
     {
 
@@ -30,7 +31,7 @@ class PlanetController extends BaseController
         //dd(data: $filter_params);
 
 
-
+        //? pagination
         if (isset($filter_params['current_page']) && isset($filter_params['pageSize'])) {
             $this->planet_model->setPaginationOptions((int)$filter_params['current_page'], (int)$filter_params['pageSize']);
         }
@@ -42,12 +43,13 @@ class PlanetController extends BaseController
         return $this->renderJson($response, $players);
     }
 
+    //? Get  planet by id callBack function
     public function handleGetPlanetId(Request $request, Response $response, array $uri_args): Response
     {
         //dd($uri_args["player_id"]);
-        //* Step 1) Receive the received player ID
+        //* Step 1) Receive the received planet ID
 
-        //* Step 2) Validate the player ID
+        //* Step 2) Validate the planet ID
 
         if (!isset($uri_args['planetID'])) {
             return $this->renderJson(
@@ -64,11 +66,11 @@ class PlanetController extends BaseController
         $isIntPattern = "/^[0-9]+$/";
         $planet_id = $uri_args["planetID"];
         if (preg_match($isIntPattern, $planet_id) === 0) {
-            //TODO fix me later
-            //throw new HttpInvalidInputsException($request, "Invalid planet id provided");
+
+            throw new HttpInvalidInputsException($request, "Invalid planet id provided");
         }
 
-        //* Step 3) if Valid, fetch the player's info from the DB
+        //* Step 3) if Valid, fetch the planet's info from the DB
         $planet = $this->planet_model->getPlanetById($planet_id);
         // dd($player);
         if ($planet === false) {

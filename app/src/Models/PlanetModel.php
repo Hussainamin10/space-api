@@ -12,12 +12,13 @@ class PlanetModel extends BaseModel
         parent::__construct($dbo);
     }
 
+    //? Get all Planets
     public function getPlanets(array $filter_params = []): array
     {
         $named_params_values = [];
         $query = "SELECT * FROM planet WHERE 1 ";
 
-        //! Apply the filter
+        //? Apply the filters
         if (isset($filter_params['name'])) {
             $query .= " AND name LIKE
             CONCAT(:name, '%') ";
@@ -71,7 +72,7 @@ class PlanetModel extends BaseModel
             $named_params_values['discoveryDate'] = $filter_params['discoveryDate'];
         }
 
-        //! Sorting
+        //? Sorting
         if (isset($filter_params['sort_by']) && isset($filter_params['order'])) {
 
             $sortBy = isset($filter_params['sort_by']) ?
@@ -86,6 +87,8 @@ class PlanetModel extends BaseModel
         return $planets;
     }
 
+    //? Get planet by ID
+
     public function getPlanetById(string $planet_id): mixed
     {
         $sql = "SELECT * FROM {$this->table_name} WHERE planetID = :planet_id";
@@ -97,12 +100,21 @@ class PlanetModel extends BaseModel
         return $planet_info;
     }
 
-    //insert new planet
+    //?insert new planet
 
     public function insertPlanet(array $new_planet_info): mixed
     {
         $last_id = $this->insert($this->table_name, $new_planet_info);
 
         return $last_id;
+    }
+
+    //? update planet
+    public function updatePlanet(array $new_planet): mixed
+    {
+
+        $planet_id = $new_planet["planet_id"];
+        unset($new_planet["player_id"]);
+        return $this->update($this->table_name, $new_planet, ["planet_id" => $planet_id]);
     }
 }

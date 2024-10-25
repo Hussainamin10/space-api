@@ -23,6 +23,8 @@ class MissionController extends BaseController
         $this->mission_model = $mission_model;
     }
 
+
+    //? Get All Mission callback function
     public function handleGetMission(Request $request, Response $response): Response
     {
 
@@ -30,6 +32,7 @@ class MissionController extends BaseController
         $filter_params = $request->getQueryParams();
         //dd(data: $filter_params);
 
+        //?Pagination
         if (isset($filter_params['current_page']) && isset($filter_params['pageSize'])) {
             $this->mission_model->setPaginationOptions((int)$filter_params['current_page'], (int)$filter_params['pageSize']);
         }
@@ -41,12 +44,14 @@ class MissionController extends BaseController
         return $this->renderJson($response, $players);
     }
 
+    //? Get Mission by ID callback function
+
     public function handleGetMissionId(Request $request, Response $response, array $uri_args): Response
     {
         //dd($uri_args["player_id"]);
-        //* Step 1) Receive the received player ID
+        //* Step 1) Receive the received missions ID
 
-        //* Step 2) Validate the player ID
+        //* Step 2) Validate the missions ID
 
         if (!isset($uri_args['missionID'])) {
             return $this->renderJson(
@@ -67,7 +72,7 @@ class MissionController extends BaseController
             throw new HttpInvalidInputsException($request, "Invalid mission id provided");
         }
 
-        //* Step 3) if Valid, fetch the player's info from the DB
+        //* Step 3) if Valid, fetch the mission's info from the DB
         $mission = $this->mission_model->getMissionById($mission_id);
         // dd($player);
         if ($mission === false) {
@@ -77,6 +82,8 @@ class MissionController extends BaseController
 
         return $this->renderJson($response, $mission);
     }
+
+    //?Get Astronauts by Mission ID callback function
 
     public function  handleGetAstronautsByMissionID(Request $request, Response $response, array $uri_args): Response
     {
@@ -92,7 +99,7 @@ class MissionController extends BaseController
 
         $result = $this->mission_model->getAstronautsByMissionID($mission_id);
 
-        //IF rocket doesn't exist
+        //IF mission doesn't exist
         if (!$result['mission']) {
             throw new HttpNotFoundException($request, "No matching missions found");
         }
