@@ -114,4 +114,23 @@ class AstronautsController extends BaseController
         $payload['status'] = $result->getData()['status'];
         return $this->renderJson($response, $payload, $payload['status']);
     }
+
+    //! Update /astronauts
+    public function handleUpdateAstronaut(Request $request, Response $response, array $uri_args): Response
+    {
+        $astronautID = $uri_args['astronautID'];
+        // Retrieve POST request embedded body
+        $astronaut = $request->getParsedBody()[0];
+        $result = $this->astronautsService->updateAstronaut($astronautID, $astronaut);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
 }

@@ -17,22 +17,18 @@ class AstronautsService
     public function createAstronaut(array $newAstronaut): Result
     {
         $data = [];
-        //! Astronaut full name must be unique
+        //* Astronaut full name must be unique
         $astronauts = $this->astronautsModel->getAllAstronauts();
 
-        $existingFirstNames = [];
-        $existingLastNames = [];
+        $existingFullNames = [];
 
         foreach ($astronauts as $astronaut) {
-
-            if (isset($astronaut['firstName'])) {
-                $existingFirstNames[] = $astronaut['firstName'];
-            }
-            if (isset($astronaut['lastName'])) {
-                $existingLastNames[] = $astronaut['lastName'];
+            if (isset($astronaut['firstName']) && isset($astronaut['lastName'])) {
+                $existingFullNames[] = $astronaut['firstName'] . ' ' . $astronaut['lastName'];
             }
         }
-        //! Validate data passed
+
+        //* Validate data passed
         $validator = new Validator($newAstronaut);
         $validator->rules([
             'required' => [
@@ -53,12 +49,11 @@ class AstronautsService
                 ['inSpace', ['0', '1']]
             ],
             'notIn' => [
-                ['firstName', $existingFirstNames],
-                ['lastName', $existingLastNames]
+                ['fullName', $existingFullNames]
             ],
             'integer' => ['numOfMissions', 'flightsCount']
         ]);
-        //! If invalid return fail result
+        //* If invalid return fail result
         if (!$validator->validate()) {
             $data['data'] = $validator->errorsToString();
             $data['status'] = 400;
@@ -79,17 +74,17 @@ class AstronautsService
         $validator->rule('integer', 'ID');
         $data = [];
 
-        //*If Id Provided is not an integer
+        //* If Id Provided is not an integer
         if (!$validator->validate()) {
             $data['data'] = $validator->errorsToString();
             $data['status'] = 400;
             return Result::fail("Provided ID is not Valid", $data);
         }
 
-        //*Delete Rocket
+        //* Delete Astronaut
         $delete = $this->astronautsModel->deleteAstronaut($astronautID);
 
-        //*If No Item Deleted
+        //* If No Item Deleted
         if ($delete == 0) {
             $data['data'] = $delete;
             $data['status'] = 200;
@@ -100,5 +95,85 @@ class AstronautsService
         $data['data'] = $delete;
         $data['status'] = 200;
         return Result::success("Astronaut Deleted", $data);
+    }
+
+    //! Update Astronaut
+    public function updateAstronaut(mixed $astronautID, array $newAstronaut): Result
+    {
+        $data = [];
+        //* Check if astronaut id provided is Valid
+        $validator = new Validator(["astronautID" => $astronautID]);
+        $validator->rule("integer", "astronautID");
+        $validator->rule("required", "astronautID");
+        if (!$validator->validate()) {
+            $data['data'] = "ID provided: " . $astronautID;
+            $data['status'] = 400;
+            return Result::fail("Astronaut ID is invalid", $data);
+        }
+        //* Check if Astronaut exist
+        $astronaut = $this->astronautsModel->getAstronautByID($astronautID);
+        if (!$astronaut) {
+            $data['data'] = "ID provided: " . $astronautID;
+            $data['status'] = 404;
+            return Result::fail("Astronaut does not exist", $data);
+        }
+
+        //* Validate if the fields to be updated exist
+        $updateFields = [
+            'firstName',
+            'lastName',
+            'numOfMissions',
+            'nationality',
+            'inSpace',
+            'dateOfDeath',
+            'flightsCount',
+            'dateOfBirth',
+            'bio',
+            'wiki',
+            'image',
+            'thumbnail'
+        ];
+        foreach ($newAstronaut as $key => $value) {
+            if (!in_array($key, $updateFields)) {
+                $data['data'] = "Invalid Field: " . $key;
+                $data['status'] = 400;
+                return Result::fail("No existing field to update", $data);
+            }
+        }
+
+        $validator = new Validator($newAstronaut);
+
+        //* Astronaut full name must be unique
+        $astronauts = $this->astronautsModel->getAllAstronauts();
+
+        $existingFullNames = [];
+
+        foreach ($astronauts as $astronaut) {
+            if (isset($astronaut['firstName']) && isset($astronaut['lastName'])) {
+                $existingFullNames[] = $astronaut['firstName'] . ' ' . $astronaut['lastName'];
+            }
+        }
+
+        $validator->rules([
+            'in' => [
+                ['inSpace', ['0', '1']]
+            ],
+            'notIn' => [
+                ['fullName', $existingFullNames]
+            ],
+            'integer' => ['numOfMissions', 'flightsCount']
+        ]);
+        //* If invalid return fail result
+        if (!$validator->validate()) {
+            $data['data'] = $validator->errorsToString();
+            $data['status'] = 400;
+            return Result::fail("Provided value(s) is(are) not valid", $data);
+        }
+
+        $update = $this->astronautsModel->updateAstronaut($astronautID, $newAstronaut);
+        //* Item Deleted
+        $data['data'] = $update;
+        $data['status'] = 200;
+        return Result::success("Astronaut Updated", $data);
     }
 }

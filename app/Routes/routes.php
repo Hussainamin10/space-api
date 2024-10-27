@@ -49,6 +49,7 @@ return static function (Slim\App $app): void {
 
     //! Astronaut Routes
     //! Get
+    //* astronaut
     $app->get('/astronauts', [AstronautsController::class, 'handleGetAstronauts']);
     //* astronaut by Id
     $app->get('/astronauts/{astronautId}', [AstronautsController::class, 'handleGetAstronautByID']);
@@ -56,6 +57,8 @@ return static function (Slim\App $app): void {
     $app->post('/astronauts', [AstronautsController::class, 'handleCreateAstronaut']);
     //! Delete
     $app->delete('/astronauts', [AstronautsController::class, 'handleDeleteAstronaut']);
+    //! Put
+    $app->put('/astronauts/{astronautId}', [AstronautsController::class, 'handleUpdateAstronaut']);
 
     //! SpaceCompany Routes
     //! Get

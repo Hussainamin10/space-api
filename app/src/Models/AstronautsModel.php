@@ -134,11 +134,16 @@ class AstronautsModel extends BaseModel
     }
 
     //! Update astronaut
-    public function updateAstronaut(array $astronaut_info): int
+    // public function updateAstronaut(array $astronaut_info): int
+    // {
+    //     $astronaut_id = $astronaut_info["astronaut_id"];
+    //     unset($astronaut_info["astronaut_id"]);
+    //     return $this->update($this->table_name, $astronaut_info, ["astronaut_id" => $astronaut_id]);
+    // }
+    public function updateAstronaut(string $astronautID, array $newAstronaut): mixed
     {
-        $astronaut_id = $astronaut_info["astronaut_id"];
-        unset($astronaut_info["astronaut_id"]);
-        return $this->update($this->table_name, $astronaut_info, ["astronaut_id" => $astronaut_id]);
+        $update = $this->update($this->table_name, $newAstronaut, ["astronautID" => $astronautID]);
+        return $update;
     }
 
     //! Delete astronaut
