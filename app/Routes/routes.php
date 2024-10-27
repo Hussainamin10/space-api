@@ -46,25 +46,24 @@ return static function (Slim\App $app): void {
     $app->get('/missions', [MissionController::class, 'handleGetMission']);
     $app->get('/missions/{missionID}', [MissionController::class, 'handleGetMissionId']);
 
-    //! Get astronauts
+
+    //! Astronaut Routes
+    //! Get
     $app->get('/astronauts', [AstronautsController::class, 'handleGetAstronauts']);
-
-    //! Get astronaut by Id
+    //* astronaut by Id
     $app->get('/astronauts/{astronautId}', [AstronautsController::class, 'handleGetAstronautByID']);
-
-    //! Get spaceCompanies
-    $app->get('/spaceCompanies', [SpaceCompaniesController::class, 'handleGetSpaceCompanies']);
-
-    //! Get spaceCompany by Name
-    $app->get('/spaceCompanies/{companyName}', [SpaceCompaniesController::class, 'handleGetCompanyByName']);
-
-    //! Get rockets by companyName
-    $app->get('/spaceCompanies/{companyName}/rockets', [SpaceCompaniesController::class, 'handleRocketsByCompanyName']);
-
-    //! Post rockets
+    //! Post
     $app->post('/astronauts', [AstronautsController::class, 'handleCreateAstronaut']);
+    //! Delete
+    $app->delete('/astronauts', [AstronautsController::class, 'handleDeleteAstronaut']);
 
-
+    //! SpaceCompany Routes
+    //! Get
+    $app->get('/spaceCompanies', [SpaceCompaniesController::class, 'handleGetSpaceCompanies']);
+    //* by companyName
+    $app->get('/spaceCompanies/{companyName}', [SpaceCompaniesController::class, 'handleGetCompanyByName']);
+    //* rockets by companyName
+    $app->get('/spaceCompanies/{companyName}/rockets', [SpaceCompaniesController::class, 'handleRocketsByCompanyName']);
 
 
     //$app->get('/players/{player_id}', [PlayersController::class, 'handleGetPlayerId']);
