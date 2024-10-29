@@ -114,4 +114,41 @@ class PlanetController extends BaseController
 
         return $this->renderJson($response, $payload, $status_code);
     }
+
+
+    public function handleDeletePlanet(Request $request, Response $response, array $uri_args): Response
+    {
+        //? Retrieve POST request embedded body
+        $planetID = $request->getParsedBody()['planetID'] ?? null;
+        $result = $this->planetsService->deletePlanet($planetID);
+        $payload = [];
+
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
+
+    public function handleUpdatePlanet(Request $request, Response $response, array $uri_args): Response
+    {
+
+        //? Retrieve POST request embedded body
+        $planet = $request->getParsedBody()[0];
+        $result = $this->planetsService->updatePlanet($planet);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
 }

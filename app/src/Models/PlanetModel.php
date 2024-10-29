@@ -86,6 +86,12 @@ class PlanetModel extends BaseModel
         $planets = $this->paginate($query, $named_params_values);
         return $planets;
     }
+    public function getAllPlanets(): mixed
+    {
+        $query = "SELECT * FROM {$this->table_name}";
+        $planets = $this->fetchAll($query);
+        return $planets;
+    }
 
     //? Get planet by ID
 
@@ -114,7 +120,13 @@ class PlanetModel extends BaseModel
     {
 
         $planet_id = $new_planet["planet_id"];
-        unset($new_planet["player_id"]);
+        unset($new_planet["planet_id"]);
         return $this->update($this->table_name, $new_planet, ["planet_id" => $planet_id]);
+    }
+
+    public function deletePlanet(string $planetID): mixed
+    {
+        $delete = $this->delete($this->table_name, ["planetID" => $planetID]);
+        return $delete;
     }
 }
