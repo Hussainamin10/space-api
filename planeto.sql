@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2024 at 06:22 PM
+-- Generation Time: Oct 29, 2024 at 04:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -142,7 +142,8 @@ INSERT INTO `locations` (`id`, `name`, `countryCode`, `description`, `mapImage`,
 (146, 'Svobodny Cosmodrome, Russian Federation', 'RUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_146_20200803142450.jpg', 'Asia/Yakutsk', 5, 0, 'https://lldev.thespacedevs.com/2.2.0/location/146/'),
 (150, 'Alcântara Space Center, Federative Republic of Brazil', 'BRA', 'The Alcântara Space Center, formerly known as Alcântara Launch Center is a space center and launching facility of the Brazilian Space Agency in the city of Alcântara, located on Brazil\'s northern Atlantic coast, in the state of Maranhão.', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_150_20200803142405.jpg', 'America/Fortaleza', 2, 0, 'https://lldev.thespacedevs.com/2.2.0/location/150/'),
 (153, 'Tonghae Satellite Launching Ground', 'PRK', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_153_20200803142503.jpg', 'Asia/Pyongyang', 2, 0, 'https://lldev.thespacedevs.com/2.2.0/location/153/'),
-(156, 'Whalers Way Orbital Launch Complex, South Australia', 'AUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_whalers_way_orbital_launch_complex_20210910042508.jpg', 'Australia/Adelaide', 1, 0, 'https://lldev.thespacedevs.com/2.2.0/location/156/');
+(156, 'Whalers Way Orbital Launch Complex, South Australia', 'AUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_whalers_way_orbital_launch_complex_20210910042508.jpg', 'Australia/Adelaide', 1, 0, 'https://lldev.thespacedevs.com/2.2.0/location/156/'),
+(157, 'lol', 'qwq', 'ewqewqe', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg', 'Asia/Jerusalem', 12, 0, 'https://lldev.thespacedevs.com/2.2.0/location/4/');
 
 -- --------------------------------------------------------
 
@@ -217,7 +218,9 @@ INSERT INTO `rocket` (`rocketID`, `rocketName`, `companyName`, `rocketHeight`, `
 (4, 'Saturn V', 'NASA', 110.00, 'Retired', 7600, 297000.00, 3, 35000000.00),
 (5, 'Soyuz FG', 'Roscosmos', 46.00, 'Active', 4000, 30500.00, 2, 50000000.00),
 (6, 'Space Shuttle', 'NASA', 56.00, 'Retired', 2800, 204000.00, 2, 150000000.00),
-(7, 'Vostok-K', 'Roscosmos', 29.00, 'Retired', 2450, 29200.00, 2, 1000000.00);
+(7, 'Vostok-K', 'Roscosmos', 29.00, 'Retired', 2450, 29200.00, 2, 1000000.00),
+(13, 'I LIKE CHEESE-SUS', 'Blue Origin', 42.00, 'Retired', 1232, 78000.00, 2, 100.01),
+(17, 'I LIKE CHEESE mate', 'NASA', 42.00, 'Active', 1000, 78000.00, 2, 100.01);
 
 -- --------------------------------------------------------
 
@@ -451,10 +454,16 @@ ALTER TABLE `spacestation`
 --
 
 --
+-- AUTO_INCREMENT for table `locations`
+--
+ALTER TABLE `locations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
+
+--
 -- AUTO_INCREMENT for table `rocket`
 --
 ALTER TABLE `rocket`
-  MODIFY `rocketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `rocketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `spacestation`

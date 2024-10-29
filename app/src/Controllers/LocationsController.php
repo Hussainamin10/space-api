@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Exceptions\HttpInvalidInputsException;
 use App\Models\LocationsModel;
+use App\Services\LocationService;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,9 +14,10 @@ class LocationsController extends BaseController
 {
 
 
-    public function __construct(private LocationsModel $location_model)
+    public function __construct(private LocationsModel $location_model, private LocationService $locationService)
     {
-        parent::__construct();
+        $this->location_model = $location_model;
+        $this->locationService = $locationService;
     }
     //Route:GET /players
     public function handleGetLocations(Request $request, Response $response): Response
@@ -96,5 +98,59 @@ class LocationsController extends BaseController
         }
         //* Step 4) Prepare valid json response
         return $this->renderJson($response, $location);
+    }
+
+    public function handleCreateLocation(Request $request, Response $response): Response
+    {
+        // Retrieve POST request embedded body
+        $newLocation = $request->getParsedBody();
+        // Pass receive data to service
+        $result = $this->locationService->createLocation($newLocation[0]);
+
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
+
+    public function handleDeleteLocation(Request $request, Response $response, array $uri_args): Response
+    {
+        // Retrieve POST request embedded body
+        $locationId = $request->getParsedBody()[0]['id'] ?? null;
+        $result = $this->locationService->deleteLocation($locationId);
+        $payload = [];
+
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
+
+    public function handleUpdateLocation(Request $request, Response $response, array $uri_args): Response
+    {
+        // Retrieve POST request embedded body
+        $location = $request->getParsedBody()[0];
+        $result = $this->locationService->updateLocation($location);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
     }
 }

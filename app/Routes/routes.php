@@ -22,7 +22,7 @@ return static function (Slim\App $app): void {
     //* ROUTE: GET /
     $app->get('/', [AboutController::class, 'handleAboutWebService']);
 
-    //Rocket Routes
+    //*Rocket Routes
     //*GET
     $app->get('/rockets', [RocketsController::class, 'handleGetRockets']);
     $app->get('/rockets/{rocketID}', [RocketsController::class, 'handleGetRocketByID']);
@@ -32,7 +32,7 @@ return static function (Slim\App $app): void {
     //*DELETE
     $app->delete('/rockets', [RocketsController::class, 'handleDeleteRocket']);
     //*PUT
-    $app->put('/rockets/{rocketID}', [RocketsController::class, 'handleUpdateRocket']);
+    $app->put('/rockets', [RocketsController::class, 'handleUpdateRocket']);
 
     //Space Station Routes
     $app->get('/spacestations', [SpaceStationsController::class, 'handleGetSpaceStations']);
@@ -41,6 +41,12 @@ return static function (Slim\App $app): void {
     //Location Routes
     $app->get('/locations', [LocationsController::class, 'handleGetLocations']);
     $app->get('/locations/{locationID}', [LocationsController::class, 'handleGetLocationByID']);
+    //*POST
+    $app->post('/locations', [LocationsController::class, 'handleCreateLocation']);
+    //*DELETE
+    $app->delete('/locations', [LocationsController::class, 'handleDeleteLocation']);
+    //*PUT
+    $app->put('/locations', [LocationsController::class, 'handleUpdateLocation']);
 
 
     $app->get('/planets', [PlanetController::class, 'handleGetPlanet']);

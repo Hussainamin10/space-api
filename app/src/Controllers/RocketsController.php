@@ -136,10 +136,9 @@ class RocketsController extends BaseController
 
     public function handleUpdateRocket(Request $request, Response $response, array $uri_args): Response
     {
-        $rocketID = $uri_args['rocketID'];
         // Retrieve POST request embedded body
         $rocket = $request->getParsedBody()[0];
-        $result = $this->rocketsService->updateRocket($rocketID, $rocket);
+        $result = $this->rocketsService->updateRocket($rocket);
         $payload = [];
         if ($result->isSuccess()) {
             $payload['success'] = true;

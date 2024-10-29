@@ -97,8 +97,8 @@ class RocketsService
         //*If No Item Deleted
         if ($delete == 0) {
             $data['data'] = $delete;
-            $data['status'] = 200;
-            return Result::success("No rocket deleted.", $data);
+            $data['status'] = 404;
+            return Result::fail("No rocket found", $data);
         }
 
         //*Item Deleted
@@ -107,28 +107,13 @@ class RocketsService
         return Result::success("Rocket Deleted", $data);
     }
 
-    public function updateRocket(mixed $rocketID, array $newRocket): Result
+    public function updateRocket(array $newRocket): Result
     {
         $data = [];
-        //* Check if rocket id provided is Valid
-        $validator = new Validator(["rocketID" => $rocketID]);
-        $validator->rule("integer", "rocketID");
-        $validator->rule("required", "rocketID");
-        if (!$validator->validate()) {
-            $data['data'] = "ID provided: " . $rocketID;
-            $data['status'] = 400;
-            return Result::fail("Rocket ID is invalid", $data);
-        }
-        //* Check if Rocket exist
-        $rocket = $this->rocketsModel->getRocketByID($rocketID);
-        if (!$rocket) {
-            $data['data'] = "ID provided: " . $rocketID;
-            $data['status'] = 404;
-            return Result::fail("Rocket does not exist", $data);
-        }
 
         //* Validate if the fields to be updated exist
         $updateFields = [
+            'rocketID',
             'rocketName',
             'companyName',
             'rocketHeight',
@@ -145,7 +130,6 @@ class RocketsService
                 return Result::fail("No existing field to update", $data);
             }
         }
-
 
         //TODO Validate the value of fields to be updated
         $validator = new Validator($newRocket);
@@ -174,7 +158,8 @@ class RocketsService
                 ['status', ['Active', 'Retired', 'active', 'retired']]
             ],
             'notIn' => [['rocketName', $rocketNames]],
-            'integer' => ['numberOfStages']
+            'integer' => ['numberOfStages', 'rocketID'],
+            'required' => ['rocketID']
         ]);
         //*If Invalid Return Fail result
         if (!$validator->validate()) {
@@ -182,6 +167,23 @@ class RocketsService
             $data['status'] = 400;
             return Result::fail("Provided value(s) is(are) not valid", $data);
         }
+
+        //* Check if Rocket exist
+        $rocket = $this->rocketsModel->getRocketByID($newRocket['rocketID']);
+        if (!$rocket) {
+            $data['data'] = "ID provided: " . $newRocket['rocketID'];
+            $data['status'] = 404;
+            return Result::fail("Rocket does not exist", $data);
+        }
+        $rocketID = $newRocket['rocketID'];
+        unset($newRocket['rocketID']);
+
+        if (!$newRocket) {
+            $data['data'] = "";
+            $data['status'] = 400;
+            return Result::fail("Please provide at least one valid field to update", $data);
+        }
+
 
         $update = $this->rocketsModel->updateRocket($rocketID, $newRocket);
         //*Item Deleted
