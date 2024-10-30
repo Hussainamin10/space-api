@@ -97,7 +97,7 @@ class AstronautsService
         if ($delete == 0) {
             $data['data'] = $delete;
             $data['status'] = 400;
-            return Result::success("No astronaut deleted.", $data);
+            return Result::fail("No astronaut deleted.", $data);
         }
 
         //*Item Deleted
@@ -163,7 +163,7 @@ class AstronautsService
 
         // Check if new full name already exists
         foreach ($astronauts as $astronaut) {
-            if (isset($astronaut['firstName']) && isset($astronaut['lastName'])) {
+            if (isset($astronaut['firstName']) && isset($astronaut['lastName']) && isset($newAstronaut['firstName']) && isset($newAstronaut['lastName'])) {
                 if (
                     $astronaut['firstName'] === $newAstronaut['firstName'] &&
                     $astronaut['lastName'] === $newAstronaut['lastName']
