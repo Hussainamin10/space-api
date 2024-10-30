@@ -119,9 +119,9 @@ class PlanetModel extends BaseModel
     public function updatePlanet(array $new_planet): mixed
     {
 
-        $planet_id = $new_planet["planet_id"];
-        unset($new_planet["planet_id"]);
-        return $this->update($this->table_name, $new_planet, ["planet_id" => $planet_id]);
+        $planet_id = $new_planet["planetID"];
+        unset($new_planet["planetID"]);
+        return $this->update($this->table_name, $new_planet, ["planetID" => $planet_id]);
     }
 
     public function deletePlanet(string $planetID): mixed

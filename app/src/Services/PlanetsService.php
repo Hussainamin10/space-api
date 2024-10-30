@@ -84,8 +84,8 @@ class PlanetsService
         //?If No Item Deleted
         if ($delete == 0) {
             $data['data'] = $delete;
-            $data['status'] = 200;
-            return Result::success("No planet deleted.", $data);
+            $data['status'] = 400;
+            return Result::fail("No planet deleted.", $data);
         }
 
         //?Item Deleted
@@ -99,6 +99,25 @@ class PlanetsService
     public function updatePlanet(array $newPlanet): Result
     {
         $data = [];
+        //? Validate if the fields to be updated exist
+        $updateFields = [
+            'planetID',
+            'name',
+            'sideralOrbit',
+            'sideralRotation',
+            'mass',
+            'equaRadius',
+            'gravity',
+            'discoveryDate',
+            'discoveredBy'
+        ];
+        foreach ($newPlanet as $key => $value) {
+            if (!in_array($key, $updateFields)) {
+                $data['data'] = "Invalid Field: " . $key;
+                $data['status'] = 400;
+                return Result::fail("No existing field to update", $data);
+            }
+        }
 
         $planetID = $newPlanet["planetID"];
         //? Check if planet id provided is Valid
@@ -118,31 +137,11 @@ class PlanetsService
             return Result::fail("Planet does not exist", $data);
         }
 
-        //? Validate if the fields to be updated exist
-        $updateFields = [
-            'name',
-            'sideralOrbit',
-            'sideralRotation',
-            'mass',
-            'equaRadius',
-            'gravity',
-            'discoveryDate',
-            'discoveredBy'
-        ];
-        foreach ($newPlanet as $key => $value) {
-            if (!in_array($key, $updateFields)) {
-                $data['data'] = "Invalid Field: " . $key;
-                $data['status'] = 400;
-                return Result::fail("No existing field to update", $data);
-            }
-        }
-
-
 
         $validator = new Validator($newPlanet);
 
         //?planet Name Must be Unique
-        $planets = $this->planetModel->getPlanets();
+        $planets = $this->planetModel->getAllPlanets();
         $planetNames = [];
         foreach ($planets as $planet) {
             $planetNames[] = $planet['name'];
@@ -164,6 +163,13 @@ class PlanetsService
             $data['status'] = 400;
             return Result::fail("Provided value(s) is(are) not valid", $data);
         }
+
+        if (!$newPlanet) {
+            $data['data'] = "";
+            $data['status'] = 400;
+            return Result::fail("Please provide at least one valid field to update", $data);
+        }
+
 
         $update = $this->planetModel->updatePlanet($newPlanet);
         //?Item Deleted

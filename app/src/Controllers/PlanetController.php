@@ -119,7 +119,7 @@ class PlanetController extends BaseController
     public function handleDeletePlanet(Request $request, Response $response, array $uri_args): Response
     {
         //? Retrieve POST request embedded body
-        $planetID = $request->getParsedBody()['planetID'] ?? null;
+        $planetID = $request->getParsedBody()[0]['planetID'] ?? null;
         $result = $this->planetsService->deletePlanet($planetID);
         $payload = [];
 
