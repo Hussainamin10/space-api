@@ -42,11 +42,14 @@ class LocationService
             'notIn' => [['name', $locationNames]],
             'lengthBetween' => [
                 ['countryCode', 2, 3]
-            ] //,
-            // 'min' => [
-            //     ['launchCount', 0],
-            //     ['landingCount', 0]
-            // ]
+            ],
+            'min' => [
+                ['launchCount', 0],
+                ['landingCount', 0]
+            ],
+            'regex' => [
+                ['timezone', '^[A-Za-z]+\/[A-Za-z_]+$']
+            ]
         ]);
 
         //*If Invalid Return Fail result
@@ -109,6 +112,7 @@ class LocationService
             'numberOfStages',
             'url'
         ];
+
         foreach ($newLocation as $key => $value) {
             if (!in_array($key, $updateFields)) {
                 $data['data'] = "Invalid Field: " . $key;
@@ -117,7 +121,6 @@ class LocationService
             }
         }
 
-        //TODO Validate the value of fields to be updated
         $validator = new Validator($newLocation);
         //Country Name Must be Unique
         $locations = $this->locationsModel->getAllLocations();
@@ -132,11 +135,14 @@ class LocationService
             'lengthBetween' => [
                 ['countryCode', 2, 3]
             ],
-            // 'min' => [
-            //     ['launchCount', 0],
-            //     ['landingCount', 0]
-            // ],
-            'required' => ['id']
+            'min' => [
+                ['launchCount', 0],
+                ['landingCount', 0]
+            ],
+            'required' => ['id'],
+            'regex' => [
+                ['timezone', '^[A-Za-z]+\/[A-Za-z_]+$']
+            ]
         ]);
 
         //*If Invalid Return Fail result

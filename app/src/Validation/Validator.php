@@ -371,7 +371,7 @@ class Validator
         if (!is_numeric($value)) {
             return false;
         } elseif (function_exists('bccomp')) {
-            return !(bccomp($params[0], $value, 14) === 1);
+            return !(bccomp((string) $params[0], (string)$value, 14) === 1);
         } else {
             return $params[0] <= $value;
         }

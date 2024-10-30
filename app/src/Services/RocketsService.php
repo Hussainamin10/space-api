@@ -54,6 +54,13 @@ class RocketsService
                 ['companyName', $companyNames],
                 ['status', ['Active', 'Retired', 'active', 'retired']]
             ],
+            'min' => [
+                ['launchCost', 0],
+                ['rocketHeight', 0],
+                ['liftOfThrust', 0],
+                ['rocketWeight', 0],
+                ['numberOfStages', 0]
+            ],
             'notIn' => [['rocketName', $rocketNames]],
             'integer' => ['numberOfStages']
         ]);
@@ -73,7 +80,7 @@ class RocketsService
 
         $id = $this->rocketsModel->createRocket($newRocket);
         $data['data'] = $this->rocketsModel->getRocketByID($id);
-        $data['status'] = '201 Created';
+        $data['status'] = 201;
         return Result::success("Rocket Added", $data);
     }
 
@@ -131,7 +138,6 @@ class RocketsService
             }
         }
 
-        //TODO Validate the value of fields to be updated
         $validator = new Validator($newRocket);
         //Company name must exist in Space Company Table
         //Get All names of space company
@@ -156,6 +162,13 @@ class RocketsService
             'in' => [
                 ['companyName', $companyNames],
                 ['status', ['Active', 'Retired', 'active', 'retired']]
+            ],
+            'min' => [
+                ['launchCost', 0],
+                ['rocketHeight', 0],
+                ['liftOfThrust', 0],
+                ['rocketWeight', 0],
+                ['numberOfStages', 0]
             ],
             'notIn' => [['rocketName', $rocketNames]],
             'integer' => ['numberOfStages', 'rocketID'],
