@@ -113,6 +113,7 @@ class AstronautsService
 
         //* Validate if the fields to be updated exist
         $updateFields = [
+            'astronautID',
             'firstName',
             'lastName',
             'numOfMissions',
@@ -151,9 +152,6 @@ class AstronautsService
             'in' => [
                 ['inSpace', ['0', '1']]
             ],
-            'notIn' => [
-                ['fullName', $existingFullNames]
-            ],
             'integer' => ['numOfMissions', 'flightsCount']
         ]);
         //* If invalid return fail result
@@ -161,6 +159,20 @@ class AstronautsService
             $data['data'] = $validator->errorsToString();
             $data['status'] = 400;
             return Result::fail("Provided value(s) is(are) not valid", $data);
+        }
+
+        // Check if new full name already exists
+        foreach ($astronauts as $astronaut) {
+            if (isset($astronaut['firstName']) && isset($astronaut['lastName'])) {
+                if (
+                    $astronaut['firstName'] === $newAstronaut['firstName'] &&
+                    $astronaut['lastName'] === $newAstronaut['lastName']
+                ) {
+                    $data['data'] = "An astronaut with this full name already exists.";
+                    $data['status'] = 400;
+                    return Result::fail("Provided value(s) is(are) not valid", $data);
+                }
+            }
         }
 
         //* Check if Astronaut exist
