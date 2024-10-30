@@ -20,13 +20,9 @@ class AstronautsService
         //* Astronaut full name must be unique
         $astronauts = $this->astronautsModel->getAllAstronauts();
 
-        $existingFullNames = [];
+        $firstName = [];
 
-        foreach ($astronauts as $astronaut) {
-            if (isset($astronaut['firstName']) && isset($astronaut['lastName'])) {
-                $existingFullNames[] = $astronaut['firstName'] . ' ' . $astronaut['lastName'];
-            }
-        }
+
 
         //* Validate data passed
         $validator = new Validator($newAstronaut);
@@ -48,16 +44,29 @@ class AstronautsService
             'in' => [
                 ['inSpace', ['0', '1']]
             ],
-            'notIn' => [
-                ['fullName', $existingFullNames]
-            ],
             'integer' => ['numOfMissions', 'flightsCount']
         ]);
+
+
         //* If invalid return fail result
         if (!$validator->validate()) {
             $data['data'] = $validator->errorsToString();
             $data['status'] = 400;
             return Result::fail("Provided value(s) is(are) not valid", $data);
+        }
+
+        // Check if new full name already exists
+        foreach ($astronauts as $astronaut) {
+            if (isset($astronaut['firstName']) && isset($astronaut['lastName'])) {
+                if (
+                    $astronaut['firstName'] === $newAstronaut['firstName'] &&
+                    $astronaut['lastName'] === $newAstronaut['lastName']
+                ) {
+                    $data['data'] = "An astronaut with this full name already exists.";
+                    $data['status'] = 400;
+                    return Result::fail("Provided value(s) is(are) not valid", $data);
+                }
+            }
         }
 
         $id = $this->astronautsModel->insertAstronaut($newAstronaut);
@@ -87,7 +96,7 @@ class AstronautsService
         //* If No Item Deleted
         if ($delete == 0) {
             $data['data'] = $delete;
-            $data['status'] = 200;
+            $data['status'] = 400;
             return Result::success("No astronaut deleted.", $data);
         }
 
