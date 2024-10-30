@@ -118,10 +118,9 @@ class AstronautsController extends BaseController
     //! Update /astronauts
     public function handleUpdateAstronaut(Request $request, Response $response, array $uri_args): Response
     {
-        $astronautID = $uri_args['astronautID'];
         // Retrieve POST request embedded body
         $astronaut = $request->getParsedBody()[0];
-        $result = $this->astronautsService->updateAstronaut($astronautID, $astronaut);
+        $result = $this->astronautsService->updateAstronaut($astronaut);
         $payload = [];
         if ($result->isSuccess()) {
             $payload['success'] = true;

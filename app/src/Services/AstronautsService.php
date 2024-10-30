@@ -107,25 +107,9 @@ class AstronautsService
     }
 
     //! Update Astronaut
-    public function updateAstronaut(mixed $astronautID, array $newAstronaut): Result
+    public function updateAstronaut(array $newAstronaut): Result
     {
         $data = [];
-        //* Check if astronaut id provided is Valid
-        $validator = new Validator(["astronautID" => $astronautID]);
-        $validator->rule("integer", "astronautID");
-        $validator->rule("required", "astronautID");
-        if (!$validator->validate()) {
-            $data['data'] = "ID provided: " . $astronautID;
-            $data['status'] = 400;
-            return Result::fail("Astronaut ID is invalid", $data);
-        }
-        //* Check if Astronaut exist
-        $astronaut = $this->astronautsModel->getAstronautByID($astronautID);
-        if (!$astronaut) {
-            $data['data'] = "ID provided: " . $astronautID;
-            $data['status'] = 404;
-            return Result::fail("Astronaut does not exist", $data);
-        }
 
         //* Validate if the fields to be updated exist
         $updateFields = [
@@ -177,6 +161,23 @@ class AstronautsService
             $data['data'] = $validator->errorsToString();
             $data['status'] = 400;
             return Result::fail("Provided value(s) is(are) not valid", $data);
+        }
+
+        //* Check if Astronaut exist
+        $astronaut = $this->astronautsModel->getAstronautByID($newAstronaut['astronautID']);
+        if (!$astronaut) {
+            $data['data'] = "ID provided: " . $newAstronaut['astronautID'];
+            $data['status'] = 404;
+            return Result::fail("Astronaut does not exist", $data);
+        }
+
+        $astronautID = $newAstronaut['astronautID'];
+        unset($newAstronaut['astronautID']);
+
+        if (!$newAstronaut) {
+            $data['data'] = "";
+            $data['status'] = 400;
+            return Result::fail("Please provide at least one valid field to update", $data);
         }
 
         $update = $this->astronautsModel->updateAstronaut($astronautID, $newAstronaut);

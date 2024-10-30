@@ -58,7 +58,7 @@ return static function (Slim\App $app): void {
     //! Delete
     $app->delete('/astronauts', [AstronautsController::class, 'handleDeleteAstronaut']);
     //! Put
-    $app->put('/astronauts/{astronautId}', [AstronautsController::class, 'handleUpdateAstronaut']);
+    $app->put('/astronauts', [AstronautsController::class, 'handleUpdateAstronaut']);
 
     //! SpaceCompany Routes
     //! Get
