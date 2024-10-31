@@ -40,11 +40,6 @@ return static function (Slim\App $app): void {
     $app->get('/locations/{locationID}', [LocationsController::class, 'handleGetLocationByID']);
 
 
-    $app->get('/planets', [PlanetController::class, 'handleGetPlanet']);
-    $app->get('/planets/{planetID}', [PlanetController::class, 'handleGetPlanetId']);
-
-    $app->get('/missions', [MissionController::class, 'handleGetMission']);
-    $app->get('/missions/{missionID}', [MissionController::class, 'handleGetMissionId']);
 
 
     //! Astronaut Routes
@@ -71,13 +66,25 @@ return static function (Slim\App $app): void {
 
     //$app->get('/players/{player_id}', [PlayersController::class, 'handleGetPlayerId']);
 
+    //? Get Planets
+    $app->get('/planets', [PlanetController::class, 'handleGetPlanet']);
+    $app->get('/planets/{planetID}', [PlanetController::class, 'handleGetPlanetId']);
+
+    //? Get missions
+    $app->get('/missions', [MissionController::class, 'handleGetMission']);
+    $app->get('/missions/{missionID}', [MissionController::class, 'handleGetMissionId']);
+
+    //? Get astronauts by mission_id
     $app->get('/missions/{mission_id}/astronauts', [MissionController::class, 'handleGetAstronautsByMissionID']);
 
-
-
-
     //* ROUTE: POST /
+    //? Post planets
     $app->post('/planets', [PlanetController::class, 'handleCreatePlanet']);
+
+    $app->delete('/planets', [PlanetController::class, 'handleDeletePlanet']);
+
+    //?PUT
+    $app->put('/planets', [PlanetController::class, 'handleUpdatePlanet']);
 
 
 
