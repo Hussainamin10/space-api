@@ -48,8 +48,10 @@ class LocationService
                 ['landingCount', 0]
             ],
             'regex' => [
-                ['timezone', '^[A-Za-z]+\/[A-Za-z_]+$']
+                ['timezone', '/^[A-Za-z]+\/[A-Za-z_]+$/']
             ]
+
+
         ]);
 
         //*If Invalid Return Fail result
@@ -141,8 +143,10 @@ class LocationService
             ],
             'required' => ['id'],
             'regex' => [
-                ['timezone', '^[A-Za-z]+\/[A-Za-z_]+$']
+                ['timezone', '/^[A-Za-z]+\/[A-Za-z_]+$/']
             ]
+
+
         ]);
 
         //*If Invalid Return Fail result

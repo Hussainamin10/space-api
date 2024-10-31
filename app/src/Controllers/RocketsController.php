@@ -119,7 +119,7 @@ class RocketsController extends BaseController
     public function handleDeleteRocket(Request $request, Response $response, array $uri_args): Response
     {
         // Retrieve POST request embedded body
-        $rocketID = $request->getParsedBody()['rocketID'] ?? null;
+        $rocketID = $request->getParsedBody()[0]['rocketID'] ?? null;
         $result = $this->rocketsService->deleteRocket($rocketID);
         $payload = [];
 
