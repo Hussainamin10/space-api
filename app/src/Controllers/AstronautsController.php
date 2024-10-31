@@ -12,19 +12,13 @@ use Slim\Exception\HttpNotFoundException;
 
 class AstronautsController extends BaseController
 {
-    public function __construct(
-        private AstronautsModel $astronauts_model,
-        private AstronautsService $astronautsService
-    ) {
-        parent::__construct();
-
+    public function __construct(private AstronautsModel $astronauts_model, private AstronautsService $astronautsService)
+    {
         $this->astronauts_model = $astronauts_model;
         $this->astronautsService = $astronautsService;
     }
 
-
-
-    //! Get astronauts
+    //! Get /astronauts
     public function handleGetAstronauts(Request $request, Response $response): Response
     {
 
@@ -47,6 +41,7 @@ class AstronautsController extends BaseController
         //* Step 1) Receive the received astronaut ID
 
         //* Step 2) Validate the astronaut ID
+        //* Astronaut has to be an integer
         if (!isset($uri_args['astronautId'])) {
             return $this->renderJson(
                 $response,
@@ -59,7 +54,7 @@ class AstronautsController extends BaseController
             );
         }
 
-        //Pattern to check astronautID only contains integer
+        //* Pattern to check astronautID only contains integer
         $isIntPattern = "/^[0-9]+$/";
         $astronautId = $uri_args["astronautId"];
         if (preg_match($isIntPattern, $astronautId) === 0) {
@@ -78,21 +73,20 @@ class AstronautsController extends BaseController
     //! Post /astronauts
     public function handleCreateAstronaut(Request $request, Response $response): Response
     {
-        // echo "QUACK";
-        // 1) Retrieve the data embedded/included in the request body
+        //* 1) Retrieve the data embedded/included in the request body
         $new_astronaut = $request->getParsedBody();
-        // dd($new_astronaut);
 
-        // 2) Pass the received data to the service
-        $result = $this->astronautsService->createAstronaut($new_astronaut);
+        //* 2) Pass the received data to the service
+        $result = $this->astronautsService->createAstronaut($new_astronaut[0]);
         $payload = [];
+
         $status_code = 201;
         if ($result->isSuccess()) {
-            // successful message
+            //* successful message
             $payload["success"] = true;
         } else {
             $status_code = 400;
-            // failure message
+            //* failure message
             $payload["success"] = false;
         }
         $payload["message"] = $result->getMessage();
@@ -100,5 +94,42 @@ class AstronautsController extends BaseController
         $payload["status"] = $status_code;
 
         return $this->renderJson($response, $payload, $status_code);
+    }
+
+    //! Delete /astronauts
+    public function handleDeleteAstronaut(Request $request, Response $response, array $uri_args): Response
+    {
+        //* Retrieve POST request embedded body
+        $astronautID = $request->getParsedBody()['astronautID'] ?? null;
+        $result = $this->astronautsService->deleteAstronaut($astronautID);
+        $payload = [];
+
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
+
+    //! Update /astronauts
+    public function handleUpdateAstronaut(Request $request, Response $response, array $uri_args): Response
+    {
+        // Retrieve POST request embedded body
+        $astronaut = $request->getParsedBody()[0];
+        $result = $this->astronautsService->updateAstronaut($astronaut);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
     }
 }

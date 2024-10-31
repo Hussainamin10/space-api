@@ -14,12 +14,14 @@ class MissionModel extends BaseModel
         parent::__construct($dbo);
     }
 
+    //? Get all Missions
+
     public function getMissions(array $filter_params = []): array
     {
         $named_params_values = [];
         $query = "SELECT * FROM spacemissions WHERE 1 ";
 
-        //! Apply the filter
+        //? Apply the filters
         if (isset($filter_params['companyName'])) {
             $query .= " AND companyName LIKE
             CONCAT(:companyName, '%') ";
@@ -65,7 +67,7 @@ class MissionModel extends BaseModel
         }
 
 
-        //! discuss wiht team (might have to remove it)
+        //! discuss with team (might have to remove it)
         if (isset($filter_params['status'])) {
             $query .= " AND status =
             CONCAT(:status) ";
@@ -104,7 +106,7 @@ class MissionModel extends BaseModel
             $named_params_values['maxCrewSize'] = $filter_params['maxCrewSize'];
         }
 
-        //! Sorting
+        //? Sorting
         if (isset($filter_params['sort_by']) && isset($filter_params['order'])) {
 
             $sortBy = isset($filter_params['sort_by']) ?
@@ -119,6 +121,8 @@ class MissionModel extends BaseModel
         return $missions;
     }
 
+
+    //? Get mission by ID
     public function getMissionById(string $mission_id): mixed
     {
         $sql = "SELECT * FROM {$this->table_name} WHERE missionID = :mission_id";
@@ -130,14 +134,15 @@ class MissionModel extends BaseModel
         return $mission_info;
     }
 
+    //? Get astronauts by mission ID
     public function getAstronautsByMissionID(string $mission_id): mixed
     {
 
-        //1) fetch the player info
+        //1) fetch the missions info
 
         $mission = $this->getMissionById($mission_id);
 
-        //2) fetch the list of goals along with the tournament and match info.
+        //2) fetch the list of astronauts.
 
         $Astronauts_query = <<<SQL
         SELECT * FROM astronauts a, spacemissions s,astronautspacemission am
@@ -145,7 +150,7 @@ class MissionModel extends BaseModel
         AND s.missionID = am.missionID
         AND am.astronautID = a.astronautID
         SQL;
-        //3) Fetch the list of goals
+        //3) Fetch the list of astronauts
         $astronauts = $this->fetchAll(
             $Astronauts_query,
             ["missionID" => $mission_id]

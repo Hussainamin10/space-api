@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2024 at 05:02 PM
+-- Generation Time: Oct 25, 2024 at 06:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `planeto`
 --
-CREATE DATABASE IF NOT EXISTS `planeto` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `planeto`;
 
 -- --------------------------------------------------------
 
@@ -466,7 +464,7 @@ ALTER TABLE `astronauts`
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- AUTO_INCREMENT for table `planet`
@@ -479,6 +477,12 @@ ALTER TABLE `planet`
 --
 ALTER TABLE `rocket`
   MODIFY `rocketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `spacemissions`
+--
+ALTER TABLE `spacemissions`
+  MODIFY `missionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `spacemissions`
