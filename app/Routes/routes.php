@@ -86,6 +86,8 @@ return static function (Slim\App $app): void {
     //?PUT
     $app->put('/planets', [PlanetController::class, 'handleUpdatePlanet']);
 
+    $app->post('/zakat', [ZakatController::class, 'handleZakat']);
+
 
 
 
