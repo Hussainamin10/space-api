@@ -8,6 +8,7 @@ use App\Controllers\SpaceStationsController;
 use App\Controllers\MissionController;
 use App\Controllers\PlanetController;
 use App\Controllers\AstronautsController;
+use App\Controllers\CarLoanController;
 use App\Controllers\SpaceCompaniesController;
 use App\Controllers\RocketsController;
 use App\Helpers\DateTimeHelper;
@@ -54,6 +55,8 @@ return static function (Slim\App $app): void {
     $app->delete('/astronauts', [AstronautsController::class, 'handleDeleteAstronaut']);
     //! Put
     $app->put('/astronauts', [AstronautsController::class, 'handleUpdateAstronaut']);
+    //! Car Loan Computation
+    $app->post('/loan', [CarLoanController::class, 'handleCarLoan']);
 
     //! SpaceCompany Routes
     //! Get
