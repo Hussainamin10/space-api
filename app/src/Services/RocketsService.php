@@ -204,4 +204,72 @@ class RocketsService
         $data['status'] = 200;
         return Result::success("Rocket Updated", $data);
     }
+
+    public function getRocketByID(string $rocketID): Result
+    {
+        $validator = new Validator(['ID' => $rocketID]);
+        $validator->rule('integer', 'ID');
+
+        //*IF Id Provided is not an integer
+        if (!$validator->validate()) {
+            $data['data'] = $validator->errorsToString();
+            $data['status'] = 400;
+            return Result::fail("Provided ID is not valid", $data);
+        }
+
+        $rocket = $this->rocketsModel->getRocketByID($rocketID);
+        //*IF rocket doesn't exist
+        if (!$rocket) {
+            $data['data'] = "";
+            $data['status'] = 404;
+            return Result::fail("No rocket found", $data);
+        }
+
+        $data['data'] = $rocket;
+        $data['status'] = 200;
+        return Result::success("Rocket returned", $data);
+    }
+
+    public function getMissionsByRocketID(string $rocketID): Result
+    {
+        $result = $this->getRocketByID($rocketID);
+        if ($result->isSuccess()) {
+            $missions = $this->rocketsModel->getMissionsByRocketID($rocketID);
+            $data['data'] = $missions;
+            $data['status'] = 200;
+            return Result::success("Rocket returned", $data);
+        } else {
+            return $result;
+        }
+    }
+
+    public function getLaunchesByRocketID(string $rocketID)
+    {
+        $result = $this->getRocketByID($rocketID);
+        if ($result->isSuccess()) {
+            //*Have a rocket, get the rocket name, search by its name
+            $rocketName = $result->getData()['data']["rocketName"];
+            $client = new \GuzzleHttp\Client();
+            $response = $client->request('GET', "https://lldev.thespacedevs.com/2.3.0/launches/?rocket__configuration__name=$rocketName", [
+                'headers' => [
+                    'Accept'     => 'application/json',
+                ]
+            ]);
+
+            //*If status is 200 process, else return error
+            if ($response->getStatusCode() == 200) {
+                $responseBody = json_decode($response->getBody(), true);
+                $data['data'] = [
+                    "rocket" => $result->getData()["data"],
+                    "launches" => $responseBody["results"]
+                ];
+                $data['status'] = 200;
+                return Result::success("Return launches by rocket ID", $data);
+            } else {
+                return $result;
+            }
+        } else {
+            return $result;
+        }
+    }
 }
