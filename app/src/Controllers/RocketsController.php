@@ -171,4 +171,21 @@ class RocketsController extends BaseController
         $payload['status'] = $result->getData()['status'];
         return $this->renderJson($response, $payload, $payload['status']);
     }
+
+    public function handleCalLiftOfThrust(Request $request, Response $response): Response
+    {
+        $body = $request->getParsedBody()[0];
+        $result = $this->rocketsService->getLiftCalculation($body);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
 }

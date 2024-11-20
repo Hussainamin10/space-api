@@ -272,4 +272,42 @@ class RocketsService
             return $result;
         }
     }
+
+    public function getLiftCalculation(array $inputs): Result
+    {
+        $validator = new Validator($inputs);
+        $validator->rules([
+            'required' => [
+                'mass',
+                'massUnit',
+                'gravity',
+            ],
+            'numeric' => [
+                'mass',
+                'gravity',
+            ],
+            'min' => [
+                ['mass', 0],
+                ['gravity', 0],
+            ],
+            'in' => [
+                ['massUnit', ['lb', 'kg']]
+            ],
+        ]);
+
+        if (!$validator->validate()) {
+            $data['data'] = $validator->errorsToString();
+            $data['status'] = 400;
+            return Result::fail("Provided value(s) is(are) not valid", $data);
+        }
+        //*Convert to kg if in lb
+        if ($inputs['massUnit'] == 'lb') {
+            $inputs['mass'] = $inputs['mass'] * 0.45359237;
+        }
+
+        $lift = round($inputs['mass'] * $inputs['gravity'], 2);
+        $data['data'] = "Lift force must be larger than " . $lift . " N";
+        $data['status'] = 200;
+        return Result::success("Lift calculation returned", $data);
+    }
 }
