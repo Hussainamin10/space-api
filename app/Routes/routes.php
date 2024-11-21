@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Controllers\AboutController;
+use App\Controllers\AccountController;
 use App\Controllers\LocationsController;
 use App\Controllers\SpaceStationsController;
 use App\Controllers\MissionController;
@@ -12,6 +13,7 @@ use App\Controllers\CarLoanController;
 use App\Controllers\SpaceCompaniesController;
 use App\Controllers\RocketsController;
 use App\Helpers\DateTimeHelper;
+use App\Middleware\AccessLogMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -40,6 +42,10 @@ return static function (Slim\App $app): void {
     $app->get('/locations', [LocationsController::class, 'handleGetLocations']);
     $app->get('/locations/{locationID}', [LocationsController::class, 'handleGetLocationByID']);
 
+    $app->post('/login', [AccountController::class, 'handleAccessLog']);
+
+
+
 
 
 
@@ -57,6 +63,12 @@ return static function (Slim\App $app): void {
     $app->put('/astronauts', [AstronautsController::class, 'handleUpdateAstronaut']);
     //! Car Loan Computation
     $app->post('/loan', [CarLoanController::class, 'handleCarLoan']);
+    //! Log
+    $app->post('/log', [AccessLogMiddleware::class, 'handleAccessLog']);
+    // Example route to test error handling
+    $app->get('/error', function (Request $request, Response $response) {
+        throw new \Slim\Exception\HttpNotFoundException($request, "Something went wrong");
+    });
 
     //! SpaceCompany Routes
     //! Get
