@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2024 at 06:27 PM
+-- Generation Time: Nov 23, 2024 at 02:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -22,6 +22,7 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `planeto` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `planeto`;
+
 -- --------------------------------------------------------
 
 --
@@ -386,6 +387,36 @@ INSERT INTO `spacestation` (`stationID`, `name`, `status`, `type`, `founded`, `d
 (9, 'Buran Space Station', 0, 'Government', '0000-00-00', 'The Buran Space Station was a proposed Soviet space station that would have supported the Buran space shuttle program. It was ultimately never built.', 'Soviet Space Program'),
 (10, 'Salyut 1', 0, 'Government', '1971-04-19', 'Salyut 1 was the world\'s first space station, launched by the Soviet Union in 1971. It paved the way for future modular space stations.', 'Soviet Space Program');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ws_log`
+--
+
+CREATE TABLE `ws_log` (
+  `log_id` int(10) UNSIGNED NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `user_action` varchar(255) NOT NULL,
+  `logged_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `user_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ws_users`
+--
+
+CREATE TABLE `ws_users` (
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(150) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` varchar(10) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -452,6 +483,19 @@ ALTER TABLE `spacestation`
   ADD PRIMARY KEY (`stationID`);
 
 --
+-- Indexes for table `ws_log`
+--
+ALTER TABLE `ws_log`
+  ADD PRIMARY KEY (`log_id`);
+
+--
+-- Indexes for table `ws_users`
+--
+ALTER TABLE `ws_users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -465,7 +509,7 @@ ALTER TABLE `astronauts`
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `planet`
@@ -486,16 +530,22 @@ ALTER TABLE `spacemissions`
   MODIFY `missionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT for table `spacemissions`
---
-ALTER TABLE `spacemissions`
-  MODIFY `missionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
-
---
 -- AUTO_INCREMENT for table `spacestation`
 --
 ALTER TABLE `spacestation`
   MODIFY `stationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `ws_log`
+--
+ALTER TABLE `ws_log`
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ws_users`
+--
+ALTER TABLE `ws_users`
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
