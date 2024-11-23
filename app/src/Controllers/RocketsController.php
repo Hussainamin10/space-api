@@ -88,6 +88,9 @@ class RocketsController extends BaseController
     {
         // Retrieve POST request embedded body
         $newRocket = $request->getParsedBody();
+        if (!is_array($newRocket)) {
+            throw new HttpInvalidInputsException($request, "Invalid inputs");
+        }
         // Pass receive data to service
         $result = $this->rocketsService->createRocket($newRocket[0]);
         $payload = [];
@@ -102,10 +105,13 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
-    public function handleDeleteRocket(Request $request, Response $response, array $uri_args): Response
+    public function handleDeleteRocket(Request $request, Response $response): Response
     {
-        // Retrieve POST request embedded body
-        $rocketID = $request->getParsedBody()[0]['rocketID'] ?? null;
+        // Retrieve POST request embedded
+        if (!isset($request->getParsedBody()[0]['rocketID'])) {
+            throw new HttpInvalidInputsException($request, "Invalid inputs");
+        }
+        $rocketID = $request->getParsedBody()[0]['rocketID'];
         $result = $this->rocketsService->deleteRocket($rocketID);
         $payload = [];
 
@@ -122,6 +128,9 @@ class RocketsController extends BaseController
 
     public function handleUpdateRocket(Request $request, Response $response, array $uri_args): Response
     {
+        if (!isset($request->getParsedBody()[0])) {
+            throw new HttpInvalidInputsException($request, "Invalid inputs");
+        }
         // Retrieve POST request embedded body
         $rocket = $request->getParsedBody()[0];
         $result = $this->rocketsService->updateRocket($rocket);
@@ -174,6 +183,9 @@ class RocketsController extends BaseController
 
     public function handleCalLiftOfThrust(Request $request, Response $response): Response
     {
+        if (!isset($request->getParsedBody()[0])) {
+            throw new HttpInvalidInputsException($request, "Invalid inputs");
+        }
         $body = $request->getParsedBody()[0];
         $result = $this->rocketsService->getLiftCalculation($body);
         $payload = [];

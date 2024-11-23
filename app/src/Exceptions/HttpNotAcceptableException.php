@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
+namespace App\Exceptions;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -10,6 +10,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 
 class HttpNotAcceptableException extends Exception
 {
+    protected $code = 406;
     protected $message = 'Not Acceptable';
 
     public function getResponse(): ResponseInterface

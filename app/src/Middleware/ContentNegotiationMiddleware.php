@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
+use App\Exceptions\HttpNotAcceptableException;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use App\Exception\HttpNotAcceptableException;
+
 
 class ContentNegotiationMiddleware implements MiddlewareInterface
 {
@@ -25,7 +26,7 @@ class ContentNegotiationMiddleware implements MiddlewareInterface
         // Step 2: Compare it to "application/json"
         if ($acceptHeader !== 'application/json') {
             // If it doesn't match, use Method #1: raise an exception
-            throw new HttpNotAcceptableException();
+            throw new HttpNotAcceptableException('Unsupported resource representation');
 
             // Alternatively, you could use Method #2 to return a specific response
             /*
