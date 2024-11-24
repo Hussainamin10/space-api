@@ -78,6 +78,8 @@ Return a list of all rockets paginated
 
 To paginate, in query add current_page = {number less or equal to total_pages}, and pageSize = the amount of items you wish to be displayed
 
+#### GET /space-api/rockets?current_page=1&pageSize=7
+
 ```json
 {
   "meta": {
@@ -173,7 +175,7 @@ To paginate, in query add current_page = {number less or equal to total_pages}, 
 
 Filter by 'rocketName', 'companyName', 'minHeight', 'maxHeight', 'minWeight', 'maxWeight', 'minThrust','maxThrust'
 
-GET /space-api/rockets?rocketName=e&companyName=Blue
+#### GET /space-api/rockets?rocketName=e&companyName=Blue
 
 ```json
 {
@@ -466,7 +468,7 @@ GET /space-api/rockets?current_page=1&pageSize=3&sort_by=rocketHeight&order=DESC
 
 ## Examples of Incorrect Inputs for /account
 
-POST /register
+### POST /space-api/register
 
 ```json
 [
@@ -481,7 +483,8 @@ POST /register
 
 ## Example of Correct Inputs for /space-api/login
 
-POST /space-api/login
+### POST /space-api/login
+
 -> everything is mandatory\
 -> email must be valid\
 -> password must be at least 8 characters\
@@ -494,4 +497,489 @@ POST /space-api/login
     "password": "space123"
   }
 ]
+```
+
+# Location
+
+## Examples of Correct Inputs for GET /locations
+
+### GET /space-api/locations
+
+Return a list of all locations paginated
+
+```json
+{
+  "meta": {
+    "total_items": 14,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 3
+  },
+  "data": [
+    {
+      "id": 4,
+      "name": "Palmachim Airbase, State of Israel",
+      "countryCode": "ISR",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg",
+      "timezone": "Asia/Jerusalem",
+      "launchCount": 12,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/4/"
+    },
+    {
+      "id": 12,
+      "name": "Cape Canaveral, FL",
+      "countryCode": "USA",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_12_20200803142519.jpg",
+      "timezone": "America/New_York",
+      "launchCount": 974,
+      "landingCount": 56,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/12/"
+    },
+    {
+      "id": 13,
+      "name": "Guiana Space Centre, French Guiana",
+      "countryCode": "GUF",
+      "description": "The Guiana Space Centre is a European spaceport to the northwest of Kourou in French Guiana, a region of France in South America. Kourou is located at a latitude of 5°. In operation since 1968, it is a suitable location for a spaceport because of its equatorial location and open sea to the east.",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_13_20200803142412.jpg",
+      "timezone": "America/Cayenne",
+      "launchCount": 322,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/13/"
+    },
+    {
+      "id": 15,
+      "name": "Baikonur Cosmodrome",
+      "countryCode": "KAZ",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_15_20200803142517.jpg",
+      "timezone": "Asia/Qyzylorda",
+      "launchCount": 1551,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/15/"
+    },
+    {
+      "id": 18,
+      "name": "Vostochny Cosmodrome, Siberia, Russian Federation",
+      "countryCode": "RUS",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_18_20200803142401.jpg",
+      "timezone": "Asia/Yakutsk",
+      "launchCount": 17,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/18/"
+    }
+  ]
+}
+```
+
+### Pagination
+
+To paginate, in query add current_page = {number less or equal to total_pages}, and pageSize = the amount of items you wish to be displayed
+
+#### GET /space-api/locations?current_page=1&pageSize=2
+
+```json
+{
+  "meta": {
+    "total_items": 14,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 2,
+    "total_pages": 7
+  },
+  "data": [
+    {
+      "id": 4,
+      "name": "Palmachim Airbase, State of Israel",
+      "countryCode": "ISR",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg",
+      "timezone": "Asia/Jerusalem",
+      "launchCount": 12,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/4/"
+    },
+    {
+      "id": 12,
+      "name": "Cape Canaveral, FL",
+      "countryCode": "USA",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_12_20200803142519.jpg",
+      "timezone": "America/New_York",
+      "launchCount": 974,
+      "landingCount": 56,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/12/"
+    }
+  ]
+}
+```
+
+### Filters
+
+Filter by 'name', 'countryCode', 'description', 'timezone', 'minLaunchCount', 'maxLaunchCount', 'minLandingCount','maxLandingCount'
+
+#### GET /space-api/locations?timezone=Asia/J
+
+```json
+{
+  "meta": {
+    "total_items": 3,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 1
+  },
+  "data": [
+    {
+      "id": 4,
+      "name": "Palmachim Airbase, State of Israel",
+      "countryCode": "ISR",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg",
+      "timezone": "Asia/Jerusalem",
+      "launchCount": 12,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/4/"
+    },
+    {
+      "id": 157,
+      "name": "Cheese",
+      "countryCode": "qwq",
+      "description": "ewqewqe",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg",
+      "timezone": "Asia/Jerusalem",
+      "launchCount": 142,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/4/"
+    },
+    {
+      "id": 160,
+      "name": "lol",
+      "countryCode": "qwq",
+      "description": "ewqewqe",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg",
+      "timezone": "Asia/Jerusalem",
+      "launchCount": 12,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/4/"
+    }
+  ]
+}
+```
+
+### Sorting
+
+Add 'sort_by' to the query list and the data field you want to be sorted by, only 3 are allowed:\
+['name', 'launchCount', 'countryCode']\
+
+#### GET /space-api/locations?sort_by=launchCount&order=desc
+
+```json
+{
+  "meta": {
+    "total_items": 14,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 3
+  },
+  "data": [
+    {
+      "id": 15,
+      "name": "Baikonur Cosmodrome",
+      "countryCode": "KAZ",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_15_20200803142517.jpg",
+      "timezone": "Asia/Qyzylorda",
+      "launchCount": 1551,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/15/"
+    },
+    {
+      "id": 12,
+      "name": "Cape Canaveral, FL",
+      "countryCode": "USA",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_12_20200803142519.jpg",
+      "timezone": "America/New_York",
+      "launchCount": 974,
+      "landingCount": 56,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/12/"
+    },
+    {
+      "id": 13,
+      "name": "Guiana Space Centre, French Guiana",
+      "countryCode": "GUF",
+      "description": "The Guiana Space Centre is a European spaceport to the northwest of Kourou in French Guiana, a region of France in South America. Kourou is located at a latitude of 5°. In operation since 1968, it is a suitable location for a spaceport because of its equatorial location and open sea to the east.",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_13_20200803142412.jpg",
+      "timezone": "America/Cayenne",
+      "launchCount": 322,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/13/"
+    },
+    {
+      "id": 27,
+      "name": "Kennedy Space Center, FL",
+      "countryCode": "USA",
+      "description": "",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_27_20200803142447.jpg",
+      "timezone": "America/New_York",
+      "launchCount": 243,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/27/"
+    },
+    {
+      "id": 157,
+      "name": "Cheese",
+      "countryCode": "qwq",
+      "description": "ewqewqe",
+      "mapImage": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg",
+      "timezone": "Asia/Jerusalem",
+      "launchCount": 142,
+      "landingCount": 0,
+      "url": "https://lldev.thespacedevs.com/2.2.0/location/4/"
+    }
+  ]
+}
+```
+
+
+# Space Stations
+
+## Examples of Correct Inputs for GET /spacestations
+
+### GET /space-api/spacestations
+
+Return a list of all space stations paginated
+
+```json
+{
+  "meta": {
+    "total_items": 8,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 2
+  },
+  "data": [
+    {
+      "stationID": 1,
+      "name": "International Space Station",
+      "status": 1,
+      "type": "Space Station",
+      "founded": "1998-11-20",
+      "description": "The International Space Station is a large spacecraft in low Earth orbit that serves as a home and research laboratory for astronauts.",
+      "owners": "International cooperation among NASA, Roscosmos, ESA, JAXA, and CSA"
+    },
+    {
+      "stationID": 2,
+      "name": "Tiangong space station",
+      "status": 1,
+      "type": "Government",
+      "founded": "2021-04-29",
+      "description": "The Tiangong space station is a space station placed in Low Earth orbit between 340 and 450 km above the surface. It will be roughly one-fifth the mass of the International Space Station and about the size of the Mir space station.",
+      "owners": "China Aerospace Science and Technology Corporation"
+    },
+    {
+      "stationID": 3,
+      "name": "Mir Space Station",
+      "status": 0,
+      "type": "Government",
+      "founded": "1986-02-20",
+      "description": "The Mir Space Station was a Soviet space station that operated in low Earth orbit from 1986 to 2001. It served as a pioneering modular space station.",
+      "owners": "Soviet Space Program, Russian Space Agency"
+    },
+    {
+      "stationID": 4,
+      "name": "Skylab",
+      "status": 0,
+      "type": "Government",
+      "founded": "1973-05-14",
+      "description": "Skylab was the United States' first space station, orbiting Earth from 1973 to 1979. It was used for scientific research and solar observations.",
+      "owners": "NASA"
+    },
+    {
+      "stationID": 5,
+      "name": "Almaz",
+      "status": 0,
+      "type": "Military",
+      "founded": "1973-04-03",
+      "description": "Almaz was a series of military space stations developed by the Soviet Union in the 1970s for reconnaissance and research purposes.",
+      "owners": "Soviet Space Program"
+    }
+  ]
+}
+```
+
+### Pagination
+
+To paginate, in query add current_page = {number less or equal to total_pages}, and pageSize = the amount of items you wish to be displayed
+
+#### GET /space-api/spacestations?pageSize=2&current_page=1
+
+```json
+{
+  "meta": {
+    "total_items": 8,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 2,
+    "total_pages": 4
+  },
+  "data": [
+    {
+      "stationID": 1,
+      "name": "International Space Station",
+      "status": 1,
+      "type": "Space Station",
+      "founded": "1998-11-20",
+      "description": "The International Space Station is a large spacecraft in low Earth orbit that serves as a home and research laboratory for astronauts.",
+      "owners": "International cooperation among NASA, Roscosmos, ESA, JAXA, and CSA"
+    },
+    {
+      "stationID": 2,
+      "name": "Tiangong space station",
+      "status": 1,
+      "type": "Government",
+      "founded": "2021-04-29",
+      "description": "The Tiangong space station is a space station placed in Low Earth orbit between 340 and 450 km above the surface. It will be roughly one-fifth the mass of the International Space Station and about the size of the Mir space station.",
+      "owners": "China Aerospace Science and Technology Corporation"
+    }
+  ]
+}
+```
+
+### Filters
+
+Filter by 'name', 'type', 'description', 'owners', 'status', 'minFounded', 'maxFounded'
+
+#### GET /space-api/spacestations?type=government
+
+```json
+{
+  "meta": {
+    "total_items": 5,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 1
+  },
+  "data": [
+    {
+      "stationID": 2,
+      "name": "Tiangong space station",
+      "status": 1,
+      "type": "Government",
+      "founded": "2021-04-29",
+      "description": "The Tiangong space station is a space station placed in Low Earth orbit between 340 and 450 km above the surface. It will be roughly one-fifth the mass of the International Space Station and about the size of the Mir space station.",
+      "owners": "China Aerospace Science and Technology Corporation"
+    },
+    {
+      "stationID": 3,
+      "name": "Mir Space Station",
+      "status": 0,
+      "type": "Government",
+      "founded": "1986-02-20",
+      "description": "The Mir Space Station was a Soviet space station that operated in low Earth orbit from 1986 to 2001. It served as a pioneering modular space station.",
+      "owners": "Soviet Space Program, Russian Space Agency"
+    },
+    {
+      "stationID": 4,
+      "name": "Skylab",
+      "status": 0,
+      "type": "Government",
+      "founded": "1973-05-14",
+      "description": "Skylab was the United States' first space station, orbiting Earth from 1973 to 1979. It was used for scientific research and solar observations.",
+      "owners": "NASA"
+    },
+    {
+      "stationID": 9,
+      "name": "Buran Space Station",
+      "status": 0,
+      "type": "Government",
+      "founded": "0000-00-00",
+      "description": "The Buran Space Station was a proposed Soviet space station that would have supported the Buran space shuttle program. It was ultimately never built.",
+      "owners": "Soviet Space Program"
+    },
+    {
+      "stationID": 10,
+      "name": "Salyut 1",
+      "status": 0,
+      "type": "Government",
+      "founded": "1971-04-19",
+      "description": "Salyut 1 was the world's first space station, launched by the Soviet Union in 1971. It paved the way for future modular space stations.",
+      "owners": "Soviet Space Program"
+    }
+  ]
+}
+```
+
+### Sorting
+
+Add 'sort_by' to the query list and the data field you want to be sorted by, only 3 are allowed:\
+['name', 'founded' (yyyy-mm-dd), 'owners']\
+
+#### GET /space-api/spacestations?sort_by=founded
+
+```json
+{
+  "meta": {
+    "total_items": 8,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 2
+  },
+  "data": [
+    {
+      "stationID": 6,
+      "name": "Freedom Space Station",
+      "status": 0,
+      "type": "International",
+      "founded": "0000-00-00",
+      "description": "Freedom was a proposed modular space station that was a precursor to the International Space Station. It was a collaborative project involving NASA, ESA, JAXA, and Canada, but was never launched.",
+      "owners": "NASA, ESA, JAXA, CSA"
+    },
+    {
+      "stationID": 9,
+      "name": "Buran Space Station",
+      "status": 0,
+      "type": "Government",
+      "founded": "0000-00-00",
+      "description": "The Buran Space Station was a proposed Soviet space station that would have supported the Buran space shuttle program. It was ultimately never built.",
+      "owners": "Soviet Space Program"
+    },
+    {
+      "stationID": 10,
+      "name": "Salyut 1",
+      "status": 0,
+      "type": "Government",
+      "founded": "1971-04-19",
+      "description": "Salyut 1 was the world's first space station, launched by the Soviet Union in 1971. It paved the way for future modular space stations.",
+      "owners": "Soviet Space Program"
+    },
+    {
+      "stationID": 5,
+      "name": "Almaz",
+      "status": 0,
+      "type": "Military",
+      "founded": "1973-04-03",
+      "description": "Almaz was a series of military space stations developed by the Soviet Union in the 1970s for reconnaissance and research purposes.",
+      "owners": "Soviet Space Program"
+    },
+    {
+      "stationID": 4,
+      "name": "Skylab",
+      "status": 0,
+      "type": "Government",
+      "founded": "1973-05-14",
+      "description": "Skylab was the United States' first space station, orbiting Earth from 1973 to 1979. It was used for scientific research and solar observations.",
+      "owners": "NASA"
+    }
+  ]
+}
 ```
