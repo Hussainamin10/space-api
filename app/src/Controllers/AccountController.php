@@ -38,7 +38,7 @@ class AccountController extends BaseController
 
         //! Generate a JWT token containing private claims about the authenticated user.
         $issued_at = time();
-        $expiries_at = $issued_at + 360;
+        $expiries_at = $issued_at + 3600;
 
         $registered_claims = [
             'iss' => 'http://localhost/space-api/',
