@@ -107,6 +107,14 @@ class AstronautsModel extends BaseModel
         return $astronauts;
     }
 
+    //! Get all astronauts
+    public function getAllAstronauts(): mixed
+    {
+        $query = "SELECT * FROM {$this->table_name}";
+        $astronauts = $this->fetchAll($query);
+        return $astronauts;
+    }
+
     //! Get astronaut by Id
     public function getAstronautByID(string $astronautId): mixed
     {
@@ -118,10 +126,30 @@ class AstronautsModel extends BaseModel
         return $astronaut_info;
     }
 
-    //! Insert new astronaut
+    //! Create new astronaut
     public function insertAstronaut(array $new_astronaut_info): mixed
     {
         $last_id = $this->insert($this->table_name, $new_astronaut_info);
         return $last_id;
+    }
+
+    //! Update astronaut
+    // public function updateAstronaut(array $astronaut_info): int
+    // {
+    //     $astronaut_id = $astronaut_info["astronaut_id"];
+    //     unset($astronaut_info["astronaut_id"]);
+    //     return $this->update($this->table_name, $astronaut_info, ["astronaut_id" => $astronaut_id]);
+    // }
+    public function updateAstronaut(string $astronautID, array $newAstronaut): mixed
+    {
+        $update = $this->update($this->table_name, $newAstronaut, ["astronautID" => $astronautID]);
+        return $update;
+    }
+
+    //! Delete astronaut
+    public function deleteAstronaut(string $astronautID): mixed
+    {
+        $delete = $this->delete($this->table_name, ["astronautID" => $astronautID]);
+        return $delete;
     }
 }
