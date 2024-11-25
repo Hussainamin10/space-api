@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 
+use App\Validation\Validator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -20,6 +21,47 @@ class ZakatController extends BaseController
 
         $body = $request->getParsedBody();
         //dd($body);
+
+        $validator = new Validator($body);
+        $validator->rules([
+            'required' => [
+                'currentRateOfGold',
+                'cashInBank',
+                'cashInHand',
+                'loansGivenOut',
+                'cashForFuture',
+                'investments',
+                'loanTaken',
+                'givenWages',
+                'payableBills',
+                'valuableGoods'
+            ],
+            'numeric' => [
+                'currentRateOfGold',
+                'cashInBank',
+                'cashInHand',
+                'loansGivenOut',
+                'cashForFuture',
+                'investments',
+                'loanTaken',
+                'givenWages',
+                'payableBills',
+                'valuableGoods'
+            ]
+        ]);
+
+        if (!$validator->validate()) {
+            $data['data'] = $validator->errorsToString();
+            $data['status'] = 400;
+            return $this->renderJson(
+                $response,
+                [
+                    "data" => $data,
+                    "Message" => "invalid values provided"
+                ],
+                400
+            );
+        }
         $currentRateOfGold = $body['currentRateOfGold'];
         $cashInBank = $body['cashInBank'];
         $cashInHand = $body['cashInHand'];
@@ -30,6 +72,8 @@ class ZakatController extends BaseController
         $givenWages = $body['givenWages'];
         $payableBills = $body['payableBills'];
         $valuableGoods = $body['valuableGoods'];
+
+
 
         $threshold = $currentRateOfGold * 7.5;
 

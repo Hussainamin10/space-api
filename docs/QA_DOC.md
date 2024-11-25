@@ -983,3 +983,850 @@ Add 'sort_by' to the query list and the data field you want to be sorted by, onl
   ]
 }
 ```
+
+## Ali Ilyas
+
+
+
+
+
+# Planet
+
+## Examples of Correct Inputs for GET /Planet
+
+### GET /space-api/planets
+
+Return a list of all planets paginated
+```json
+{
+  "meta": {
+    "total_items": 20,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 4
+  },
+  "data": [
+    {
+      "planetID": 1,
+      "name": "Mercury",
+      "sideralOrbit": 87.969,
+      "sideralRotation": 58.646,
+      "mass": "0.33000000",
+      "equaRadius": 2439.7,
+      "gravity": "3.70000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 2,
+      "name": "Venus",
+      "sideralOrbit": 224.701,
+      "sideralRotation": 243.018,
+      "mass": "4.87000000",
+      "equaRadius": 6051.8,
+      "gravity": "8.87000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 3,
+      "name": "Earth",
+      "sideralOrbit": 365.256,
+      "sideralRotation": 0.997,
+      "mass": "5.97000000",
+      "equaRadius": 6371,
+      "gravity": "9.81000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 4,
+      "name": "Mars",
+      "sideralOrbit": 686.971,
+      "sideralRotation": 1.026,
+      "mass": "0.64200000",
+      "equaRadius": 3389.5,
+      "gravity": "3.71000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 5,
+      "name": "Jupiter",
+      "sideralOrbit": 4332.59,
+      "sideralRotation": 0.415,
+      "mass": "1898.00000000",
+      "equaRadius": 69911,
+      "gravity": "24.79000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    }
+  ]
+}
+```
+
+### Pagination
+
+To paginate, in query add current_page = {number less or equal to total_pages}, and pageSize = the amount of items you wish to be displayed
+
+#### GET /space-api/planets?current_page=1&pageSize=7
+
+```json
+{
+  "meta": {
+    "total_items": 20,
+    "offset": 9,
+    "current_page": 2,
+    "page_size": 9,
+    "total_pages": 3
+  },
+  "data": [
+    {
+      "planetID": 10,
+      "name": "Ceres",
+      "sideralOrbit": 1680,
+      "sideralRotation": 0.379,
+      "mass": "0.00093000",
+      "equaRadius": 473,
+      "gravity": "0.27000000",
+      "discoveryDate": "1801-01-01",
+      "discoveredBy": "Giuseppe Piazzi"
+    },
+    {
+      "planetID": 11,
+      "name": "Haumea",
+      "sideralOrbit": 1030,
+      "sideralRotation": 0,
+      "mass": "0.00006000",
+      "equaRadius": 632,
+      "gravity": "0.44000000",
+      "discoveryDate": "2004-07-07",
+      "discoveredBy": "Mike Brown and team"
+    },
+    {
+      "planetID": 12,
+      "name": "Makemake",
+      "sideralOrbit": 1110,
+      "sideralRotation": 0,
+      "mass": "0.00004800",
+      "equaRadius": 715,
+      "gravity": "0.44000000",
+      "discoveryDate": "2005-03-31",
+      "discoveredBy": "Mike Brown and team"
+    },
+    {
+      "planetID": 13,
+      "name": "Eris",
+      "sideralOrbit": 12200,
+      "sideralRotation": 0,
+      "mass": "0.00017000",
+      "equaRadius": 1163,
+      "gravity": "0.82000000",
+      "discoveryDate": "2005-01-05",
+      "discoveredBy": "Mike Brown and team"
+    },
+    {
+      "planetID": 14,
+      "name": "Pallas",
+      "sideralOrbit": 1680,
+      "sideralRotation": 0.379,
+      "mass": "0.00093000",
+      "equaRadius": 512,
+      "gravity": "0.28000000",
+      "discoveryDate": "1802-03-28",
+      "discoveredBy": "Wilhelm Olbers"
+    },
+    {
+      "planetID": 15,
+      "name": "Juno",
+      "sideralOrbit": 1430,
+      "sideralRotation": 0.4,
+      "mass": "0.00040000",
+      "equaRadius": 258,
+      "gravity": "0.24000000",
+      "discoveryDate": "1804-09-01",
+      "discoveredBy": "Karl Ludwig Harding"
+    },
+    {
+      "planetID": 16,
+      "name": "Vesta",
+      "sideralOrbit": 1320,
+      "sideralRotation": 0.36,
+      "mass": "0.00025000",
+      "equaRadius": 525,
+      "gravity": "0.28000000",
+      "discoveryDate": "1807-03-29",
+      "discoveredBy": "Wilhelm Olbers"
+    },
+    {
+      "planetID": 17,
+      "name": "Hygiea",
+      "sideralOrbit": 1850,
+      "sideralRotation": 0.365,
+      "mass": "0.00020000",
+      "equaRadius": 434,
+      "gravity": "0.32000000",
+      "discoveryDate": "1849-04-12",
+      "discoveredBy": "Annibale de Gasparis"
+    },
+    {
+      "planetID": 18,
+      "name": "Psyche",
+      "sideralOrbit": 2500,
+      "sideralRotation": 0.4,
+      "mass": "0.00028000",
+      "equaRadius": 200,
+      "gravity": "0.20000000",
+      "discoveryDate": "1852-03-17",
+      "discoveredBy": "Ippolito Zuccal"
+    }
+  ]
+}
+```
+
+### Filters
+
+Filter by 'name', 'minSideralRotation', 'maxSideralRotation', 'minMass', 'maxMass', 'minEquaRadius', 'maxEquaRadius','minGravity',
+'maxGravity', 'discoveryDate'
+
+#### GET /space-api/planets?name=M&minGravity=0.3
+
+```json
+{
+  "meta": {
+    "total_items": 3,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 1
+  },
+  "data": [
+    {
+      "planetID": 1,
+      "name": "Mercury",
+      "sideralOrbit": 87.969,
+      "sideralRotation": 58.646,
+      "mass": "0.33000000",
+      "equaRadius": 2439.7,
+      "gravity": "3.70000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 4,
+      "name": "Mars",
+      "sideralOrbit": 686.971,
+      "sideralRotation": 1.026,
+      "mass": "0.64200000",
+      "equaRadius": 3389.5,
+      "gravity": "3.71000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 12,
+      "name": "Makemake",
+      "sideralOrbit": 1110,
+      "sideralRotation": 0,
+      "mass": "0.00004800",
+      "equaRadius": 715,
+      "gravity": "0.44000000",
+      "discoveryDate": "2005-03-31",
+      "discoveredBy": "Mike Brown and team"
+    }
+  ]
+}
+```
+
+### Sorting
+
+Add 'sort_by' to the query list and the data field you want to be sorted by, only name, mass and gravity are allowed:
+['name', 'mass', 'gravity']
+
+GET /space-api/planets?sort_by=name
+
+```json
+{
+  "meta": {
+    "total_items": 20,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 4
+  },
+  "data": [
+    {
+      "planetID": 10,
+      "name": "Ceres",
+      "sideralOrbit": 1680,
+      "sideralRotation": 0.379,
+      "mass": "0.00093000",
+      "equaRadius": 473,
+      "gravity": "0.27000000",
+      "discoveryDate": "1801-01-01",
+      "discoveredBy": "Giuseppe Piazzi"
+    },
+    {
+      "planetID": 3,
+      "name": "Earth",
+      "sideralOrbit": 365.256,
+      "sideralRotation": 0.997,
+      "mass": "5.97000000",
+      "equaRadius": 6371,
+      "gravity": "9.81000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 13,
+      "name": "Eris",
+      "sideralOrbit": 12200,
+      "sideralRotation": 0,
+      "mass": "0.00017000",
+      "equaRadius": 1163,
+      "gravity": "0.82000000",
+      "discoveryDate": "2005-01-05",
+      "discoveredBy": "Mike Brown and team"
+    },
+    {
+      "planetID": 19,
+      "name": "Eros",
+      "sideralOrbit": 1270,
+      "sideralRotation": 0.1,
+      "mass": "0.00008000",
+      "equaRadius": 16.84,
+      "gravity": "0.00200000",
+      "discoveryDate": "1898-08-13",
+      "discoveredBy": "Gustav Witt"
+    },
+    {
+      "planetID": 11,
+      "name": "Haumea",
+      "sideralOrbit": 1030,
+      "sideralRotation": 0,
+      "mass": "0.00006000",
+      "equaRadius": 632,
+      "gravity": "0.44000000",
+      "discoveryDate": "2004-07-07",
+      "discoveredBy": "Mike Brown and team"
+    }
+  ]
+}
+```
+
+You can also add 'order' in addition to 'sort_by' to determine if the sorting is ascending or descending by passing "ASC" or "DESC" to 'order'. It is ascending by default.
+
+GET /space-api/planets?sort_by=name&order=desc
+```json
+{
+  "meta": {
+    "total_items": 20,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 4
+  },
+  "data": [
+    {
+      "planetID": 16,
+      "name": "Vesta",
+      "sideralOrbit": 1320,
+      "sideralRotation": 0.36,
+      "mass": "0.00025000",
+      "equaRadius": 525,
+      "gravity": "0.28000000",
+      "discoveryDate": "1807-03-29",
+      "discoveredBy": "Wilhelm Olbers"
+    },
+    {
+      "planetID": 2,
+      "name": "Venus",
+      "sideralOrbit": 224.701,
+      "sideralRotation": 243.018,
+      "mass": "4.87000000",
+      "equaRadius": 6051.8,
+      "gravity": "8.87000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 7,
+      "name": "Uranus",
+      "sideralOrbit": 30687.2,
+      "sideralRotation": 0.718,
+      "mass": "86.80000000",
+      "equaRadius": 25362,
+      "gravity": "8.69000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 6,
+      "name": "Saturn",
+      "sideralOrbit": 10759.2,
+      "sideralRotation": 0.444,
+      "mass": "568.00000000",
+      "equaRadius": 58232,
+      "gravity": "10.44000000",
+      "discoveryDate": null,
+      "discoveredBy": null
+    },
+    {
+      "planetID": 18,
+      "name": "Psyche",
+      "sideralOrbit": 2500,
+      "sideralRotation": 0.4,
+      "mass": "0.00028000",
+      "equaRadius": 200,
+      "gravity": "0.20000000",
+      "discoveryDate": "1852-03-17",
+      "discoveredBy": "Ippolito Zuccal"
+    }
+  ]
+}
+```
+
+## Examples of Correct Inputs for POST PUT DELETE /planets
+
+### POST /space-api/planets
+-> everything is mandatory\
+-> 'sideralOrbit','sideralRotation',
+   'mass','equaRadius','gravity' must be numeric values
+-> planet name must be unique
+```json
+[
+    {
+      "name": "Ali",
+      "sideralOrbit": 87.969,
+      "sideralRotation": 58.646,
+      "mass": "0.33000000",
+      "equaRadius": 2439.7,
+      "gravity": "3.70000000",
+      "discoveryDate": "11/25/2024",
+      "discoveredBy": "ALII"
+    }
+]
+```
+
+### PUT /space-api/planets
+-> planetID is mandatory\
+-> everything else is optional\
+-> 'sideralOrbit','sideralRotation',
+   'mass','equaRadius','gravity' must be numeric values
+-> planet name must be unique\
+```json
+[
+    {
+      "planetID" : 21,
+      "gravity": "4",
+      "discoveryDate": "11/30/2024",
+      "discoveredBy": "Rizzz"
+    }
+]
+```
+
+### DELETE /space-api/planets
+-> planetID is mandatory\
+```json
+[
+    {
+      "planetID" : 21
+    }
+]
+```
+
+## Examples of Incorrect Inputs for /planets
+
+### POST /space-api/planets
+```json
+[
+    {
+      "name": "Ali",
+      "sideralOrbit": "Shoudl be NUmerICCCCC",
+      "sideralRotation": 58.646,
+      "mass": "0.33000000",
+      "equaRadius": 2439.7,
+      "gravity": "3.70000000",
+      "discoveryDate": "11/25/2024",
+      "discoveredBy": "ALII"
+    }
+]
+```
+
+### PUT /space-api/planets
+```json
+[
+    {
+      "planetID" : "Doesnt exist",
+      "gravity": "Should be Numeric",
+      "discoveryDate": "11/25/2024",
+      "discoveredBy": "ALII"
+    }
+]
+```
+
+### DELETE /space-api/rockets
+```json
+[
+    {
+      "planetID" : "Doesn't exist and must be integer"
+    }
+]
+```
+
+
+## Examples of Correct Inputs for /zakat
+
+### POST /space-api/zakat
+
+-> everything is mandatory\
+-> everything must be numeric
+```json
+{
+  "currentRateOfGold" : 1340,
+  "cashInBank" : 254,
+  "cashInHand" : 500,
+  "loansGivenOut" : 5000,
+  "cashForFuture" : 8000,
+  "investments" : 2000,
+  "loanTaken" : 1220,
+  "givenWages" : 0,
+  "payableBills" : 500,
+  "valuableGoods" : 1220
+}
+```
+
+# Missions
+
+## Examples of Correct Inputs for GET /missions
+
+### GET /space-api/missions
+
+Return a list of all missions paginated
+
+```json
+{
+  "meta": {
+    "total_items": 32,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 7
+  },
+  "data": [
+    {
+      "missionID": 1,
+      "companyName": "Roscosmos",
+      "spaceStationId": null,
+      "launchDate": "1961-04-12",
+      "status": 1,
+      "costOfTheMissions": "100000.00",
+      "missionDuration": "1.00",
+      "crewSize": 1,
+      "location_id": 15
+    },
+    {
+      "missionID": 2,
+      "companyName": "NASA",
+      "spaceStationId": null,
+      "launchDate": "1969-07-16",
+      "status": 1,
+      "costOfTheMissions": "355000000.00",
+      "missionDuration": "8.00",
+      "crewSize": 3,
+      "location_id": 27
+    },
+    {
+      "missionID": 3,
+      "companyName": "NASA",
+      "spaceStationId": null,
+      "launchDate": "1969-07-16",
+      "status": 1,
+      "costOfTheMissions": "355000000.00",
+      "missionDuration": "8.00",
+      "crewSize": 3,
+      "location_id": 27
+    },
+    {
+      "missionID": 4,
+      "companyName": "NASA",
+      "spaceStationId": null,
+      "launchDate": "1966-11-11",
+      "status": 1,
+      "costOfTheMissions": "19000000.00",
+      "missionDuration": "5.00",
+      "crewSize": 2,
+      "location_id": 12
+    },
+    {
+      "missionID": 5,
+      "companyName": "NASA",
+      "spaceStationId": null,
+      "launchDate": "1983-06-18",
+      "status": 1,
+      "costOfTheMissions": "150000000.00",
+      "missionDuration": "6.00",
+      "crewSize": 5,
+      "location_id": 27
+    }
+  ]
+}
+```
+
+### Pagination
+
+To paginate, in query add current_page = {number less or equal to total_pages}, and pageSize = the amount of items you wish to be displayed
+
+#### GET /space-api/missions?current_page=1&pageSize=2
+
+```json
+{
+  "meta": {
+    "total_items": 32,
+    "offset": 4,
+    "current_page": 2,
+    "page_size": 4,
+    "total_pages": 8
+  },
+  "data": [
+    {
+      "missionID": 5,
+      "companyName": "NASA",
+      "spaceStationId": null,
+      "launchDate": "1983-06-18",
+      "status": 1,
+      "costOfTheMissions": "150000000.00",
+      "missionDuration": "6.00",
+      "crewSize": 5,
+      "location_id": 27
+    },
+    {
+      "missionID": 6,
+      "companyName": "Roscosmos",
+      "spaceStationId": null,
+      "launchDate": "1963-06-16",
+      "status": 1,
+      "costOfTheMissions": "100000.00",
+      "missionDuration": "3.00",
+      "crewSize": 1,
+      "location_id": 15
+    },
+    {
+      "missionID": 7,
+      "companyName": "NASA",
+      "spaceStationId": null,
+      "launchDate": "1962-02-20",
+      "status": 1,
+      "costOfTheMissions": "50000000.00",
+      "missionDuration": "1.00",
+      "crewSize": 1,
+      "location_id": 12
+    },
+    {
+      "missionID": 8,
+      "companyName": "NASA",
+      "spaceStationId": null,
+      "launchDate": "1998-10-29",
+      "status": 1,
+      "costOfTheMissions": "150000000.00",
+      "missionDuration": "9.00",
+      "crewSize": 7,
+      "location_id": 27
+    }
+  ]
+}
+```
+
+### Filters
+
+Filter by 'companyName', 'spaceStationId', 'rocketName', 'locationCountryCode', 'launchDate', 'status', 'minCostOfMission','maxCostOfMission',
+'minMissionDuration','maxMissionDuration',
+'minCrewSize','maxCrewSize'
+
+#### GET /space-api/missions?rocketName=Falcon 9
+
+```json
+{
+  "meta": {
+    "total_items": 2,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 1
+  },
+  "data": [
+    {
+      "missionID": 31,
+      "companyName": "SpaceX",
+      "spaceStationId": 1,
+      "launchDate": "2020-05-30",
+      "status": 1,
+      "costOfTheMissions": "220000000.00",
+      "missionDuration": "64.00",
+      "crewSize": 2,
+      "location_id": 27,
+      "rocketName": "Falcon 9"
+    },
+    {
+      "missionID": 32,
+      "companyName": "SpaceX",
+      "spaceStationId": 1,
+      "launchDate": "2021-04-23",
+      "status": 1,
+      "costOfTheMissions": "220000000.00",
+      "missionDuration": "180.00",
+      "crewSize": 4,
+      "location_id": 27,
+      "rocketName": "Falcon 9"
+    }
+  ]
+}
+```
+
+### Sorting
+
+Add 'sort_by' to the query list and the data field you want to be sorted by, only 3 are allowed:\
+['companyName', 'costOfMission', 'missionDuration']\
+
+#### GET /space-api/missions?sort_by=companyName
+
+```json
+{
+  "meta": {
+    "total_items": 32,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 7
+  },
+  "data": [
+    {
+      "missionID": 28,
+      "companyName": "Blue Origin",
+      "spaceStationId": null,
+      "launchDate": "2021-07-20",
+      "status": 1,
+      "costOfTheMissions": null,
+      "missionDuration": "0.18",
+      "crewSize": 4,
+      "location_id": null
+    },
+    {
+      "missionID": 12,
+      "companyName": "ESA",
+      "spaceStationId": 1,
+      "launchDate": "2016-07-07",
+      "status": 1,
+      "costOfTheMissions": "70000000.00",
+      "missionDuration": "139.00",
+      "crewSize": 3,
+      "location_id": 15
+    },
+    {
+      "missionID": 13,
+      "companyName": "ESA",
+      "spaceStationId": 1,
+      "launchDate": "2011-12-21",
+      "status": 1,
+      "costOfTheMissions": "70000000.00",
+      "missionDuration": "6.00",
+      "crewSize": 6,
+      "location_id": 15
+    },
+    {
+      "missionID": 19,
+      "companyName": "ESA",
+      "spaceStationId": 1,
+      "launchDate": "2013-12-19",
+      "status": 1,
+      "costOfTheMissions": "70000000.00",
+      "missionDuration": "146.00",
+      "crewSize": 6,
+      "location_id": 15
+    },
+    {
+      "missionID": 11,
+      "companyName": "ESA",
+      "spaceStationId": 1,
+      "launchDate": "2014-05-28",
+      "status": 1,
+      "costOfTheMissions": "70000000.00",
+      "missionDuration": "166.00",
+      "crewSize": 6,
+      "location_id": 15
+    }
+  ]
+}
+```
+You can also add 'order' in addition to 'sort_by' to determine if the sorting is ascending or descending by passing "ASC" or "DESC" to 'order'. It is ascending by default.
+
+GET /space-api/missions?sort_by=companyName&order=desc
+```json
+{
+  "meta": {
+    "total_items": 32,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 7
+  },
+  "data": [
+    {
+      "missionID": 31,
+      "companyName": "SpaceX",
+      "spaceStationId": 1,
+      "launchDate": "2020-05-30",
+      "status": 1,
+      "costOfTheMissions": "220000000.00",
+      "missionDuration": "64.00",
+      "crewSize": 2,
+      "location_id": 27
+    },
+    {
+      "missionID": 32,
+      "companyName": "SpaceX",
+      "spaceStationId": 1,
+      "launchDate": "2021-04-23",
+      "status": 1,
+      "costOfTheMissions": "220000000.00",
+      "missionDuration": "180.00",
+      "crewSize": 4,
+      "location_id": 27
+    },
+    {
+      "missionID": 1,
+      "companyName": "Roscosmos",
+      "spaceStationId": null,
+      "launchDate": "1961-04-12",
+      "status": 1,
+      "costOfTheMissions": "100000.00",
+      "missionDuration": "1.00",
+      "crewSize": 1,
+      "location_id": 15
+    },
+    {
+      "missionID": 9,
+      "companyName": "Roscosmos",
+      "spaceStationId": null,
+      "launchDate": "1961-08-06",
+      "status": 1,
+      "costOfTheMissions": "100000.00",
+      "missionDuration": "1.00",
+      "crewSize": 1,
+      "location_id": 15
+    },
+    {
+      "missionID": 6,
+      "companyName": "Roscosmos",
+      "spaceStationId": null,
+      "launchDate": "1963-06-16",
+      "status": 1,
+      "costOfTheMissions": "100000.00",
+      "missionDuration": "3.00",
+      "crewSize": 1,
+      "location_id": 15
+    }
+  ]
+}
+```

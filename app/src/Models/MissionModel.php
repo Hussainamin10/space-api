@@ -107,15 +107,16 @@ class MissionModel extends BaseModel
         }
 
         //? Sorting
-        if (isset($filter_params['sort_by']) && isset($filter_params['order'])) {
+        $allowed_columns = ['companyName', 'costOfMission', 'missionDuration'];
+        $allowed_orders = ['asc', 'desc'];
 
-            $sortBy = isset($filter_params['sort_by']) ?
-                $filter_params['sort_by'] : 'astronautID';
+        $sortBy = isset($filter_params['sort_by'])  && in_array($filter_params['sort_by'], $allowed_columns) ?
+            $filter_params['sort_by'] : 'missionID';
 
-            $order = isset($filter_params['order']) ? $filter_params['order'] : 'asc';
+        $order = isset($filter_params['order']) && in_array($filter_params['order'], $allowed_orders) ? $filter_params['order'] : 'asc';
 
-            $query .= " ORDER BY $sortBy $order";
-        }
+        $query .= " ORDER BY $sortBy $order";
+
 
         $missions = $this->paginate($query, $named_params_values);
         return $missions;
