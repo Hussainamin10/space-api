@@ -138,7 +138,6 @@ class RocketsModel extends BaseModel
     }
     public function createRocket(array $newRocket): mixed
     {
-
         $newRocketID = $this->insert($this->table_name, $newRocket);
         return $newRocketID;
     }
@@ -147,5 +146,11 @@ class RocketsModel extends BaseModel
     {
         $delete = $this->delete($this->table_name, ["rocketID" => $rocketID]);
         return $delete;
+    }
+
+    public function updateRocket(string $rocketID, array $newRocket): mixed
+    {
+        $update = $this->update($this->table_name, $newRocket, ["rocketID" => $rocketID]);
+        return $update;
     }
 }

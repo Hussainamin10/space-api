@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2024 at 06:27 PM
+-- Generation Time: Nov 23, 2024 at 02:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `planeto`
 --
+CREATE DATABASE IF NOT EXISTS `planeto` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `planeto`;
 
 -- --------------------------------------------------------
 
@@ -140,7 +142,9 @@ INSERT INTO `locations` (`id`, `name`, `countryCode`, `description`, `mapImage`,
 (146, 'Svobodny Cosmodrome, Russian Federation', 'RUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_146_20200803142450.jpg', 'Asia/Yakutsk', 5, 0, 'https://lldev.thespacedevs.com/2.2.0/location/146/'),
 (150, 'Alcântara Space Center, Federative Republic of Brazil', 'BRA', 'The Alcântara Space Center, formerly known as Alcântara Launch Center is a space center and launching facility of the Brazilian Space Agency in the city of Alcântara, located on Brazil\'s northern Atlantic coast, in the state of Maranhão.', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_150_20200803142405.jpg', 'America/Fortaleza', 2, 0, 'https://lldev.thespacedevs.com/2.2.0/location/150/'),
 (153, 'Tonghae Satellite Launching Ground', 'PRK', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_153_20200803142503.jpg', 'Asia/Pyongyang', 2, 0, 'https://lldev.thespacedevs.com/2.2.0/location/153/'),
-(156, 'Whalers Way Orbital Launch Complex, South Australia', 'AUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_whalers_way_orbital_launch_complex_20210910042508.jpg', 'Australia/Adelaide', 1, 0, 'https://lldev.thespacedevs.com/2.2.0/location/156/');
+(156, 'Whalers Way Orbital Launch Complex, South Australia', 'AUS', '', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_whalers_way_orbital_launch_complex_20210910042508.jpg', 'Australia/Adelaide', 1, 0, 'https://lldev.thespacedevs.com/2.2.0/location/156/'),
+(157, 'Cheese', 'qwq', 'ewqewqe', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg', 'Asia/Jerusalem', 142, 0, 'https://lldev.thespacedevs.com/2.2.0/location/4/'),
+(160, 'lol', 'qwq', 'ewqewqe', 'https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_4_20200803142418.jpg', 'Asia/Jerusalem', 12, 0, 'https://lldev.thespacedevs.com/2.2.0/location/4/');
 
 -- --------------------------------------------------------
 
@@ -215,7 +219,11 @@ INSERT INTO `rocket` (`rocketID`, `rocketName`, `companyName`, `rocketHeight`, `
 (4, 'Saturn V', 'NASA', 110.00, 'Retired', 7600, 297000.00, 3, 35000000.00),
 (5, 'Soyuz FG', 'Roscosmos', 46.00, 'Active', 4000, 30500.00, 2, 50000000.00),
 (6, 'Space Shuttle', 'NASA', 56.00, 'Retired', 2800, 204000.00, 2, 150000000.00),
-(7, 'Vostok-K', 'Roscosmos', 29.00, 'Retired', 2450, 29200.00, 2, 1000000.00);
+(7, 'Vostok-K', 'Roscosmos', 29.00, 'Retired', 2450, 29200.00, 2, 1000000.00),
+(13, 'I LIKE CHEESE-SUS', 'Blue Origin', 0.00, 'Active', 1232, 78000.00, 2, 100.01),
+(17, 'I LIKE CHEESE mate', 'NASA', 42.00, 'Active', 1000, 78000.00, 2, 100.01),
+(19, 'I LIKE CHEESE', 'SpaceX', 0.00, 'Active', 1232, 78000.00, 2, 100.01),
+(20, 'I LIKE CHEESE mate eeeeee', 'NASA', 42.00, 'Active', 1000, 78000.00, 2, 10000.00);
 
 -- --------------------------------------------------------
 
@@ -379,6 +387,36 @@ INSERT INTO `spacestation` (`stationID`, `name`, `status`, `type`, `founded`, `d
 (9, 'Buran Space Station', 0, 'Government', '0000-00-00', 'The Buran Space Station was a proposed Soviet space station that would have supported the Buran space shuttle program. It was ultimately never built.', 'Soviet Space Program'),
 (10, 'Salyut 1', 0, 'Government', '1971-04-19', 'Salyut 1 was the world\'s first space station, launched by the Soviet Union in 1971. It paved the way for future modular space stations.', 'Soviet Space Program');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ws_log`
+--
+
+CREATE TABLE `ws_log` (
+  `log_id` int(10) UNSIGNED NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `user_action` varchar(255) NOT NULL,
+  `logged_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `user_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ws_users`
+--
+
+CREATE TABLE `ws_users` (
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(150) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` varchar(10) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -445,6 +483,19 @@ ALTER TABLE `spacestation`
   ADD PRIMARY KEY (`stationID`);
 
 --
+-- Indexes for table `ws_log`
+--
+ALTER TABLE `ws_log`
+  ADD PRIMARY KEY (`log_id`);
+
+--
+-- Indexes for table `ws_users`
+--
+ALTER TABLE `ws_users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -458,7 +509,7 @@ ALTER TABLE `astronauts`
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `planet`
@@ -470,7 +521,7 @@ ALTER TABLE `planet`
 -- AUTO_INCREMENT for table `rocket`
 --
 ALTER TABLE `rocket`
-  MODIFY `rocketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `rocketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `spacemissions`
@@ -483,6 +534,18 @@ ALTER TABLE `spacemissions`
 --
 ALTER TABLE `spacestation`
   MODIFY `stationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `ws_log`
+--
+ALTER TABLE `ws_log`
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ws_users`
+--
+ALTER TABLE `ws_users`
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

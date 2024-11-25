@@ -68,40 +68,29 @@ class RocketsController extends BaseController
 
     public function handleGetRocketByID(Request $request, Response $response, array $uri_args): Response
     {
-        //* Step 1) Receive the received rocket ID
-
-        //* Step 2) Validate the Rocket ID
-        // Rocket Has to be an integer
-        if (!isset($uri_args['rocketID'])) {
-            return $this->renderJson(
-                $response,
-                [
-                    "status" => "error",
-                    "code" => 400,
-                    "message" => "No rocket id provided"
-                ],
-                StatusCodeInterface::STATUS_BAD_REQUEST
-            );
-        }
-        //*Pattern to check rocket id only contains integer
-        $rocket_id_pattern = "/^[0-9]+$/";
         $rocketID = $uri_args["rocketID"];
-        if (preg_match($rocket_id_pattern, $rocketID) === 0) {
-            throw new HttpInvalidInputsException($request, "Invalid rocket id provided");
+        $result = $this->rocketsService->getRocketByID($rocketID);
+
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
         }
-        //* Step 3) if Valid, fetch the rocket's info from the DB
-        $rocket = $this->rocketsModel->getRocketByID(rocketID: $rocketID);
-        if ($rocket === false) {
-            throw new HttpNotFoundException($request, "No matching rockets found");
-        }
-        //* Step 4) Prepare valid json response
-        return $this->renderJson($response, $rocket);
+
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
     }
 
     public function handleCreateRocket(Request $request, Response $response): Response
     {
         // Retrieve POST request embedded body
         $newRocket = $request->getParsedBody();
+        if (!is_array($newRocket)) {
+            throw new HttpInvalidInputsException($request, "Invalid inputs");
+        }
         // Pass receive data to service
         $result = $this->rocketsService->createRocket($newRocket[0]);
         $payload = [];
@@ -116,10 +105,13 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
-    public function handleDeleteRocket(Request $request, Response $response, array $uri_args): Response
+    public function handleDeleteRocket(Request $request, Response $response): Response
     {
-        // Retrieve POST request embedded body
-        $rocketID = $request->getParsedBody()['rocketID'] ?? null;
+        // Retrieve POST request embedded
+        if (!isset($request->getParsedBody()[0]['rocketID'])) {
+            throw new HttpInvalidInputsException($request, "Invalid inputs");
+        }
+        $rocketID = $request->getParsedBody()[0]['rocketID'];
         $result = $this->rocketsService->deleteRocket($rocketID);
         $payload = [];
 
@@ -134,25 +126,78 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+    public function handleUpdateRocket(Request $request, Response $response, array $uri_args): Response
+    {
+        if (!isset($request->getParsedBody()[0])) {
+            throw new HttpInvalidInputsException($request, "Invalid inputs");
+        }
+        // Retrieve POST request embedded body
+        $rocket = $request->getParsedBody()[0];
+        $result = $this->rocketsService->updateRocket($rocket);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
+
+    public function handleGetLaunchesByRocketID(Request $request, Response $response, array $uri_args): Response
+    {
+        $rocketID = $uri_args["rocketID"];
+        $result = $this->rocketsService->getLaunchesByRocketID($rocketID);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
+
     public function  handleGetMissionsByRocketID(Request $request, Response $response, array $uri_args): Response
     {
         $rocketID = $uri_args["rocketID"];
-        $validator = new Validator(['ID' => $rocketID]);
+        $result = $this->rocketsService->getMissionsByRocketID($rocketID);
 
-        $validator->rule('integer', 'ID');
-
-        //IF Id Provided is not an integer
-        if (!$validator->validate()) {
-            throw new HttpInvalidInputsException($request, "Invalid rocket id provided");
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
         }
 
-        $result = $this->rocketsModel->getMissionsByRocketID($rocketID);
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
 
-        //IF rocket doesn't exist
-        if (!$result['rocket']) {
-            throw new HttpNotFoundException($request, "No matching rockets found");
+    public function handleCalLiftOfThrust(Request $request, Response $response): Response
+    {
+        if (!isset($request->getParsedBody()[0])) {
+            throw new HttpInvalidInputsException($request, "Invalid inputs");
+        }
+        $body = $request->getParsedBody()[0];
+        $result = $this->rocketsService->getLiftCalculation($body);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
         }
 
-        return $this->renderJson($response, $result);
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
     }
 }

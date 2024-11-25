@@ -88,4 +88,29 @@ class LocationsModel extends BaseModel
         );
         return $location_info;
     }
+
+    public function createLocation(array $newLocation): mixed
+    {
+        $locationID = $this->insert($this->table_name, $newLocation);
+        return $locationID;
+    }
+
+    public function deleteLocation(string $id): mixed
+    {
+        $delete = $this->delete($this->table_name, ["id" => $id]);
+        return $delete;
+    }
+
+    public function getAllLocations(): mixed
+    {
+        $query = "SELECT * FROM {$this->table_name}";
+        $rockets = $this->fetchAll($query);
+        return $rockets;
+    }
+
+    public function updateLocation(string $id, array $newLocation): mixed
+    {
+        $update = $this->update($this->table_name, $newLocation, ["id" => $id]);
+        return $update;
+    }
 }

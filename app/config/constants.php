@@ -9,6 +9,7 @@ define('APP_ROOT_DIR', basename(dirname(__FILE__, 3)));
 
 define('APP_LOGS_PATH', APP_BASE_PATH . '/var/logs');
 
+define('SECRET_KEY', 'This is space-api project');
 
 //* HTTP response status code.
 const HTTP_OK = 200;
