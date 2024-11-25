@@ -10,6 +10,7 @@ use App\Controllers\PlanetController;
 use App\Controllers\AstronautsController;
 use App\Controllers\SpaceCompaniesController;
 use App\Controllers\RocketsController;
+use App\Controllers\ZakatController;
 use App\Helpers\DateTimeHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -83,6 +84,9 @@ return static function (Slim\App $app): void {
 
     //?PUT
     $app->put('/planets', [PlanetController::class, 'handleUpdatePlanet']);
+
+    //? Compute Zakat
+    $app->post('/zakat', [ZakatController::class, 'handleZakat']);
 
 
 
