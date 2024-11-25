@@ -12,6 +12,7 @@ use App\Controllers\AstronautsController;
 use App\Controllers\CarLoanController;
 use App\Controllers\SpaceCompaniesController;
 use App\Controllers\RocketsController;
+use App\Controllers\ZakatController;
 use App\Helpers\DateTimeHelper;
 use App\Middleware\AccessLogMiddleware;
 use App\Middleware\AuthMiddleWare;
@@ -105,6 +106,9 @@ return static function (Slim\App $app): void {
 
         //? Get astronauts by mission_id
         $group->get('/missions/{mission_id}/astronauts', [MissionController::class, 'handleGetAstronautsByMissionID']);
+
+        //? Compute Zakat
+        $group->post('/zakat', [ZakatController::class, 'handleZakat']);
 
         //* ROUTE: POST /
         //? Post planets

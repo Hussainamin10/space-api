@@ -9,6 +9,7 @@ use Slim\App;
 
 return function (App $app) {
     // Add your middleware here.
+   
     $app->addBodyParsingMiddleware();
     $app->addRoutingMiddleware();
     $app->add(new ContentNegotiationMiddleware());
