@@ -16,14 +16,13 @@ class SpaceCompaniesModel extends BaseModel
     //! Get spaceCompanies
     public function getSpaceCompanies(array $filter_params = []): array
     {
+        //! Filters
         $named_params_values = [];
         $query = "SELECT * FROM {$this->table_name} WHERE 1 ";
 
-        //! Filters
-
         // //! companyName
         if (isset($filter_params['companyName'])) {
-            $query .= " AND companyName LIKE CONCAT(:companyName,'%')";
+            $query .= " AND companyName LIKE CONCAT(:companyName,'%') ";
             $named_params_values['companyName'] = $filter_params['companyName'];
         }
 
@@ -106,11 +105,10 @@ class SpaceCompaniesModel extends BaseModel
 
         $order = isset($filter_params['order']) ? $filter_params['order'] : 'asc';
 
-        $query = "SELECT * FROM {$this->table_name} ORDER BY $sortBy $order";
+        $query .= " ORDER BY $sortBy $order";
 
-
-        $astronauts = $this->paginate($query, $named_params_values);
-        return $astronauts;
+        $spaceCompanies_info = $this->paginate($query, $named_params_values);
+        return $spaceCompanies_info;
     }
 
     //! Get a space company by name

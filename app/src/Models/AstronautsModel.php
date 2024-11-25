@@ -22,7 +22,7 @@ class AstronautsModel extends BaseModel
         //! firstName
         if (isset($filter_params['firstName'])) {
             $query .= " AND firstName LIKE
-            CONCAT('%', :firstName, '%') ";
+            CONCAT(:firstName, '%') ";
             $named_params_values['firstName'] = $filter_params['firstName'];
         }
 
@@ -93,15 +93,13 @@ class AstronautsModel extends BaseModel
         }
 
         //! Sorting
-        if (isset($filter_params['sort_by']) && isset($filter_params['order'])) {
-
+        
             $sortBy = isset($filter_params['sort_by']) ?
                 $filter_params['sort_by'] : 'astronautID';
 
             $order = isset($filter_params['order']) ? $filter_params['order'] : 'asc';
 
             $query .= " ORDER BY $sortBy $order";
-        }
 
         $astronauts = $this->paginate($query, $named_params_values);
         return $astronauts;

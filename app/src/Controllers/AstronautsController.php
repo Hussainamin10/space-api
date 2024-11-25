@@ -157,17 +157,3 @@ class AstronautsController extends BaseController
         return $response;
     }
 }
-
-// Notes:
-/*
-For the database we have two tables one for creating a user and login, we have to import the tables
-
-For the password hash, we will have to use the PasswordTrait in the code folder
-
-The versioning part of the project will be done in class at the end, because it doesn't take time
-
-User is identifiable before doing the token
-
-For the error handling we will have to create exceptions in the Exceptions folder
-
-we have to have to have a reusable component (declare it as any array)
