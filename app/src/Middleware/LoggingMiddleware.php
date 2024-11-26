@@ -1,26 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Middleware;
 
-use App\Models\AccessLogModel;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Helpers\LogHelper;
+use App\Models\AccessLogModel;
 use App\Models\AccountsModel;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
-class AccessLogMiddleware
+class LoggingMiddleware implements MiddlewareInterface
 {
-
 
     public function __construct(private AccountsModel $accountsModel, private AccessLogModel $accessLogModel)
     {
         $this->accountsModel = $accountsModel;
         $this->accessLogModel = $accessLogModel;
     }
-
-    public function handleAccessLog(Request $request, Response $response,  array $uri_args)
+    public function process(Request $request, RequestHandler $handler): ResponseInterface
     {
         $method = $request->getMethod();
         $uri = (string) $request->getUri();
@@ -56,6 +58,7 @@ class AccessLogMiddleware
 
         LogHelper::logAccess($message, $logData);
 
+        $response = $handler->handle($request);
         return $response;
     }
 }

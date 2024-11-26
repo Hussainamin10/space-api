@@ -16,6 +16,7 @@ use App\Controllers\ZakatController;
 use App\Helpers\DateTimeHelper;
 use App\Middleware\AccessLogMiddleware;
 use App\Middleware\AuthMiddleWare;
+use App\Middleware\LoggingMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
@@ -79,7 +80,7 @@ return static function (Slim\App $app): void {
         //! Car Loan Computation
         $group->post('/loan', [CarLoanController::class, 'handleCarLoan']);
         //! Log
-        $group->post('/log', [AccessLogMiddleware::class, 'handleAccessLog']);
+        //$group->post('/log', [LoggingMiddleware::class, 'handleAccessLog']);
         // Example route to test error handling
         $group->get('/error', function (Request $request, Response $response) {
             throw new \Slim\Exception\HttpNotFoundException($request, "Something went wrong");

@@ -24,6 +24,19 @@ class AccountsModel extends BaseModel
         return $account_info;
     }
 
+    public function getUserIDByEmail(string $email): mixed
+    {
+        $sql = "SELECT user_id FROM {$this->table_name} WHERE email = :email";
+        $account_info = $this->fetchSingle(
+            $sql,
+            [
+                "email" => $email
+            ]
+        );
+        return $account_info;
+    }
+
+
     public function createAccount(array $newAccount): mixed
     {
         $newID = $this->insert($this->table_name, $newAccount);
