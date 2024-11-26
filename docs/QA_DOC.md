@@ -1830,3 +1830,782 @@ GET /space-api/missions?sort_by=companyName&order=desc
   ]
 }
 ```
+
+# Astronauts
+
+## Examples of Correct Inputs for GET /Astronauts
+
+### GET /space-api/astronauts
+
+Return a list of all astronauts paginated
+```json
+{
+  "meta": {
+    "total_items": 20,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 4
+  },
+  "data": [
+    {
+      "astronautID": 1,
+      "firstName": "Yuri",
+      "lastName": "Gagarin",
+      "numOfMissions": 1,
+      "nationality": "Russian",
+      "inSpace": 0,
+      "dateOfDeath": "1968-03-27",
+      "flightsCount": 1,
+      "dateOfBirth": "1934-03-09",
+      "bio": "Yuri Alekseyevich Gagarin was a Soviet pilot and cosmonaut. He became the first human to journey into outer space when his Vostok spacecraft completed one orbit of the Earth on 12 April 1961.",
+      "wiki": "https://en.wikipedia.org/wiki/Yuri_Gagarin",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/yuri2520gagarin_image_20200211151614.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305191209.jpeg"
+    },
+    {
+      "astronautID": 2,
+      "firstName": "Neil",
+      "lastName": "Armstrong",
+      "numOfMissions": 1,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": "2012-08-25",
+      "flightsCount": 1,
+      "dateOfBirth": "1930-08-05",
+      "bio": "Neil Alden Armstrong was an American astronaut and aeronautical engineer who was the first person to walk on the Moon. He was also a naval aviator, test pilot, and university professor.",
+      "wiki": "https://en.wikipedia.org/wiki/Neil_Armstrong",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/neil2520armstrong_image_20190426143653.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190707.jpeg"
+    },
+    {
+      "astronautID": 3,
+      "firstName": "Buzz",
+      "lastName": "Aldrin",
+      "numOfMissions": 3,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": null,
+      "flightsCount": 2,
+      "dateOfBirth": "1930-01-20",
+      "bio": "Buzz Aldrin; born Edwin Eugene Aldrin Jr.; is an American engineer, former astronaut, and fighter pilot. As Lunar Module Pilot on the Apollo 11 mission, he and mission commander Neil Armstrong were the first two humans to land on the Moon.",
+      "wiki": "https://en.wikipedia.org/wiki/Buzz_Aldrin",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/buzz_aldrin_image_20220911034547.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185225.jpeg"
+    },
+    {
+      "astronautID": 4,
+      "firstName": "Sally",
+      "lastName": "Ride",
+      "numOfMissions": 1,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": "2012-07-23",
+      "flightsCount": 1,
+      "dateOfBirth": "1951-05-26",
+      "bio": "Sally Kristen Ride was an American astronaut, physicist, and engineer. Born in Los Angeles, she joined NASA in 1978 and became the first American woman in space in 1983. Ride was the third woman in space overall, after USSR cosmonauts Valentina Tereshkova (1963) and Svetlana Savitskaya (1982). Ride remains the youngest American astronaut to have traveled to space, having done so at the age of 32. After flying twice on the Orbiter Challenger, she left NASA in 1987. She worked for two years at Stanford University's Center for International Security and Arms Control, then at the University of California, San Diego as a professor of physics, primarily researching nonlinear optics and Thomson scattering. She served on the committees that investigated the Challenger and Columbia space shuttle disasters, the only person to participate in both. Ride died of pancreatic cancer on July 23, 2012.",
+      "wiki": "https://en.wikipedia.org/wiki/Sally_Ride",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/sally2520ride_image_20190421143600.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185614.jpeg"
+    },
+    {
+      "astronautID": 5,
+      "firstName": "Valentina",
+      "lastName": "Tereshkova",
+      "numOfMissions": 1,
+      "nationality": "Russian",
+      "inSpace": 0,
+      "dateOfDeath": null,
+      "flightsCount": 1,
+      "dateOfBirth": "1937-03-06",
+      "bio": "Valentina Vladimirovna Tereshkova (born 6 March 1937) is a retired Russian cosmonaut, engineer, and politician. She is the first woman to have flown in space, having been selected from more than 400 applicants and five finalists to pilot Vostok 6 on 16 June 1963. In order to join the Cosmonaut Corps, Tereshkova was honorarily inducted into the Soviet Air Force and thus she also became the first civilian to fly in space.",
+      "wiki": "https://en.wikipedia.org/wiki/Valentina_Tereshkova",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/valentina2520tereshkova_image_20181201222143.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185716.jpeg"
+    }
+  ]
+}
+```
+
+### Pagination
+
+To paginate, in query add current_page = {number less or equal to total_pages}, and pageSize = the amount of items you wish to be displayed
+
+#### GET /space-api/astronauts?current_page=1&pageSize=7
+
+```json
+{
+  "meta": {
+    "total_items": 20,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 7,
+    "total_pages": 3
+  },
+  "data": [
+    {
+      "astronautID": 1,
+      "firstName": "Yuri",
+      "lastName": "Gagarin",
+      "numOfMissions": 1,
+      "nationality": "Russian",
+      "inSpace": 0,
+      "dateOfDeath": "1968-03-27",
+      "flightsCount": 1,
+      "dateOfBirth": "1934-03-09",
+      "bio": "Yuri Alekseyevich Gagarin was a Soviet pilot and cosmonaut. He became the first human to journey into outer space when his Vostok spacecraft completed one orbit of the Earth on 12 April 1961.",
+      "wiki": "https://en.wikipedia.org/wiki/Yuri_Gagarin",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/yuri2520gagarin_image_20200211151614.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305191209.jpeg"
+    },
+    {
+      "astronautID": 2,
+      "firstName": "Neil",
+      "lastName": "Armstrong",
+      "numOfMissions": 1,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": "2012-08-25",
+      "flightsCount": 1,
+      "dateOfBirth": "1930-08-05",
+      "bio": "Neil Alden Armstrong was an American astronaut and aeronautical engineer who was the first person to walk on the Moon. He was also a naval aviator, test pilot, and university professor.",
+      "wiki": "https://en.wikipedia.org/wiki/Neil_Armstrong",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/neil2520armstrong_image_20190426143653.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190707.jpeg"
+    },
+    {
+      "astronautID": 3,
+      "firstName": "Buzz",
+      "lastName": "Aldrin",
+      "numOfMissions": 3,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": null,
+      "flightsCount": 2,
+      "dateOfBirth": "1930-01-20",
+      "bio": "Buzz Aldrin; born Edwin Eugene Aldrin Jr.; is an American engineer, former astronaut, and fighter pilot. As Lunar Module Pilot on the Apollo 11 mission, he and mission commander Neil Armstrong were the first two humans to land on the Moon.",
+      "wiki": "https://en.wikipedia.org/wiki/Buzz_Aldrin",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/buzz_aldrin_image_20220911034547.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185225.jpeg"
+    },
+    {
+      "astronautID": 4,
+      "firstName": "Sally",
+      "lastName": "Ride",
+      "numOfMissions": 1,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": "2012-07-23",
+      "flightsCount": 1,
+      "dateOfBirth": "1951-05-26",
+      "bio": "Sally Kristen Ride was an American astronaut, physicist, and engineer. Born in Los Angeles, she joined NASA in 1978 and became the first American woman in space in 1983. Ride was the third woman in space overall, after USSR cosmonauts Valentina Tereshkova (1963) and Svetlana Savitskaya (1982). Ride remains the youngest American astronaut to have traveled to space, having done so at the age of 32. After flying twice on the Orbiter Challenger, she left NASA in 1987. She worked for two years at Stanford University's Center for International Security and Arms Control, then at the University of California, San Diego as a professor of physics, primarily researching nonlinear optics and Thomson scattering. She served on the committees that investigated the Challenger and Columbia space shuttle disasters, the only person to participate in both. Ride died of pancreatic cancer on July 23, 2012.",
+      "wiki": "https://en.wikipedia.org/wiki/Sally_Ride",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/sally2520ride_image_20190421143600.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185614.jpeg"
+    },
+    {
+      "astronautID": 5,
+      "firstName": "Valentina",
+      "lastName": "Tereshkova",
+      "numOfMissions": 1,
+      "nationality": "Russian",
+      "inSpace": 0,
+      "dateOfDeath": null,
+      "flightsCount": 1,
+      "dateOfBirth": "1937-03-06",
+      "bio": "Valentina Vladimirovna Tereshkova (born 6 March 1937) is a retired Russian cosmonaut, engineer, and politician. She is the first woman to have flown in space, having been selected from more than 400 applicants and five finalists to pilot Vostok 6 on 16 June 1963. In order to join the Cosmonaut Corps, Tereshkova was honorarily inducted into the Soviet Air Force and thus she also became the first civilian to fly in space.",
+      "wiki": "https://en.wikipedia.org/wiki/Valentina_Tereshkova",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/valentina2520tereshkova_image_20181201222143.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185716.jpeg"
+    },
+    {
+      "astronautID": 6,
+      "firstName": "John",
+      "lastName": "Glenn",
+      "numOfMissions": 2,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": "2016-12-08",
+      "flightsCount": 2,
+      "dateOfBirth": "1921-07-18",
+      "bio": "Colonel John Herschel Glenn Jr. was a United States Marine Corps aviator, engineer, astronaut, businessman, and politician. He was the first American to orbit the Earth, circling it three times in 1962. Following his retirement from NASA, he served from 1974 to 1999 as a Democratic United States Senator from Ohio.",
+      "wiki": "https://en.wikipedia.org/wiki/John_Glenn",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/john2520glenn_image_20181128141704.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190045.jpeg"
+    },
+    {
+      "astronautID": 7,
+      "firstName": "Gherman",
+      "lastName": "Titov",
+      "numOfMissions": 1,
+      "nationality": "Russian",
+      "inSpace": 0,
+      "dateOfDeath": "2000-09-20",
+      "flightsCount": 1,
+      "dateOfBirth": "1935-09-11",
+      "bio": "Gherman Stepanovich Titov was a Soviet cosmonaut who, on 6 August 1961, became the second human to orbit the Earth, aboard Vostok 2, preceded by Yuri Gagarin on Vostok 1. He was the fourth person in space, counting suborbital voyages of US astronauts Alan Shepard and Gus Grissom.",
+      "wiki": "https://en.wikipedia.org/wiki/Gherman_Titov",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/gherman2520titov_image_20181201222559.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190117.jpeg"
+    }
+  ]
+}
+```
+
+### Filters
+
+Filter by 'firstName', 'lastName', 'minDateOfBirth', 'maxDateOfBirth', 'minNumOfMissions', 'maxNumOfMissions', 'nationality','inSpace', 'minDateOfDeath', 'maxDateOfDeath', 'minFlightsCount', 'maxFlightsCount'
+
+#### GET /space-api/astronauts?firstName=N&lastName=A
+
+```json
+{
+  "meta": {
+    "total_items": 1,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 1
+  },
+  "data": [
+    {
+      "astronautID": 2,
+      "firstName": "Neil",
+      "lastName": "Armstrong",
+      "numOfMissions": 1,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": "2012-08-25",
+      "flightsCount": 1,
+      "dateOfBirth": "1930-08-05",
+      "bio": "Neil Alden Armstrong was an American astronaut and aeronautical engineer who was the first person to walk on the Moon. He was also a naval aviator, test pilot, and university professor.",
+      "wiki": "https://en.wikipedia.org/wiki/Neil_Armstrong",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/neil2520armstrong_image_20190426143653.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190707.jpeg"
+    }
+  ]
+}
+```
+
+### Sorting
+
+Add 'sort_by' to the query list and the data field you want to be sorted by, all are allowed:\
+['firstName', 'lastName', 'dateOfBirth', 'numOfMissions', 'nationality','inSpace', 'dateOfDeath', 'flightsCount']\
+
+GET /space-api/astronauts?sort_by=firstName
+
+```json
+{
+  "meta": {
+    "total_items": 20,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 4
+  },
+  "data": [
+    {
+      "astronautID": 16,
+      "firstName": "Alan",
+      "lastName": "Bean",
+      "numOfMissions": 4,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": "2018-05-26",
+      "flightsCount": 4,
+      "dateOfBirth": "1932-03-15",
+      "bio": "Alan LaVern Bean was an American naval officer and naval aviator, aeronautical engineer, test pilot, and NASA astronaut; he was the fourth person to walk on the Moon. He was selected to become an astronaut by NASA in 1963 as part of Astronaut Group 3.\n\nHe made his first flight into space aboard Apollo 12, the second manned mission to land on the Moon, at age 37 in November 1969. He made his second and final flight into space on the Skylab 3 mission in 1973, the second manned mission to the Skylab space station. After retiring from the United States Navy in 1975 and NASA in 1981, he pursued his interest in painting, depicting various space-related scenes and documenting his own experiences in space as well as that of his fellow Apollo program astronauts. He was the last living crew member of Apollo 12.",
+      "wiki": "https://en.wikipedia.org/wiki/Alan_Bean",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alan2520bean_image_20181128145355.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305191125.jpeg"
+    },
+    {
+      "astronautID": 9,
+      "firstName": "Alexander",
+      "lastName": "Gerst",
+      "numOfMissions": 3,
+      "nationality": "German",
+      "inSpace": 1,
+      "dateOfDeath": null,
+      "flightsCount": 2,
+      "dateOfBirth": "1976-05-03",
+      "bio": "Alexander Gerst is a German European Space Agency astronaut and geophysicist, who was selected in 2009 to take part in space training. He was part of the International Space Station Expedition 40 and 41 from May to November 2014. Gerst returned to space on June 6, 2018, as part of Expedition 56/57 as the ISS Commander.",
+      "wiki": "https://en.wikipedia.org/wiki/Alexander_Gerst",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alexander2520gerst_image_20181127211820.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190641.jpeg"
+    },
+    {
+      "astronautID": 10,
+      "firstName": "André",
+      "lastName": "Kuipers",
+      "numOfMissions": 2,
+      "nationality": "Dutch",
+      "inSpace": 0,
+      "dateOfDeath": null,
+      "flightsCount": 2,
+      "dateOfBirth": "1958-10-05",
+      "bio": "André Kuipers is a Dutch physician and ESA astronaut. He became the second Dutch citizen, third Dutch-born and fifth Dutch-speaking astronaut upon launch of Soyuz TMA-4 on 19 April 2004. Kuipers returned to Earth aboard Soyuz TMA-3 11 days later.\r\n\r\nKuipers is the first Dutch astronaut to return to space. On 5 August 2009, Dutch minister of economic affairs Maria van der Hoeven, announced Kuipers was selected as an astronaut for International Space Station (ISS) Expeditions 30 and 31. He was launched to space on 21 December 2011 and returned to Earth on 1 July 2012.",
+      "wiki": "https://en.wikipedia.org/wiki/Andr%C3%A9_Kuipers",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/andr25c325a92520kuipers_image_20181129234401.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190327.jpeg"
+    },
+    {
+      "astronautID": 3,
+      "firstName": "Buzz",
+      "lastName": "Aldrin",
+      "numOfMissions": 3,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": null,
+      "flightsCount": 2,
+      "dateOfBirth": "1930-01-20",
+      "bio": "Buzz Aldrin; born Edwin Eugene Aldrin Jr.; is an American engineer, former astronaut, and fighter pilot. As Lunar Module Pilot on the Apollo 11 mission, he and mission commander Neil Armstrong were the first two humans to land on the Moon.",
+      "wiki": "https://en.wikipedia.org/wiki/Buzz_Aldrin",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/buzz_aldrin_image_20220911034547.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185225.jpeg"
+    },
+    {
+      "astronautID": 12,
+      "firstName": "Chris",
+      "lastName": "Hadfield",
+      "numOfMissions": 3,
+      "nationality": "Canadian",
+      "inSpace": 0,
+      "dateOfDeath": null,
+      "flightsCount": 3,
+      "dateOfBirth": "1959-08-29",
+      "bio": "Chris Austin Hadfield is a Canadian retired astronaut, engineer, and former Royal Canadian Air Force fighter pilot. The first Canadian to walk in space, Hadfield has flown two space shuttle missions and served as commander of the International Space Station.",
+      "wiki": "https://en.wikipedia.org/wiki/Chris_Hadfield",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/chris_hadfield_image_20220911034200.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190208.jpeg"
+    }
+  ]
+}
+```
+
+You can also add 'order' in addition to 'sort_by' to determine if the sorting is ascending or descending by passing "asc" or "desc" to 'order'. It is ascending by default.
+
+GET /space-api/astronauts?current_page=1&pageSize=3&sort_by=dateOfBirth&order=desc
+```json
+{
+  "meta": {
+    "total_items": 20,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 3,
+    "total_pages": 7
+  },
+  "data": [
+    {
+      "astronautID": 9,
+      "firstName": "Alexander",
+      "lastName": "Gerst",
+      "numOfMissions": 3,
+      "nationality": "German",
+      "inSpace": 1,
+      "dateOfDeath": null,
+      "flightsCount": 2,
+      "dateOfBirth": "1976-05-03",
+      "bio": "Alexander Gerst is a German European Space Agency astronaut and geophysicist, who was selected in 2009 to take part in space training. He was part of the International Space Station Expedition 40 and 41 from May to November 2014. Gerst returned to space on June 6, 2018, as part of Expedition 56/57 as the ISS Commander.",
+      "wiki": "https://en.wikipedia.org/wiki/Alexander_Gerst",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alexander2520gerst_image_20181127211820.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305190641.jpeg"
+    },
+    {
+      "astronautID": 18,
+      "firstName": "Serena",
+      "lastName": "Aunon-Chancellor",
+      "numOfMissions": 2,
+      "nationality": "American",
+      "inSpace": 0,
+      "dateOfDeath": null,
+      "flightsCount": 2,
+      "dateOfBirth": "1976-04-09",
+      "bio": "Serena Maria Auñón-Chancellor is an American physician, engineer, and NASA astronaut. She has been in space since June 6, 2018, serving as a flight engineer in Expedition 56/57 to the International Space Station.",
+      "wiki": "https://en.wikipedia.org/wiki/Serena_Au%C3%B1%C3%B3n-Chancellor",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/serena_au25c3_image_20220911033856.jpeg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185714.jpeg"
+    },
+    {
+      "astronautID": 19,
+      "firstName": "Tim",
+      "lastName": "Peake",
+      "numOfMissions": 2,
+      "nationality": "British",
+      "inSpace": 0,
+      "dateOfDeath": null,
+      "flightsCount": 2,
+      "dateOfBirth": "1972-04-07",
+      "bio": "Major Timothy Nigel Peake CMG is a British Army Air Corps officer, former European Space Agency astronaut and International Space Station (ISS) crew member. He is the first British ESA astronaut, the second astronaut to bear a flag of the United Kingdom patch, the sixth person born in the United Kingdom to go on board the International Space Station and the seventh UK-born person in space. He began the ESA's intensive astronaut basic training course in September 2009 and graduated on 22 November 2010.",
+      "wiki": "https://en.wikipedia.org/wiki/Tim_Peake",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/tim_peake_image_20230120154350.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305185843.jpeg"
+    }
+  ]
+}
+```
+
+## Examples of Correct Inputs for POST PUT DELETE /astronauts
+
+### POST /space-api/astronauts
+-> everything is mandatory\
+-> numeric values must be for 'numOfMissions', 'flightsCount'\
+-> inSpace must be either "0" or "1"\
+```json
+[
+    {
+      "firstName": "Hussain",
+      "lastName": "Amin",
+      "numOfMissions": 6,
+      "nationality": "Iraqui",
+      "inSpace": 0,
+      "dateOfDeath": "2024-03-30",
+      "flightsCount": 1,
+      "dateOfBirth": "2003-03-30",
+      "bio": "Hussain Amin was a Soviet pilot and cosmonaut. He became the first human to journey into outer space when his SI spacecraft completed one orbit of the Earth on 12 April 2007.",
+      "wiki": "https://en.wikipedia.org/wiki/Yuri_Gagarin",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/yuri2520gagarin_image_20200211151614.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305191209.jpeg"
+    }
+  ]
+```
+
+### PUT /space-api/astronauts
+-> astronautID is mandatory\
+-> everything else is optional\
+-> numeric values must be for 'numOfMissions', 'flightsCount'\
+-> inSpace must be either "0" or "1"\
+```json
+[
+    {
+      "astronautID": 21,
+      "numOfMissions": 10
+    }
+  ]
+```
+
+### DELETE /space-api/astronauts
+-> astronautID is mandatory\
+```json
+    {
+      "astronautID": 21
+    }
+```
+
+## Examples of Incorrect Inputs for /astronauts
+
+### POST /space-api/astronauts
+```json
+[
+    {
+      "firstName": "Hussain",
+      "lastName": "Amin",
+      "numOfMissions": 16,
+      "nationality": "Iraqui",
+      "inSpace": "have to be integer",
+      "dateOfDeath": "2024-03-30",
+      "flightsCount": 1,
+      "dateOfBirth": "2003-03-30",
+      "bio": "Hussain Amin was a Soviet pilot and cosmonaut. He became the first human to journey into outer space when his SI spacecraft completed one orbit of the Earth on 12 April 2007.",
+      "wiki": "https://en.wikipedia.org/wiki/Yuri_Gagarin",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/yuri2520gagarin_image_20200211151614.jpg",
+      "thumbnail": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305191209.jpeg"
+    }
+  ]
+```
+
+### PUT /space-api/astronauts
+```json
+[
+    {
+      "astronautID": "how are you",
+      "numOfMissions": "messiiiiii"
+    }
+  ]
+```
+
+### DELETE /space-api/astronauts
+```json
+[
+    "astronautID": "how are you",
+]
+```
+
+
+## Examples of Correct Inputs for /loan
+
+### POST /space-api/loan
+
+-> everything is mandatory\
+-> salesTax must be not include '%' only the number
+-> interestRate must be not include '%' only the number
+```json
+{
+  "priceOfCar" : 20000,
+  "downPayment": 10000,
+  "tradeInValue": 4000,
+  "salesTax": 4,
+  "interestRate": 5,
+  "loanTerm": 5
+}
+```
+
+# SpaceCompany
+
+## Examples of Correct Inputs for GET /spaceCompanies
+
+### GET /space-api/spaceCompanies
+
+Return a list of all space companies paginated
+
+```json
+{
+  "meta": {
+    "total_items": 5,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 1
+  },
+  "data": [
+    {
+      "companyName": "Blue Origin",
+      "foundedDate": "2000-09-08",
+      "founder": "Jeff Bezos",
+      "location": "Kent, Washington, USA",
+      "totalNumOfMissions": 20,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": null,
+      "numberOfEmployees": 3500
+    },
+    {
+      "companyName": "ESA",
+      "foundedDate": "1975-05-30",
+      "founder": "European Governments",
+      "location": "Paris, France",
+      "totalNumOfMissions": 500,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": "6000000000.00000000",
+      "numberOfEmployees": 2200
+    },
+    {
+      "companyName": "NASA",
+      "foundedDate": "1958-07-29",
+      "founder": "U.S. Government",
+      "location": "Washington D.C., USA",
+      "totalNumOfMissions": 500,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": "25000000000.00000000",
+      "numberOfEmployees": 17000
+    },
+    {
+      "companyName": "Roscosmos",
+      "foundedDate": "1992-02-25",
+      "founder": "Russian Government",
+      "location": "Moscow, Russia",
+      "totalNumOfMissions": 500,
+      "missionSuccessRate": "80.00",
+      "annualRevenue": "3000000000.00000000",
+      "numberOfEmployees": 250000
+    },
+    {
+      "companyName": "SpaceX",
+      "foundedDate": "2002-03-14",
+      "founder": "Elon Musk",
+      "location": "Hawthorne, California, USA",
+      "totalNumOfMissions": 200,
+      "missionSuccessRate": "90.00",
+      "annualRevenue": "5700000000.00000000",
+      "numberOfEmployees": 12000
+    }
+  ]
+}
+```
+
+### Pagination
+
+To paginate, in query add current_page = {number less or equal to total_pages}, and pageSize = the amount of items you wish to be displayed
+
+#### GET /space-api/locations?current_page=1&pageSize=2
+
+```json
+{
+  "meta": {
+    "total_items": 5,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 2,
+    "total_pages": 3
+  },
+  "data": [
+    {
+      "companyName": "Blue Origin",
+      "foundedDate": "2000-09-08",
+      "founder": "Jeff Bezos",
+      "location": "Kent, Washington, USA",
+      "totalNumOfMissions": 20,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": null,
+      "numberOfEmployees": 3500
+    },
+    {
+      "companyName": "ESA",
+      "foundedDate": "1975-05-30",
+      "founder": "European Governments",
+      "location": "Paris, France",
+      "totalNumOfMissions": 500,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": "6000000000.00000000",
+      "numberOfEmployees": 2200
+    }
+  ]
+}
+```
+
+### Filters
+
+Filter by 'companyName', 'minFoundedDate', 'maxFoundedDate', 'founder', 'location', 'maxTotalNumOfMissions', 'minTotalNumOfMissions','maxMissionSuccessRate', 'minMissionSuccessRate', 'maxAnnualRevenue', 'minAnnualRevenue', 'minNumberOfEmployees', 'maxNumberOfEmployees'
+
+#### GET /space-api/spaceCompanies?companyName=Blue
+```json
+{
+  "meta": {
+    "total_items": 1,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 1
+  },
+  "data": [
+    {
+      "companyName": "Blue Origin",
+      "foundedDate": "2000-09-08",
+      "founder": "Jeff Bezos",
+      "location": "Kent, Washington, USA",
+      "totalNumOfMissions": 20,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": null,
+      "numberOfEmployees": 3500
+    }
+  ]
+}
+```
+
+### Sorting
+
+Add 'sort_by' to the query list and the data field you want to be sorted by, all are allowed:\
+['companyName', 'foundedDate', 'founder', 'location', 'totalNumOfMissions' 'missionSuccessRate', 'annualRevenue', 'numberOfEmployees']\
+
+#### GET /space-api/spaceCompanies?sort_by=founder
+
+```json
+{
+  "meta": {
+    "total_items": 5,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 5,
+    "total_pages": 1
+  },
+  "data": [
+    {
+      "companyName": "SpaceX",
+      "foundedDate": "2002-03-14",
+      "founder": "Elon Musk",
+      "location": "Hawthorne, California, USA",
+      "totalNumOfMissions": 200,
+      "missionSuccessRate": "90.00",
+      "annualRevenue": "5700000000.00000000",
+      "numberOfEmployees": 12000
+    },
+    {
+      "companyName": "ESA",
+      "foundedDate": "1975-05-30",
+      "founder": "European Governments",
+      "location": "Paris, France",
+      "totalNumOfMissions": 500,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": "6000000000.00000000",
+      "numberOfEmployees": 2200
+    },
+    {
+      "companyName": "Blue Origin",
+      "foundedDate": "2000-09-08",
+      "founder": "Jeff Bezos",
+      "location": "Kent, Washington, USA",
+      "totalNumOfMissions": 20,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": null,
+      "numberOfEmployees": 3500
+    },
+    {
+      "companyName": "Roscosmos",
+      "foundedDate": "1992-02-25",
+      "founder": "Russian Government",
+      "location": "Moscow, Russia",
+      "totalNumOfMissions": 500,
+      "missionSuccessRate": "80.00",
+      "annualRevenue": "3000000000.00000000",
+      "numberOfEmployees": 250000
+    },
+    {
+      "companyName": "NASA",
+      "foundedDate": "1958-07-29",
+      "founder": "U.S. Government",
+      "location": "Washington D.C., USA",
+      "totalNumOfMissions": 500,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": "25000000000.00000000",
+      "numberOfEmployees": 17000
+    }
+  ]
+}
+```
+You can also add 'order' in addition to 'sort_by' to determine if the sorting is ascending or descending by passing "asc" or "desc" to 'order'. It is ascending by default.
+
+GET /space-api/spaceCompanies?current_page=1&pageSize=3&sort_by=founder&order=asc
+```json
+
+{
+  "meta": {
+    "total_items": 5,
+    "offset": 0,
+    "current_page": 1,
+    "page_size": 3,
+    "total_pages": 2
+  },
+  "data": [
+    {
+      "companyName": "SpaceX",
+      "foundedDate": "2002-03-14",
+      "founder": "Elon Musk",
+      "location": "Hawthorne, California, USA",
+      "totalNumOfMissions": 200,
+      "missionSuccessRate": "90.00",
+      "annualRevenue": "5700000000.00000000",
+      "numberOfEmployees": 12000
+    },
+    {
+      "companyName": "ESA",
+      "foundedDate": "1975-05-30",
+      "founder": "European Governments",
+      "location": "Paris, France",
+      "totalNumOfMissions": 500,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": "6000000000.00000000",
+      "numberOfEmployees": 2200
+    },
+    {
+      "companyName": "Blue Origin",
+      "foundedDate": "2000-09-08",
+      "founder": "Jeff Bezos",
+      "location": "Kent, Washington, USA",
+      "totalNumOfMissions": 20,
+      "missionSuccessRate": "85.00",
+      "annualRevenue": null,
+      "numberOfEmployees": 3500
+    }
+  ]
+}
+
+```
