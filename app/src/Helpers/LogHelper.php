@@ -2,15 +2,19 @@
 
 namespace App\Helpers;
 
+use App\Models\AccessLogModel;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 class LogHelper
 {
-    private static $accessLog;
-    private static $errorLog;
+    private static ?Logger $accessLog = null;
+    private static ?Logger $errorLog = null;
 
-    public static function init()
+    private static ?AccessLogModel $logModel = null;
+
+    // Initialize the loggers
+    public static function init(AccessLogModel $accessLogModel)
     {
         // Initialize the access log
         self::$accessLog = new Logger('access');
@@ -19,22 +23,37 @@ class LogHelper
         // Initialize the error log
         self::$errorLog = new Logger('error');
         self::$errorLog->pushHandler(new StreamHandler(APP_LOGS_PATH . '/error.log'));
+
+        // Initialize the log model (static)
+        self::$logModel = $accessLogModel;
     }
 
+    // Log access information
     public static function logAccess($message, $extra)
     {
-        if (!self::$accessLog) {
-            self::init();
+        // Initialize the access log if not already initialized
+        if (self::$accessLog === null) {
+            throw new \Exception("LogHelper not initialized. Call init() first.");
         }
+
+        // Log the access message
         self::$accessLog->info($message, $extra);
-        
+
+        // Log to the database using the model
+        if (self::$logModel !== null) {
+            self::$logModel->log($extra);
+        }
     }
 
+    // Log error information
     public static function logError($message, $extra)
     {
-        if (!self::$errorLog) {
-            self::init();
+        // Initialize the error log if not already initialized
+        if (self::$errorLog === null) {
+            throw new \Exception("LogHelper not initialized. Call init() first.");
         }
+
+        // Log the error message
         self::$errorLog->error($message, $extra);
     }
 }
