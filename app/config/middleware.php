@@ -15,7 +15,7 @@ return function (App $app) {
     $app->addBodyParsingMiddleware();
     $app->addRoutingMiddleware();
     $app->add(new ContentNegotiationMiddleware());
-    $app->add(LoggingMiddleware::class);
+    //$app->add(LoggingMiddleware::class);
     //!NOTE: the error handling middleware MUST be added last.
     $errorMiddleware = $app->addErrorMiddleware(true, true, true);
     $callableResolver = $app->getCallableResolver();

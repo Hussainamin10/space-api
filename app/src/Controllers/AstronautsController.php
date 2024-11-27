@@ -156,4 +156,23 @@ class AstronautsController extends BaseController
 
         return $response;
     }
+
+    //! Composite Resource
+    public function handleGetAstronautInfoByAstronautID(Request $request, Response $response, array $uri_args): Response
+    {
+        $astronautID = $uri_args["astronautID"];
+        $result = $this->astronautsService->getAstronautInfoByAstronautID($astronautID);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+    }
+
 }

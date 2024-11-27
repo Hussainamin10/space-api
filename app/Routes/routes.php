@@ -71,6 +71,7 @@ return static function (Slim\App $app): void {
         $group->get('/astronauts', [AstronautsController::class, 'handleGetAstronauts']);
         //* astronaut by Id
         $group->get('/astronauts/{astronautId}', [AstronautsController::class, 'handleGetAstronautByID']);
+        $group->get('/astronauts/{astronautID}/astronautInfo', [AstronautsController::class, 'handleGetAstronautInfoByAstronautID']);
         //! Post
         $group->post('/astronauts', [AstronautsController::class, 'handleCreateAstronaut']);
         //! Delete
@@ -119,7 +120,7 @@ return static function (Slim\App $app): void {
 
         //?PUT
         $group->put('/planets', [PlanetController::class, 'handleUpdatePlanet']);
-    })->addMiddleware(new AuthMiddleWare());
+    })->addMiddleware(new AuthMiddleWare())->addMiddleware(new AuthMiddleWare);
 
     //* ROUTE: GET /ping
     $app->get('/ping', function (Request $request, Response $response, $args) {
