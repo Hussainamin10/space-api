@@ -81,6 +81,26 @@ class PlanetController extends BaseController
         return $this->renderJson($response, $planet);
     }
 
+    public function handleGetExtraPlanetInfo(Request $request, Response $response, array $uri_args): Response
+    {
+
+        $planetID = $uri_args["planetID"];
+        $result = $this->planetsService->getExtraPlanetInfo($planetID);
+        $payload = [];
+        if ($result->isSuccess()) {
+            $payload['success'] = true;
+        } else {
+            $payload['success'] = false;
+        }
+
+        $payload['message'] = $result->getMessage();
+        $payload['data'] = $result->getData()['data'];
+        $payload['status'] = $result->getData()['status'];
+        return $this->renderJson($response, $payload, $payload['status']);
+
+        return $response;
+    }
+
 
     public function handleCreatePlanet(Request $request, Response $response, array $uri_args): Response
     {

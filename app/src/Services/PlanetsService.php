@@ -13,6 +13,31 @@ class PlanetsService
         $this->planetModel = $planetModel;
     }
 
+    public function getPlanetByID(string $planetID): Result
+    {
+        $validator = new Validator(['ID' => $planetID]);
+        $validator->rule('integer', 'ID');
+
+        //*IF Id Provided is not an integer
+        if (!$validator->validate()) {
+            $data['data'] = $validator->errorsToString();
+            $data['status'] = 400;
+            return Result::fail("Provided ID is not valid", $data);
+        }
+
+        $planet = $this->planetModel->getPlanetById($planetID);
+        //*IF planet doesn't exist
+        if (!$planet) {
+            $data['data'] = "";
+            $data['status'] = 404;
+            return Result::fail("No Planet found", $data);
+        }
+
+        $data['data'] = $planet;
+        $data['status'] = 200;
+        return Result::success("Planet returned", $data);
+    }
+
     public function createPlanet(array $new_planet): Result
     {
         //?planet Name Must be Unique
@@ -176,5 +201,35 @@ class PlanetsService
         $data['data'] = $update;
         $data['status'] = 200;
         return Result::success("Planet Updated", $data);
+    }
+
+    public function getExtraPlanetInfo(string $planetID)
+    {
+        $result = $this->getPlanetByID($planetID);
+        if ($result->isSuccess()) {
+            //*Have a planet, get the planet name, search by its name
+            $planetName = $result->getData()['data']["name"];
+            $client = new \GuzzleHttp\Client();
+            $response = $client->request('GET', "https://api.le-systeme-solaire.net/rest/bodies/?filter%5b%5d=isPlanet,eq,true&filter%5b%5d=englishName,eq,$planetName", [
+                'headers' => [
+                    'Accept'     => 'application/json',
+                ]
+            ]);
+
+            //*If status is 200 process, else return error
+            if ($response->getStatusCode() == 200) {
+                $responseBody = json_decode($response->getBody(), true);
+                $data['data'] = [
+                    "Planet" => $result->getData()["data"],
+                    "Extra Info From APi" => $responseBody["bodies"]
+                ];
+                $data['status'] = 200;
+                return Result::success("Return Extra Info by planet ID", $data);
+            } else {
+                return $result;
+            }
+        } else {
+            return $result;
+        }
     }
 }
