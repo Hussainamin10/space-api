@@ -71,6 +71,7 @@ return static function (Slim\App $app): void {
         $group->get('/astronauts', [AstronautsController::class, 'handleGetAstronauts']);
         //* astronaut by Id
         $group->get('/astronauts/{astronautId}', [AstronautsController::class, 'handleGetAstronautByID']);
+        $group->get('/astronauts/{astronautID}/astronautInfo', [AstronautsController::class, 'handleGetAstronautInfoByAstronautID']);
         //! Post
         $group->post('/astronauts', [AstronautsController::class, 'handleCreateAstronaut']);
         //! Delete

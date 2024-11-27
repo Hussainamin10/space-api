@@ -198,4 +198,60 @@ class AstronautsService
         $data['status'] = 200;
         return Result::success("Astronaut Updated", $data);
     }
+
+    public function getAstronautByID(string $astronautID): Result
+    {
+        $validator = new Validator(['ID' => $astronautID]);
+        $validator->rule('integer', 'ID');
+
+        //*IF Id Provided is not an integer
+        if (!$validator->validate()) {
+            $data['data'] = $validator->errorsToString();
+            $data['status'] = 400;
+            return Result::fail("Provided ID is not valid", $data);
+        }
+
+        $rocket = $this->astronautsModel->getAstronautByID($astronautID);
+        //*IF rocket doesn't exist
+        if (!$rocket) {
+            $data['data'] = "";
+            $data['status'] = 404;
+            return Result::fail("No astronaut found", $data);
+        }
+
+        $data['data'] = $rocket;
+        $data['status'] = 200;
+        return Result::success("Astronaut returned", $data);
+    }
+
+    //! Composite Resource
+    public function getAstronautInfoByAstronautID(string $astronautID)
+    {
+        $result = $this->getAstronautByID($astronautID);
+        if ($result->isSuccess()) {
+            //*Have a astronaut, get the astronaut name, search by its name
+            $astronautDateOfBirth = $result->getData()['data']["dateOfBirth"];
+            $client = new \GuzzleHttp\Client();
+            $response = $client->request('GET', "https://ll.thespacedevs.com/2.2.0/astronaut/?date_of_birth=$astronautDateOfBirth", [
+                'headers' => [
+                    'Accept'     => 'application/json',
+                ]
+            ]);
+
+            //*If status is 200 process, else return error
+            if ($response->getStatusCode() == 200) {
+                $responseBody = json_decode($response->getBody(), true);
+                $data['data'] = [
+                    "astronaut" => $result->getData()["data"],
+                    "astronautInfo" => $responseBody["results"]
+                ];
+                $data['status'] = 200;
+                return Result::success("Return astronaut by astronaut ID", $data);
+            } else {
+                return $result;
+            }
+        } else {
+            return $result;
+        }
+    }
 }
