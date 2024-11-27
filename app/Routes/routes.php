@@ -100,6 +100,7 @@ return static function (Slim\App $app): void {
         //? Get Planets
         $group->get('/planets', [PlanetController::class, 'handleGetPlanet']);
         $group->get('/planets/{planetID}', [PlanetController::class, 'handleGetPlanetId']);
+        $group->get('/planets/{planetID}/extraInfo', [PlanetController::class, 'handleGetExtraPlanetInfo']);
 
         //? Get missions
         $group->get('/missions', [MissionController::class, 'handleGetMission']);
@@ -119,7 +120,7 @@ return static function (Slim\App $app): void {
 
         //?PUT
         $group->put('/planets', [PlanetController::class, 'handleUpdatePlanet']);
-    })->addMiddleware(new AuthMiddleWare());
+    })->add(LoggingMiddleware::class)->addMiddleware(new AuthMiddleWare());
 
     //* ROUTE: GET /ping
     $app->get('/ping', function (Request $request, Response $response, $args) {
