@@ -50,7 +50,8 @@ class LogHelper
     {
         // Initialize the error log if not already initialized
         if (self::$errorLog === null) {
-            throw new \Exception("LogHelper not initialized. Call init() first.");
+            self::$errorLog = new Logger('error');
+            self::$errorLog->pushHandler(new StreamHandler(APP_LOGS_PATH . '/error.log'));
         }
 
         // Log the error message
