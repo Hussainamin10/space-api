@@ -74,6 +74,152 @@ Return a list of all rockets paginated
 }
 ```
 
+### GET /space-api/rockets/{rocketID}
+
+Return a specific of rocket, rocketID must be of type Integer
+```json
+
+{
+  "success": true,
+  "message": "Rocket returned",
+  "data": {
+    "rocketID": 1,
+    "rocketName": "Atlas-Agena",
+    "companyName": "NASA",
+    "rocketHeight": "32.00",
+    "status": "Retired",
+    "liftOfThrust": 1900,
+    "rocketWeight": "58000.00",
+    "numberOfStages": 2,
+    "launchCost": "11000000.00"
+  },
+  "status": 200
+}
+
+```
+
+### GET /space-api/rockets/{rocketID}/launches
+
+Return a composite resource. A list of launches associated with a specific rocket, rocketID must be of type Integer.
+
+```json
+
+{
+  "success": true,
+  "message": "Return launches by rocket ID",
+  "data": {
+    "rocket": {
+      "rocketID": 2,
+      "rocketName": "Falcon 9",
+      "companyName": "SpaceX",
+      "rocketHeight": "70.00",
+      "status": "Active",
+      "liftOfThrust": 7600,
+      "rocketWeight": "54900.00",
+      "numberOfStages": 2,
+      "launchCost": "62000000.00"
+    },
+    "launches": [
+      {
+        "id": "8cf1015d-3fe5-40c4-8436-2f79c1f3ff2e",
+        "url": "https://lldev.thespacedevs.com/2.3.0/launches/8cf1015d-3fe5-40c4-8436-2f79c1f3ff2e/",
+        "name": "Falcon 9 Block 5 | Starlink Group 6-31",
+        "response_mode": "normal",
+        "slug": "falcon-9-block-5-starlink-group-6-31",
+        "launch_designator": "2023-186",
+        "status": {
+          "id": 3,
+          "name": "Launch Successful",
+          "abbrev": "Success",
+          "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
+        },
+        "last_updated": "2024-03-05T17:47:42Z",
+        "net": "2023-12-03T04:00:50Z",
+        "net_precision": {
+          "id": 0,
+          "name": "Second",
+          "abbrev": "SEC",
+          "description": "The T-0 is accurate to the second."
+        },
+        "window_end": "2023-12-03T04:51:20Z",
+        "window_start": "2023-12-03T04:00:50Z",
+        "image": {
+          "id": 1296,
+          "name": "Starlink night fairing",
+          "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon2520925_image_20221009234147.png",
+          "thumbnail_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/255bauto255d__image_thumbnail_20240305192320.png",
+          "credit": "SpaceX",
+          "license": {
+            "id": 5,
+            "name": "CC BY-NC 2.0",
+            "priority": 1,
+            "link": "https://creativecommons.org/licenses/by-nc/2.0/"
+          },
+          "single_use": false,
+          "variants": []
+        },
+        "infographic": null,
+        "probability": 45,
+        "weather_concerns": "Thick Cloud Layers Rule, Cumulus Cloud Rule",
+        "failreason": "",
+        "hashtag": null,
+        "launch_service_provider": {
+          "response_mode": "list",
+          "id": 121,
+          "url": "https://lldev.thespacedevs.com/2.3.0/agencies/121/",
+          "name": "SpaceX",
+          "abbrev": "SpX",
+          "type": {
+            "id": 3,
+            "name": "Commercial"
+          }
+        },
+
+      }
+  }
+}
+
+```
+
+### GET /space-api/rockets/{rocketID}/missions
+
+Return a list of missions associated with a rocket, rocketID must be an integer
+
+```json
+{
+  "success": true,
+  "message": "Rocket returned",
+  "data": {
+    "rocket": {
+      "rocketID": 1,
+      "rocketName": "Atlas-Agena",
+      "companyName": "NASA",
+      "rocketHeight": "32.00",
+      "status": "Retired",
+      "liftOfThrust": 1900,
+      "rocketWeight": "58000.00",
+      "numberOfStages": 2,
+      "launchCost": "11000000.00"
+    },
+    "missions": [
+      {
+        "missionID": 4,
+        "companyName": "NASA",
+        "spaceStationId": null,
+        "launchDate": "1966-11-11",
+        "status": 1,
+        "costOfTheMissions": "19000000.00",
+        "missionDuration": "5.00",
+        "crewSize": 2,
+        "location_id": 12,
+        "rocketID": 1
+      }
+    ]
+  },
+  "status": 200
+}
+```
+
 ### Pagination
 
 To paginate, in query add current_page = {number less or equal to total_pages}, and pageSize = the amount of items you wish to be displayed
@@ -2607,5 +2753,4 @@ GET /space-api/spaceCompanies?current_page=1&pageSize=3&sort_by=founder&order=as
     }
   ]
 }
-
 ```

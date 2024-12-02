@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use App\Exceptions\HttpInvalidUserPermission;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use LogicException;
@@ -30,7 +31,7 @@ class AuthMiddleWare implements MiddlewareInterface
             $role = strtolower($decoded->role);
             $request_method = $request->getMethod();
             if ($role == 'general' && $request_method != "GET") {
-                throw new HttpUnauthorizedException($request, "General user trying to access unauthorized resource");
+                throw new HttpInvalidUserPermission($request, "General user trying to access unauthorized resource");
             }
         } catch (LogicException $e) {
             // errors having to do with environmental setup or malformed JWT Keys

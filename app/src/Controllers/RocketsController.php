@@ -56,6 +56,9 @@ class RocketsController extends BaseController
             }
         }
         $sorting_params = ["sortBy" => $sort_params, "order" => $order];
+        //*Validate the sorting
+        //*Validate the query
+
         //*Validate the query
         $validator = new Validator($filter_params);
         $validator->rules([
@@ -80,9 +83,15 @@ class RocketsController extends BaseController
                 ['minCost', 0],
                 ['maxCost', 0],
                 ['minThrust', 0],
-                ['maxThrust', 0]
+                ['maxThrust', 0],
+                ['current_page', 1],
+                ['pageSize', 1]
             ],
-            'integer' => ['numberOfStages']
+            'integer' => ['numberOfStages', 'current_page', 'pageSize'],
+            'requiredWith' => [
+                ['current_page', 'pageSize'],
+                ['pageSize', 'current_page']
+            ]
         ]);
         //*If Invalid Return Fail result
         if (!$validator->validate()) {
@@ -119,7 +128,7 @@ class RocketsController extends BaseController
     {
         // Retrieve POST request embedded body
         $newRocket = $request->getParsedBody();
-        if (!is_array($newRocket)) {
+        if (!isset($request->getParsedBody()[0])) {
             throw new HttpInvalidInputsException($request, "Invalid inputs");
         }
         // Pass receive data to service

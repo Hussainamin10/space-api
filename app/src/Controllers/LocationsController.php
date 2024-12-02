@@ -78,8 +78,15 @@ class LocationsController extends BaseController
                 ['minLaunchCount', 0],
                 ['maxLaunchCount', 0],
                 ['minLandingCount', 0],
-                ['maxLandingCount', 0]
+                ['maxLandingCount', 0],
+                ['current_page', 1],
+                ['pageSize', 1]
             ],
+            'requiredWith' => [
+                ['current_page', 'pageSize'],
+                ['pageSize', 'current_page']
+            ],
+            'integer' => ['current_page', 'pageSize']
         ]);
         //*If Invalid Return Fail result
         if (!$validator->validate()) {
