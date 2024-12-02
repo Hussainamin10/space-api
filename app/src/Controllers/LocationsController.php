@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Exceptions\HttpInvalidInputsException;
 use App\Models\LocationsModel;
 use App\Services\LocationService;
+use App\Validation\Validator;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -59,6 +60,31 @@ class LocationsController extends BaseController
         }
 
         $sorting_params = ["sortBy" => $sort_params, "order" => $order];
+
+        //*Validate the query
+        $validator = new Validator($filter_params);
+        $validator->rules([
+            'numeric' => [
+                'minLaunchCount',
+                'maxLaunchCount',
+                'minLandingCount',
+                'maxLandingCount',
+                'minCost',
+                'maxCost',
+                'minThrust',
+                'maxThrust'
+            ],
+            'min' => [
+                ['minLaunchCount', 0],
+                ['maxLaunchCount', 0],
+                ['minLandingCount', 0],
+                ['maxLandingCount', 0]
+            ],
+        ]);
+        //*If Invalid Return Fail result
+        if (!$validator->validate()) {
+            throw new HttpInvalidInputsException($request, "Invalid Query:" . $validator->errorsToString());
+        }
 
         $locations = $this->location_model->getLocations(
             $filter_params,

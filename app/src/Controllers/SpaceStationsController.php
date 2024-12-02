@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Exceptions\HttpInvalidInputsException;
 use App\Models\SpaceStationsModel;
+use App\Validation\Validator;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -57,6 +58,24 @@ class SpaceStationsController extends BaseController
         }
 
         $sorting_params = ["sortBy" => $sort_params, "order" => $order];
+
+        //*Validate the query
+        $validator = new Validator($filter_params);
+        $validator->rules([
+            'dateFormat' => [
+                ['minFounded', 'Y-m-d'],
+                ['maxFounded', 'Y-m-d']
+            ],
+            'date' => [
+                ['minFounded'],
+                ['maxFounded']
+            ],
+            'integer' => ['status']
+        ]);
+        //*If Invalid Return Fail result
+        if (!$validator->validate()) {
+            throw new HttpInvalidInputsException($request, "Invalid Query:" . $validator->errorsToString());
+        }
 
         $players = $this->space_station_model->getSpaceStations(
             $filter_params,

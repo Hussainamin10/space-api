@@ -55,8 +55,39 @@ class RocketsController extends BaseController
                 $sort_params[] = $field;
             }
         }
-
         $sorting_params = ["sortBy" => $sort_params, "order" => $order];
+        //*Validate the query
+        $validator = new Validator($filter_params);
+        $validator->rules([
+            'numeric' => [
+                'minHeight',
+                'maxHeight',
+                'minWeight',
+                'maxWeight',
+                'minCost',
+                'maxCost',
+                'minThrust',
+                'maxThrust'
+            ],
+            'in' => [
+                ['status', ['Active', 'Retired', 'active', 'retired']]
+            ],
+            'min' => [
+                ['minHeight', 0],
+                ['maxHeight', 0],
+                ['minWeight', 0],
+                ['maxWeight', 0],
+                ['minCost', 0],
+                ['maxCost', 0],
+                ['minThrust', 0],
+                ['maxThrust', 0]
+            ],
+            'integer' => ['numberOfStages']
+        ]);
+        //*If Invalid Return Fail result
+        if (!$validator->validate()) {
+            throw new HttpInvalidInputsException($request, "Invalid Query:" . $validator->errorsToString());
+        }
         //The expected filter values can instead be documented in the proposal instead of validating here.
         $rockets = $this->rocketsModel->getRockets(
             $filter_params,

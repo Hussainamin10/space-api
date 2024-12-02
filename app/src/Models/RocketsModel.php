@@ -85,6 +85,11 @@ class RocketsModel extends BaseModel
             $named_params_values['maxThrust'] = $filter_params['maxThrust'];
         }
 
+        if (isset($filter_params['numberOfStages'])) {
+            $query .= " AND numberOfStages = :numberOfStages";
+            $named_params_values['numberOfStages'] = $filter_params['numberOfStages'];
+        }
+
         if (!empty($sort_params['sortBy'])) {
             $query .= " ORDER BY";
             foreach ($sort_params['sortBy'] as $field) {
