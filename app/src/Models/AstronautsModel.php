@@ -4,13 +4,36 @@ namespace App\Models;
 
 use App\Core\PDOService;
 
+/**
+ * Class AstronautsModel
+ * 
+ * This class manages the astronaut records, providing functionalities for filtering, retrieving, creating, updating, and deleting records in the database.
+ */
 class AstronautsModel extends BaseModel
 {
+
+    /**
+     * @var string The name of the table containing astronaut records.
+     */
     private string $table_name = "astronauts";
+
+    /**
+     * AstronautsModel constructor.
+     * 
+     * @param PDOService $dbo The database service object used for database interactions.
+     */
     public function __construct(PDOService $dbo)
     {
         parent::__construct($dbo);
     }
+
+    /**
+     * Retrieves a list of astronauts based on filter parameters.
+     * 
+     * @param array $filter_params Optional filter parameters for querying astronauts.
+     * 
+     * @return array The list of astronauts matching the filter criteria.
+     */
 
     //! Get astronauts
     public function getAstronauts(array $filter_params = []): array
@@ -105,6 +128,13 @@ class AstronautsModel extends BaseModel
         return $astronauts;
     }
 
+
+    /**
+     * Retrieves all astronauts from the database.
+     * 
+     * @return mixed A list of all astronauts.
+     */
+
     //! Get all astronauts
     public function getAllAstronauts(): mixed
     {
@@ -112,6 +142,14 @@ class AstronautsModel extends BaseModel
         $astronauts = $this->fetchAll($query);
         return $astronauts;
     }
+
+    /**
+     * Retrieves information for a specific astronaut by ID.
+     * 
+     * @param string $astronautId The ID of the astronaut to retrieve.
+     * 
+     * @return mixed The astronaut information, or `null` if not found.
+     */
 
     //! Get astronaut by Id
     public function getAstronautByID(string $astronautId): mixed
@@ -123,6 +161,15 @@ class AstronautsModel extends BaseModel
         );
         return $astronaut_info;
     }
+
+
+    /**
+     * Creates a new astronaut record in the database.
+     * 
+     * @param array $new_astronaut_info The data for the new astronaut.
+     * 
+     * @return mixed The ID of the newly created astronaut.
+     */
 
     //! Create new astronaut
     public function insertAstronaut(array $new_astronaut_info): mixed
@@ -138,11 +185,28 @@ class AstronautsModel extends BaseModel
     //     unset($astronaut_info["astronaut_id"]);
     //     return $this->update($this->table_name, $astronaut_info, ["astronaut_id" => $astronaut_id]);
     // }
+
+    /**
+     * Updates the information for a specific astronaut by ID.
+     * 
+     * @param string $astronautID The ID of the astronaut to update.
+     * @param array $newAstronaut The updated data for the astronaut.
+     * 
+     * @return mixed The result of the update operation.
+     */
     public function updateAstronaut(string $astronautID, array $newAstronaut): mixed
     {
         $update = $this->update($this->table_name, $newAstronaut, ["astronautID" => $astronautID]);
         return $update;
     }
+
+    /**
+     * Deletes a specific astronaut record by ID.
+     * 
+     * @param string $astronautID The ID of the astronaut to delete.
+     * 
+     * @return mixed The result of the delete operation.
+     */
 
     //! Delete astronaut
     public function deleteAstronaut(string $astronautID): mixed

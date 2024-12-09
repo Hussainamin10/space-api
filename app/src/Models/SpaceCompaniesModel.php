@@ -4,15 +4,47 @@ namespace App\Models;
 
 use App\Core\PDOService;
 
+
+/**
+ * Class SpaceCompaniesModel
+ *
+ * This class handles CRUD operations and data retrieval for the `spacecompany` table in the database.
+ * It provides filtering, sorting, and pagination functionalities, as well as methods to fetch related data.
+ */
 class SpaceCompaniesModel extends BaseModel
 {
 
+    /**
+     * @var string The name of the table this model interacts with.
+     */
     private string $table_name = "spacecompany";
+
+    /**
+     * SpaceCompaniesModel constructor.
+     *
+     * @param PDOService $dbo The database connection service.
+     */
     public function __construct(PDOService $dbo)
     {
         parent::__construct($dbo);
     }
 
+    /**
+     * Retrieves space companies based on specified filters and sorting parameters.
+     *
+     * @param array $filter_params An associative array of filters for querying the space companies.
+     *                             Supported filters include:
+     *                             - companyName
+     *                             - minFoundedDate, maxFoundedDate
+     *                             - founder
+     *                             - location
+     *                             - minTotalNumOfMissions, maxTotalNumOfMissions
+     *                             - minMissionSuccessRate, maxMissionSuccessRate
+     *                             - minAnnualRevenue, maxAnnualRevenue
+     *                             - minNumberOfEmployees, maxNumberOfEmployees
+     *                             - sort_by, order (for sorting results)
+     * @return array The filtered, sorted, and paginated list of space companies.
+     */
     //! Get spaceCompanies
     public function getSpaceCompanies(array $filter_params = []): array
     {
@@ -111,6 +143,13 @@ class SpaceCompaniesModel extends BaseModel
         return $spaceCompanies_info;
     }
 
+
+    /**
+     * Retrieves a specific space company by its name.
+     *
+     * @param string $companyName The name of the company to retrieve.
+     * @return mixed The company information or null if not found.
+     */
     //! Get a space company by name
     public function getCompanyByName(string $companyName): mixed
     {
@@ -122,6 +161,12 @@ class SpaceCompaniesModel extends BaseModel
     }
 
 
+     /**
+     * Retrieves rockets associated with a specific space company.
+     *
+     * @param string $companyName The name of the company whose rockets are to be fetched.
+     * @return mixed An array containing company information and a list of its rockets.
+     */
     //! Get rockets by companyName
     public function getRocketsByCompanyName(string $companyName): mixed
     {
@@ -146,6 +191,12 @@ class SpaceCompaniesModel extends BaseModel
 
         return $result;
     }
+
+    /**
+     * Retrieves all space companies in the database.
+     *
+     * @return mixed An array of all space companies.
+     */
 
     public function getAllCompanies(): mixed
     {

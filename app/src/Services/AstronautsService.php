@@ -6,13 +6,35 @@ use App\Core\Result;
 use App\Models\AstronautsModel;
 use App\Validation\Validator;
 
+/**
+ * Class AstronautsService
+ * 
+ * Service class for managing astronaut records including creating, updating, deleting, and retrieving astronaut data.
+ *
+ * @package App\Services
+ */
 class AstronautsService
 {
+
+    /**
+     * AstronautsService constructor.
+     *
+     * @param AstronautsModel $astronautsModel Instance of AstronautsModel for interacting with the astronaut database.
+     */
     public function __construct(private AstronautsModel $astronautsModel)
     {
         $this->astronautsModel = $astronautsModel;
     }
 
+
+    /**
+     * Create a new astronaut record.
+     *
+     * Validates the provided astronaut data and ensures the full name is unique. If valid, the astronaut is inserted into the database.
+     *
+     * @param array $newAstronaut The astronaut data to be validated and created.
+     * @return Result A result object indicating success or failure with appropriate status and message.
+     */
     //! Create Astronaut
     public function createAstronaut(array $newAstronaut): Result
     {
@@ -76,6 +98,15 @@ class AstronautsService
         return Result::success("The astronaut has been created!", $id);
     }
 
+
+    /**
+     * Delete an astronaut record by ID.
+     *
+     * Validates the astronaut ID and deletes the corresponding record from the database.
+     *
+     * @param string $astronautID The ID of the astronaut to be deleted.
+     * @return Result A result object indicating success or failure with appropriate status and message.
+     */
     //! Delete Astronaut
     public function deleteAstronaut(string $astronautID): Result
     {
@@ -105,6 +136,15 @@ class AstronautsService
         $data['status'] = 200;
         return Result::success("Astronaut Deleted", $data);
     }
+
+    /**
+     * Update an astronaut record.
+     *
+     * Validates the provided astronaut data and updates the existing astronaut record.
+     *
+     * @param array $newAstronaut The astronaut data to be validated and updated.
+     * @return Result A result object indicating success or failure with appropriate status and message.
+     */
 
     //! Update Astronaut
     public function updateAstronaut(array $newAstronaut): Result
@@ -199,6 +239,13 @@ class AstronautsService
         return Result::success("Astronaut Updated", $data);
     }
 
+    /**
+     * Retrieve an astronaut record by ID.
+     *
+     * @param string $astronautID The ID of the astronaut to be retrieved.
+     * @return Result A result object indicating success or failure with appropriate status and message.
+     */
+
     public function getAstronautByID(string $astronautID): Result
     {
         $validator = new Validator(['ID' => $astronautID]);
@@ -223,6 +270,13 @@ class AstronautsService
         $data['status'] = 200;
         return Result::success("Astronaut returned", $data);
     }
+
+    /**
+     * Composite function to fetch astronaut information along with additional details from external API.
+     *
+     * @param string $astronautID The ID of the astronaut to be retrieved.
+     * @return Result A result object indicating success or failure with appropriate status and message.
+     */
 
     //! Composite Resource
     public function getAstronautInfoByAstronautID(string $astronautID)

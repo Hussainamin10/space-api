@@ -6,13 +6,32 @@ use App\Core\Result;
 use App\Models\PlanetModel;
 use App\Validation\Validator;
 
+/**
+ * PlanetsService class provides methods to manage planet-related operations such as 
+ * retrieving, creating, updating, and deleting planets, as well as fetching additional 
+ * information from an external API.
+ */
 class PlanetsService
 {
+
+     /**
+     * PlanetsService constructor.
+     *
+     * @param PlanetModel $planetModel The planet model to interact with the database.
+     */
     public function __construct(private PlanetModel $planetModel)
     {
         $this->planetModel = $planetModel;
     }
 
+
+    /**
+     * Get a planet by its ID.
+     *
+     * @param string $planetID The unique identifier of the planet.
+     *
+     * @return Result The result of the operation, either success with planet data or failure with error details.
+     */
     public function getPlanetByID(string $planetID): Result
     {
         $validator = new Validator(['ID' => $planetID]);
@@ -37,6 +56,14 @@ class PlanetsService
         $data['status'] = 200;
         return Result::success("Planet returned", $data);
     }
+
+    /**
+     * Create a new planet.
+     *
+     * @param array $new_planet The new planet data.
+     *
+     * @return Result The result of the creation operation, either success with planet data or failure with validation errors.
+     */
 
     public function createPlanet(array $new_planet): Result
     {
@@ -90,6 +117,13 @@ class PlanetsService
         return Result::success("Planet Added", $data);
     }
 
+    /**
+     * Delete a planet by its ID.
+     *
+     * @param string $planetID The unique identifier of the planet to be deleted.
+     *
+     * @return Result The result of the deletion operation, either success or failure.
+     */
     public function deletePlanet(string $planetID): Result
     {
         $validator = new Validator(['ID' => $planetID]);
@@ -120,6 +154,13 @@ class PlanetsService
     }
 
 
+    /**
+     * Update the details of a planet.
+     *
+     * @param array $newPlanet The updated planet data, including the planet ID.
+     *
+     * @return Result The result of the update operation, either success with updated data or failure with validation errors.
+     */
     //TODO execute put without passing the id in the uri
     public function updatePlanet(array $newPlanet): Result
     {
@@ -202,6 +243,14 @@ class PlanetsService
         $data['status'] = 200;
         return Result::success("Planet Updated", $data);
     }
+
+    /**
+     * Fetch extra information about a planet from an external API.
+     *
+     * @param string $planetID The unique identifier of the planet.
+     *
+     * @return Result The result of the operation, either success with additional data or failure if the planet does not exist.
+     */
 
     public function getExtraPlanetInfo(string $planetID)
     {

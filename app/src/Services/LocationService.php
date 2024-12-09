@@ -7,13 +7,34 @@ use App\Models\LocationsModel;
 use App\Models\SpaceCompaniesModel;
 use App\Validation\Validator;
 
+
+/**
+ * Service class for managing locations.
+ * Handles creation, deletion, and update of location data.
+ */
 class LocationService
 {
+
+    /**
+     * LocationService constructor.
+     * 
+     * @param LocationsModel $locationsModel The model to interact with location data.
+     */
     public function __construct(private LocationsModel $locationsModel)
     {
         $this->locationsModel = $locationsModel;
     }
 
+
+    /**
+     * Creates a new location.
+     *
+     * Validates input data, checks if location name is unique, and then stores the new location.
+     * 
+     * @param array $newLocation The new location data.
+     * 
+     * @return Result The result of the operation, including success or failure message and status code.
+     */
     public function createLocation(array $newLocation): Result
     {
         $data = [];
@@ -67,6 +88,16 @@ class LocationService
         return Result::success("Location Added", $data);
     }
 
+    /**
+     * Deletes a location by ID.
+     *
+     * Validates the ID, checks if the location exists, and then deletes it.
+     * 
+     * @param string $id The ID of the location to delete.
+     * 
+     * @return Result The result of the deletion, including success or failure message and status code.
+     */
+
     //*Location Delete
     public function deleteLocation(string $id): Result
     {
@@ -97,6 +128,16 @@ class LocationService
         return Result::success("Location Deleted", $data);
     }
 
+
+    /**
+     * Updates an existing location.
+     *
+     * Validates the input data, checks if the location exists, and then updates it.
+     * 
+     * @param array $newLocation The updated location data.
+     * 
+     * @return Result The result of the operation, including success or failure message and status code.
+     */
     public function updateLocation(array $newLocation): Result
     {
         $data = [];

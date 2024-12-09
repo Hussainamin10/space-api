@@ -4,14 +4,50 @@ namespace App\Models;
 
 use App\Core\PDOService;
 
+/**
+ * Class SpaceStationsModel
+ *
+ * This class provides methods for interacting with the 'spacestation' table in the database.
+ * It allows for querying, filtering, sorting, and retrieving space station information.
+ *
+ * @package App\Models
+ */
+
 class SpaceStationsModel extends BaseModel
 {
 
+    /**
+     * The name of the database table for space stations.
+     *
+     * @var string
+     */
+
     private string $table_name = "spacestation";
+
+    /**
+     * SpaceStationsModel constructor.
+     * 
+     * Initializes the model with the provided database service instance.
+     *
+     * @param PDOService $dbo The database service instance.
+     */
     public function __construct(PDOService $dbo)
     {
         parent::__construct($dbo);
     }
+
+    /**
+     * Retrieves a list of space stations based on optional filter and sort parameters.
+     * 
+     * This method allows for filtering the space stations by name, type, description,
+     * owners, status, and founded date range. Sorting can also be applied based on the
+     * specified fields and order.
+     *
+     * @param array $filter_params An associative array of filter parameters (e.g., 'name', 'type').
+     * @param array $sort_params An associative array of sorting parameters (e.g., 'sortBy', 'order').
+     *
+     * @return array An array of space stations that match the filter and sort criteria.
+     */
 
     public function getSpaceStations(array $filter_params = [],  array $sort_params = []): array
     {
@@ -72,6 +108,16 @@ class SpaceStationsModel extends BaseModel
         $spacestations = $this->paginate($query, $named_params_values);
         return $spacestations;
     }
+
+    /**
+     * Retrieves a space station by its ID.
+     *
+     * This method fetches the details of a space station based on its unique station ID.
+     *
+     * @param string $stationID The ID of the space station to retrieve.
+     *
+     * @return mixed The space station's data, or null if no station is found with the given ID.
+     */
 
     public function getSpaceStationByID(string $stationID): mixed
     {

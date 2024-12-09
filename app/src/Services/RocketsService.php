@@ -7,14 +7,34 @@ use App\Models\RocketsModel;
 use App\Models\SpaceCompaniesModel;
 use App\Validation\Validator;
 
+/**
+ * Service class for handling rocket-related operations, including:
+ * - Adding, updating, deleting, and retrieving rocket information.
+ * - Validating rocket data based on company names and rocket name uniqueness.
+ * - Calculating lift force for rockets based on mass and gravity.
+ */
 class RocketsService
 {
+    /**
+     * RocketsService constructor.
+     *
+     * @param RocketsModel $rocketsModel Model to interact with rockets data.
+     * @param SpaceCompaniesModel $spaceCompaniesModel Model to interact with space companies data.
+     */
     public function __construct(private RocketsModel $rocketsModel, private SpaceCompaniesModel $spaceCompaniesModel)
     {
         $this->rocketsModel = $rocketsModel;
         $this->spaceCompaniesModel = $spaceCompaniesModel;
     }
 
+
+    /**
+     * Creates a new rocket with the provided data.
+     * Validates rocket data before insertion into the database.
+     *
+     * @param array $newRocket Data for the new rocket.
+     * @return Result A result object containing the status and any relevant data.
+     */
     public function createRocket(array $newRocket): Result
     {
         $data = [];
@@ -84,6 +104,13 @@ class RocketsService
         return Result::success("Rocket Added", $data);
     }
 
+    /**
+     * Deletes a rocket by its ID.
+     * Validates the rocket ID before deletion.
+     *
+     * @param string $rocketID The ID of the rocket to be deleted.
+     * @return Result A result object containing the status of the deletion.
+     */
     //*Rocket Delete
     public function deleteRocket(string $rocketID): Result
     {
@@ -113,6 +140,14 @@ class RocketsService
         $data['status'] = 200;
         return Result::success("Rocket Deleted", $data);
     }
+
+     /**
+     * Updates an existing rocket with the provided data.
+     * Validates rocket data before updating the database.
+     *
+     * @param array $newRocket Data for updating the rocket.
+     * @return Result A result object containing the status and any relevant data.
+     */
 
     public function updateRocket(array $newRocket): Result
     {
@@ -205,6 +240,14 @@ class RocketsService
         return Result::success("Rocket Updated", $data);
     }
 
+
+    /**
+     * Retrieves a rocket by its ID.
+     * Validates the rocket ID before retrieval.
+     *
+     * @param string $rocketID The ID of the rocket to be retrieved.
+     * @return Result A result object containing the status and the retrieved rocket data.
+     */
     public function getRocketByID(string $rocketID): Result
     {
         $validator = new Validator(['ID' => $rocketID]);
@@ -230,6 +273,13 @@ class RocketsService
         return Result::success("Rocket returned", $data);
     }
 
+    /**
+     * Retrieves missions associated with a rocket by its ID.
+     *
+     * @param string $rocketID The ID of the rocket whose missions are to be retrieved.
+     * @return Result A result object containing the status and the associated missions.
+     */
+
     public function getMissionsByRocketID(string $rocketID): Result
     {
         $result = $this->getRocketByID($rocketID);
@@ -243,6 +293,13 @@ class RocketsService
         }
     }
 
+
+    /**
+     * Retrieves launches associated with a rocket by its ID.
+     *
+     * @param string $rocketID The ID of the rocket whose launches are to be retrieved.
+     * @return Result A result object containing the status and the associated launches.
+     */
     public function getLaunchesByRocketID(string $rocketID)
     {
         $result = $this->getRocketByID($rocketID);
@@ -273,6 +330,13 @@ class RocketsService
         }
     }
 
+    /**
+     * Calculates the lift force based on mass and gravity.
+     * Converts mass from pounds to kilograms if necessary.
+     *
+     * @param array $inputs The inputs for calculating the lift force, including mass, mass unit, and gravity.
+     * @return Result A result object containing the status and the calculated lift force.
+     */
     public function getLiftCalculation(array $inputs): Result
     {
         $validator = new Validator($inputs);

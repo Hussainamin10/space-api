@@ -4,13 +4,47 @@ namespace App\Models;
 
 use App\Core\PDOService;
 
+/**
+ * Class PlanetModel
+ *
+ * Handles CRUD operations and data retrieval for the `planet` table.
+ */
 class PlanetModel extends BaseModel
 {
+
+    /**
+     * @var string $table_name The name of the database table associated with the model.
+     */
     private string $table_name = "planet";
+
+     /**
+     * PlanetModel constructor.
+     *
+     * @param PDOService $dbo The PDO service instance for database operations.
+     */
     public function __construct(PDOService $dbo)
     {
         parent::__construct($dbo);
     }
+
+    /**
+     * Retrieves a list of planets with optional filtering and sorting.
+     *
+     * @param array $filter_params Array of filter parameters, including:
+     *                             - 'name': Filter by planet name (string).
+     *                             - 'minSideralRotation': Minimum sideral orbit value (float).
+     *                             - 'maxSideralRotation': Maximum sideral orbit value (float).
+     *                             - 'minMass': Minimum mass value (float).
+     *                             - 'maxMass': Maximum mass value (float).
+     *                             - 'minEquaRadius': Minimum equatorial radius value (float).
+     *                             - 'maxEquaRadius': Maximum equatorial radius value (float).
+     *                             - 'minGravity': Minimum gravity value (float).
+     *                             - 'maxGravity': Maximum gravity value (float).
+     *                             - 'discoveryDate': Filter by discovery date (string).
+     *                             - 'sort_by': Column to sort by (string).
+     *                             - 'order': Sort order ('asc' or 'desc').
+     * @return array An array of planets matching the filters.
+     */
 
     //? Get all Planets
     public function getPlanets(array $filter_params = []): array
@@ -89,6 +123,12 @@ class PlanetModel extends BaseModel
         $planets = $this->paginate($query, $named_params_values);
         return $planets;
     }
+
+    /**
+     * Retrieves all planets without filters.
+     *
+     * @return mixed An array of all planets.
+     */
     public function getAllPlanets(): mixed
     {
         $query = "SELECT * FROM {$this->table_name}";
@@ -98,6 +138,12 @@ class PlanetModel extends BaseModel
 
     //? Get planet by ID
 
+    /**
+     * Retrieves a single planet by its ID.
+     *
+     * @param string $planet_id The ID of the planet to retrieve.
+     * @return mixed The planet data or null if not found.
+     */
     public function getPlanetById(string $planet_id): mixed
     {
         $sql = "SELECT * FROM {$this->table_name} WHERE planetID = :planet_id";
@@ -111,6 +157,12 @@ class PlanetModel extends BaseModel
 
     //?insert new planet
 
+    /**
+     * Inserts a new planet into the database.
+     *
+     * @param array $new_planet_info Associative array containing the new planet's data.
+     * @return mixed The ID of the newly inserted planet.
+     */
     public function insertPlanet(array $new_planet_info): mixed
     {
         $last_id = $this->insert($this->table_name, $new_planet_info);
@@ -118,6 +170,13 @@ class PlanetModel extends BaseModel
         return $last_id;
     }
 
+    /**
+     * Updates the details of an existing planet.
+     *
+     * @param array $new_planet Associative array containing updated planet data.
+     *                          Must include the 'planetID' key to identify the planet.
+     * @return mixed The result of the update operation.
+     */
     //? update planet
     public function updatePlanet(array $new_planet): mixed
     {
@@ -127,6 +186,12 @@ class PlanetModel extends BaseModel
         return $this->update($this->table_name, $new_planet, ["planetID" => $planet_id]);
     }
 
+    /**
+     * Deletes a planet from the database.
+     *
+     * @param string $planetID The ID of the planet to delete.
+     * @return mixed The result of the delete operation.
+     */
     public function deletePlanet(string $planetID): mixed
     {
         $delete = $this->delete($this->table_name, ["planetID" => $planetID]);

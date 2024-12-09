@@ -4,14 +4,47 @@ namespace App\Models;
 
 use App\Core\PDOService;
 
+/**
+ * Class RocketsModel
+ *
+ * Handles CRUD operations and data retrieval for the `rocket` table.
+ */
+
 class RocketsModel extends BaseModel
 {
 
+    /**
+     * @var string $table_name The name of the database table associated with the model.
+     */
     private string $table_name = "rocket";
+
+    /**
+     * RocketsModel constructor.
+     *
+     * @param PDOService $dbo The PDO service instance for database operations.
+     */
     public function __construct(PDOService $dbo)
     {
         parent::__construct($dbo);
     }
+
+    /**
+     * Retrieves a list of rockets with optional filtering and sorting.
+     *
+     * @param array $filter_params Array of filter parameters, including:
+     *                             - 'rocketName': Filter by rocket name (string).
+     *                             - 'companyName': Filter by company name (string).
+     *                             - 'status': Filter by status (string).
+     *                             - 'minHeight', 'maxHeight': Filter by height range (numeric).
+     *                             - 'minWeight', 'maxWeight': Filter by weight range (numeric).
+     *                             - 'minCost', 'maxCost': Filter by cost range (numeric).
+     *                             - 'minThrust', 'maxThrust': Filter by thrust range (numeric).
+     *                             - 'numberOfStages': Filter by the number of stages (integer).
+     * @param array $sort_params Array of sorting parameters, including:
+     *                           - 'sortBy': An array of fields to sort by (array).
+     *                           - 'order': Sort order, either 'ASC' or 'DESC' (string).
+     * @return array A paginated array of rockets matching the filters and sort criteria.
+     */
 
     public function getRockets(array $filter_params = [], array $sort_params = []): array
     {
@@ -104,12 +137,25 @@ class RocketsModel extends BaseModel
         return $rockets;
     }
 
+
+    /**
+     * Retrieves all rockets without filtering or sorting.
+     *
+     * @return mixed An array of all rockets.
+     */
     public function getAllRockets(): mixed
     {
         $query = "SELECT * FROM {$this->table_name}";
         $rockets = $this->fetchAll($query);
         return $rockets;
     }
+
+    /**
+     * Retrieves a single rocket by its ID.
+     *
+     * @param string $rocketID The ID of the rocket to retrieve.
+     * @return mixed The rocket data or null if not found.
+     */
     public function getRocketByID(string $rocketID): mixed
     {
         $sql = "SELECT * FROM {$this->table_name} WHERE rocketID = :rocketID";
@@ -119,6 +165,13 @@ class RocketsModel extends BaseModel
         );
         return $rocket_info;
     }
+
+    /**
+     * Retrieves a rocket and its associated missions by rocket ID.
+     *
+     * @param string $rocketID The ID of the rocket.
+     * @return mixed An array containing the rocket data and its associated missions.
+     */
 
     public function getMissionsByRocketID(string $rocketID): mixed
     {
@@ -141,18 +194,38 @@ class RocketsModel extends BaseModel
         ];
         return $result;
     }
+
+    /**
+     * Creates a new rocket in the database.
+     *
+     * @param array $newRocket An associative array containing the new rocket's data.
+     * @return mixed The ID of the newly created rocket.
+     */
     public function createRocket(array $newRocket): mixed
     {
         $newRocketID = $this->insert($this->table_name, $newRocket);
         return $newRocketID;
     }
 
+    /**
+     * Deletes a rocket by its ID.
+     *
+     * @param string $rocketID The ID of the rocket to delete.
+     * @return mixed The result of the delete operation.
+     */
     public function deleteRocket(string $rocketID): mixed
     {
         $delete = $this->delete($this->table_name, ["rocketID" => $rocketID]);
         return $delete;
     }
 
+     /**
+     * Updates a rocket's information.
+     *
+     * @param string $rocketID The ID of the rocket to update.
+     * @param array $newRocket An associative array of the updated rocket data.
+     * @return mixed The result of the update operation.
+     */
     public function updateRocket(string $rocketID, array $newRocket): mixed
     {
         $update = $this->update($this->table_name, $newRocket, ["rocketID" => $rocketID]);

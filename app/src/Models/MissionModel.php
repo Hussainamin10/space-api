@@ -4,15 +4,35 @@ namespace App\Models;
 
 use App\Core\PDOService;
 
+/**
+ * Class MissionModel
+ *
+ * Handles operations related to the "spacemissions" table, such as fetching, filtering, and managing missions.
+ */
 class MissionModel extends BaseModel
 {
 
-
+    /**
+     * @var string The name of the database table for space missions.
+     */
     private string $table_name = "spacemissions";
+
+    /**
+     * Constructor.
+     *
+     * @param PDOService $dbo The database service object.
+     */
     public function __construct(PDOService $dbo)
     {
         parent::__construct($dbo);
     }
+
+    /**
+     * Retrieves a list of missions with optional filtering and sorting.
+     *
+     * @param array $filter_params Associative array of filters (e.g., companyName, rocketName, launchDate, etc.).
+     * @return array List of filtered and sorted missions.
+     */
 
     //? Get all Missions
 
@@ -123,6 +143,12 @@ class MissionModel extends BaseModel
     }
 
 
+     /**
+     * Retrieves a mission by its ID.
+     *
+     * @param string $mission_id The ID of the mission to retrieve.
+     * @return mixed Mission data as an associative array, or null if not found.
+     */
     //? Get mission by ID
     public function getMissionById(string $mission_id): mixed
     {
@@ -134,6 +160,13 @@ class MissionModel extends BaseModel
 
         return $mission_info;
     }
+
+    /**
+     * Retrieves the details of a mission along with the associated astronauts by mission ID.
+     *
+     * @param string $mission_id The ID of the mission to retrieve.
+     * @return mixed An associative array containing mission details and a list of astronauts.
+     */
 
     //? Get astronauts by mission ID
     public function getAstronautsByMissionID(string $mission_id): mixed

@@ -4,15 +4,38 @@ namespace App\Models;
 
 use App\Core\PDOService;
 
+/**
+ * Class PlayersModel
+ *
+ * Handles CRUD operations and data retrieval for the `players` table.
+ */
 class PlayersModel extends BaseModel
 {
 
+    /**
+     * @var string $table_name The name of the database table associated with the model.
+     */
     private string $table_name = "players";
+
+    /**
+     * PlayersModel constructor.
+     *
+     * @param PDOService $dbo The PDO service instance for database operations.
+     */
     public function __construct(PDOService $dbo)
     {
         parent::__construct($dbo);
     }
 
+
+    /**
+     * Retrieves a list of players with optional filtering and pagination.
+     *
+     * @param array $filter_params Array of filter parameters, including:
+     *                             - 'given_name': Filter by player's given name (string).
+     *                             - 'family_name': Filter by player's family name (string).
+     * @return array An array of players matching the filters.
+     */
     public function getPlayers(array $filter_params = []): array
     {
         $named_params_values = [];
@@ -34,6 +57,13 @@ class PlayersModel extends BaseModel
         $players = $this->paginate($query, $named_params_values);
         return $players;
     }
+
+    /**
+     * Retrieves a single player by their ID.
+     *
+     * @param string $player_id The ID of the player to retrieve.
+     * @return mixed The player data or null if not found.
+     */
 
     public function getPlayerById(string $player_id): mixed
     {
