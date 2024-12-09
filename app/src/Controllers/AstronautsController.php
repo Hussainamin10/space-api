@@ -13,16 +13,36 @@ use Slim\Exception\HttpNotFoundException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
+/**
+ * Class AstronautsController
+ *
+ * Handles operations related to astronauts, such as retrieval, creation, updating, and deletion.
+ */
 class AstronautsController extends BaseController
 {
     //! The use of password trait
     use PasswordTrait;
+
+    /**
+     * AstronautsController constructor.
+     *
+     * @param AstronautsModel $astronauts_model The astronauts model instance.
+     * @param AstronautsService $astronautsService The astronauts service instance.
+     */
     public function __construct(private AstronautsModel $astronauts_model, private AstronautsService $astronautsService)
     {
         $this->astronauts_model = $astronauts_model;
         $this->astronautsService = $astronautsService;
     }
 
+      /**
+     * Retrieves a list of astronauts with optional filtering and pagination.
+     *
+     * @param Request $request The HTTP request.
+     * @param Response $response The HTTP response.
+     *
+     * @return Response The JSON response containing astronauts data.
+     */
     //! Get /astronauts
     public function handleGetAstronauts(Request $request, Response $response): Response
     {
@@ -40,6 +60,18 @@ class AstronautsController extends BaseController
         return $this->renderJson($response, $astronauts);
     }
 
+    /**
+     * Retrieves details of an astronaut by their ID.
+     *
+     * @param Request $request The HTTP request.
+     * @param Response $response The HTTP response.
+     * @param array $uri_args URI arguments containing the astronaut ID.
+     *
+     * @return Response The JSON response containing astronaut data or an error message.
+     *
+     * @throws HttpInvalidInputsException If the astronaut ID is invalid.
+     * @throws HttpNotFoundException If the astronaut is not found.
+     */
     //! Get astronaut by Id
     public function handleGetAstronautByID(Request $request, Response $response, array $uri_args): Response
     {
@@ -75,6 +107,14 @@ class AstronautsController extends BaseController
         return $this->renderJson($response, $astronaut);
     }
 
+       /**
+     * Creates a new astronaut record.
+     *
+     * @param Request $request The HTTP request containing the astronaut data.
+     * @param Response $response The HTTP response.
+     *
+     * @return Response The JSON response indicating success or failure.
+     */
     //! Post /astronauts
     public function handleCreateAstronaut(Request $request, Response $response): Response
     {
@@ -101,6 +141,15 @@ class AstronautsController extends BaseController
         return $this->renderJson($response, $payload, $status_code);
     }
 
+     /**
+     * Deletes an astronaut record by ID.
+     *
+     * @param Request $request The HTTP request containing the astronaut ID.
+     * @param Response $response The HTTP response.
+     * @param array $uri_args URI arguments (not used here).
+     *
+     * @return Response The JSON response indicating success or failure.
+     */
     //! Delete /astronauts
     public function handleDeleteAstronaut(Request $request, Response $response, array $uri_args): Response
     {
@@ -120,6 +169,15 @@ class AstronautsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+    /**
+     * Updates an existing astronaut record.
+     *
+     * @param Request $request The HTTP request containing the updated astronaut data.
+     * @param Response $response The HTTP response.
+     * @param array $uri_args URI arguments (not used here).
+     *
+     * @return Response The JSON response indicating success or failure.
+     */
     //! Update /astronauts
     public function handleUpdateAstronaut(Request $request, Response $response, array $uri_args): Response
     {
@@ -138,6 +196,15 @@ class AstronautsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+     /**
+     * Logs access to a resource.
+     *
+     * @param Request $request The HTTP request.
+     * @param Response $response The HTTP response.
+     * @param array $uri_args URI arguments (not used here).
+     *
+     * @return Response The HTTP response after logging.
+     */
     //! Log
     public function handleAccessLog(Request $request, Response $response, array $uri_args): Response
     {
@@ -157,6 +224,15 @@ class AstronautsController extends BaseController
         return $response;
     }
 
+    /**
+     * Retrieves detailed astronaut information by ID.
+     *
+     * @param Request $request The HTTP request.
+     * @param Response $response The HTTP response.
+     * @param array $uri_args URI arguments containing the astronaut ID.
+     *
+     * @return Response The JSON response containing astronaut details or an error message.
+     */
     //! Composite Resource
     public function handleGetAstronautInfoByAstronautID(Request $request, Response $response, array $uri_args): Response
     {

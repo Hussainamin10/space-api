@@ -10,16 +10,39 @@ use App\Models\AccountsModel;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+/**
+ * AccessLogMiddleware is a middleware for logging access details for each incoming HTTP request.
+ * It captures the request method, URI, query parameters, user's IP address, and JWT authentication data.
+ * The access information is logged using the LogHelper class.
+ */
 class AccessLogMiddleware
 {
 
 
+    /**
+     * AccessLogMiddleware constructor.
+     * Initializes the middleware with the necessary models for user account management and access logging.
+     *
+     * @param AccountsModel $accountsModel The model for managing user accounts.
+     * @param AccessLogModel $accessLogModel The model for logging access data to the database.
+     */
     public function __construct(private AccountsModel $accountsModel, private AccessLogModel $accessLogModel)
     {
         $this->accountsModel = $accountsModel;
         $this->accessLogModel = $accessLogModel;
     }
 
+      /**
+     * Handles the logging of access information for each incoming request.
+     * It captures the HTTP method, URI, query parameters, and the user's IP address.
+     * It also decodes the JWT from the Authorization header to log user-specific information.
+     *
+     * @param Request $request The incoming HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @param array $uri_args The URI arguments.
+     *
+     * @return Response The response object, potentially modified by the middleware.
+     */
     public function handleAccessLog(Request $request, Response $response,  array $uri_args)
     {
         $method = $request->getMethod();

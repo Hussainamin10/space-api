@@ -10,10 +10,21 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
 
+/**
+ * Class PlanetController
+ * Handles HTTP requests related to planets, including fetching, creating, updating,
+ * and deleting planet data.
+ */
 class PlanetController extends BaseController
 {
 
 
+      /**
+     * PlanetController constructor.
+     *
+     * @param PlanetModel $planet_model The planet model dependency.
+     * @param PlanetsService $planetsService The planet service dependency.
+     */
     public function __construct(private PlanetModel $planet_model, private PlanetsService $planetsService)
     {
         parent::__construct();
@@ -22,6 +33,13 @@ class PlanetController extends BaseController
         $this->planetsService = $planetsService;
     }
 
+       /**
+     * Handle a GET request to retrieve all planets with optional filters and pagination.
+     *
+     * @param Request $request  The HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @return Response The JSON response containing planet data.
+     */
     //? Get All planets callBack function
     public function handleGetPlanet(Request $request, Response $response): Response
     {
@@ -43,6 +61,16 @@ class PlanetController extends BaseController
         return $this->renderJson($response, $players);
     }
 
+       /**
+     * Handle a GET request to retrieve a planet by its ID.
+     *
+     * @param Request $request  The HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @param array $uri_args   The URI arguments, including `planetID`.
+     * @return Response The JSON response containing the planet data.
+     * @throws HttpInvalidInputsException If the planet ID is invalid.
+     * @throws HttpNotFoundException If the planet is not found.
+     */
     //? Get  planet by id callBack function
     public function handleGetPlanetId(Request $request, Response $response, array $uri_args): Response
     {
@@ -81,6 +109,15 @@ class PlanetController extends BaseController
         return $this->renderJson($response, $planet);
     }
 
+        /**
+     * Handle a GET request to retrieve additional information for a specific planet.
+     *
+     * @param Request $request  The HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @param array $uri_args   The URI arguments, including `planetID`.
+     * @return Response The JSON response containing additional planet information.
+     */
+
     public function handleGetExtraPlanetInfo(Request $request, Response $response, array $uri_args): Response
     {
 
@@ -102,6 +139,14 @@ class PlanetController extends BaseController
     }
 
 
+      /**
+     * Handle a POST request to create a new planet.
+     *
+     * @param Request $request  The HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @param array $uri_args   The URI arguments (not used).
+     * @return Response The JSON response indicating the result of the creation process.
+     */
     public function handleCreatePlanet(Request $request, Response $response, array $uri_args): Response
     {
         //echo "QUACK!!";
@@ -136,6 +181,14 @@ class PlanetController extends BaseController
     }
 
 
+        /**
+     * Handle a DELETE request to remove a planet.
+     *
+     * @param Request $request  The HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @param array $uri_args   The URI arguments (not used).
+     * @return Response The JSON response indicating the result of the deletion process.
+     */
     public function handleDeletePlanet(Request $request, Response $response, array $uri_args): Response
     {
         //? Retrieve POST request embedded body
@@ -154,6 +207,14 @@ class PlanetController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+    /**
+     * Handle a PUT request to update planet details.
+     *
+     * @param Request $request  The HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @param array $uri_args   The URI arguments (not used).
+     * @return Response The JSON response indicating the result of the update process.
+     */
     public function handleUpdatePlanet(Request $request, Response $response, array $uri_args): Response
     {
 

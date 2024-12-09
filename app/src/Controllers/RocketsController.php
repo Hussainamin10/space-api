@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * RocketsController handles requests related to rocket operations.
+ *
+ * This class provides endpoints to perform CRUD operations on rockets,
+ * retrieve rockets, and calculate lift-off thrust. It uses the RocketsModel
+ * for database interactions and the RocketsService for additional business logic.
+ *
+ * @package App\Controllers
+ */
+
 namespace App\Controllers;
 
 use App\Exceptions\HttpInvalidInputsException;
@@ -16,11 +26,29 @@ class RocketsController extends BaseController
 {
 
 
+        /**
+     * Constructor for RocketsController.
+     *
+     * @param RocketsModel $rocketsModel
+     * @param RocketsService $rocketsService
+     */
     public function __construct(private RocketsModel $rocketsModel, private RocketsService $rocketsService)
     {
         $this->rocketsService = $rocketsService;
         $this->rocketsModel = $rocketsModel;
     }
+
+    /**
+     * Retrieves a list of rockets with optional filters and sorting.
+     *
+     * @route GET /rockets
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return Response JSON response containing the list of rockets.
+     *
+     * @throws HttpInvalidInputsException If invalid query parameters are provided.
+     */
     //Route:GET /players
     public function handleGetRockets(Request $request, Response $response): Response
     {
@@ -106,6 +134,16 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $rockets);
     }
 
+     /**
+     * Retrieves details of a rocket by its ID.
+     *
+     * @route GET /rockets/{rocketID}
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $uri_args
+     * @return Response JSON response containing the rocket details.
+     */
     public function handleGetRocketByID(Request $request, Response $response, array $uri_args): Response
     {
         $rocketID = $uri_args["rocketID"];
@@ -124,6 +162,15 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+       /**
+     * Creates a new rocket.
+     *
+     * @route POST /rockets
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return Response JSON response indicating success or failure.
+     */
     public function handleCreateRocket(Request $request, Response $response): Response
     {
         // Retrieve POST request embedded body
@@ -145,6 +192,17 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+       /**
+     * Deletes a rocket by its ID.
+     *
+     * @route DELETE /rockets
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return Response JSON response indicating success or failure.
+     *
+     * @throws HttpInvalidInputsException If the rocket ID is missing or invalid.
+     */
     public function handleDeleteRocket(Request $request, Response $response): Response
     {
         // Retrieve POST request embedded
@@ -166,6 +224,16 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+       /**
+     * Updates the details of a rocket.
+     *
+     * @route PUT /rockets
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $uri_args
+     * @return Response JSON response indicating success or failure.
+     */
     public function handleUpdateRocket(Request $request, Response $response, array $uri_args): Response
     {
         if (!isset($request->getParsedBody()[0])) {
@@ -186,6 +254,16 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+     /**
+     * Retrieves a list of launches associated with a specific rocket.
+     *
+     * @route GET /rockets/{rocketID}/launches
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $uri_args
+     * @return Response JSON response containing the launches.
+     */
     public function handleGetLaunchesByRocketID(Request $request, Response $response, array $uri_args): Response
     {
         $rocketID = $uri_args["rocketID"];
@@ -203,6 +281,16 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+      /**
+     * Retrieves a list of missions associated with a specific rocket.
+     *
+     * @route GET /rockets/{rocketID}/missions
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $uri_args
+     * @return Response JSON response containing the missions.
+     */
     public function  handleGetMissionsByRocketID(Request $request, Response $response, array $uri_args): Response
     {
         $rocketID = $uri_args["rocketID"];
@@ -221,6 +309,17 @@ class RocketsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+     /**
+     * Calculates the lift-off thrust for a given rocket.
+     *
+     * @route POST /rockets/calculate-lift
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return Response JSON response containing the lift-off thrust calculation.
+     *
+     * @throws HttpInvalidInputsException If the input data is invalid.
+     */
     public function handleCalLiftOfThrust(Request $request, Response $response): Response
     {
         if (!isset($request->getParsedBody()[0])) {

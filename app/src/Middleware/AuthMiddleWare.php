@@ -13,8 +13,28 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 
+
+/**
+ * AuthMiddleware is a middleware that handles authentication and authorization for incoming requests.
+ * It checks the presence of a valid JWT in the Authorization header and validates the user's role.
+ * If the JWT is missing or invalid, or if the user has insufficient permissions for the requested resource,
+ * an HTTP Unauthorized or Forbidden exception is thrown.
+ */
 class AuthMiddleWare implements MiddlewareInterface
 {
+    /**
+     * Processes the incoming request to verify authentication and authorization.
+     * It checks if the request is for login or register endpoints, and if not, validates the JWT.
+     * If the user has an invalid role or the JWT is not valid, an exception is thrown.
+     *
+     * @param Request $request The incoming request.
+     * @param RequestHandler $handler The handler to process the request after the middleware.
+     *
+     * @return ResponseInterface The response after processing the request.
+     *
+     * @throws HttpUnauthorizedException If the JWT is invalid or missing.
+     * @throws HttpInvalidUserPermission If the user does not have the required permissions for the request.
+     */
     public function process(Request $request, RequestHandler $handler): ResponseInterface
     {
 
