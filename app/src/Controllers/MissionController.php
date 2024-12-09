@@ -11,11 +11,20 @@ use Slim\Exception\HttpNotFoundException;
 use App\Validation\Validator;
 
 
-
+/**
+ * Class MissionController
+ * Handles HTTP requests related to space missions, including fetching, validating,
+ * and managing mission data.
+ */
 class MissionController extends BaseController
 {
 
 
+      /**
+     * MissionController constructor.
+     *
+     * @param MissionModel $mission_model The mission model dependency.
+     */
     public function __construct(private MissionModel $mission_model)
     {
         parent::__construct();
@@ -24,6 +33,13 @@ class MissionController extends BaseController
     }
 
 
+       /**
+     * Handle a GET request to retrieve all missions with optional filters and pagination.
+     *
+     * @param Request $request  The HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @return Response The JSON response containing mission data.
+     */
     //? Get All Mission callback function
     public function handleGetMission(Request $request, Response $response): Response
     {
@@ -44,8 +60,17 @@ class MissionController extends BaseController
         return $this->renderJson($response, $players);
     }
 
+    /**
+     * Handle a GET request to retrieve a mission by its ID.
+     *
+     * @param Request $request  The HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @param array $uri_args   The URI arguments, including `missionID`.
+     * @return Response The JSON response containing the mission data.
+     * @throws HttpInvalidInputsException If the mission ID is invalid.
+     * @throws HttpNotFoundException If the mission is not found.
+     */
     //? Get Mission by ID callback function
-
     public function handleGetMissionId(Request $request, Response $response, array $uri_args): Response
     {
         //dd($uri_args["player_id"]);
@@ -83,8 +108,17 @@ class MissionController extends BaseController
         return $this->renderJson($response, $mission);
     }
 
+      /**
+     * Handle a GET request to retrieve astronauts associated with a specific mission ID.
+     *
+     * @param Request $request  The HTTP request object.
+     * @param Response $response The HTTP response object.
+     * @param array $uri_args   The URI arguments, including `mission_id`.
+     * @return Response The JSON response containing the astronauts associated with the mission.
+     * @throws HttpInvalidInputsException If the mission ID is invalid.
+     * @throws HttpNotFoundException If the mission is not found.
+     */
     //?Get Astronauts by Mission ID callback function
-
     public function  handleGetAstronautsByMissionID(Request $request, Response $response, array $uri_args): Response
     {
         $mission_id = $uri_args["mission_id"];

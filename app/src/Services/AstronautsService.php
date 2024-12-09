@@ -300,7 +300,7 @@ class AstronautsService
                     "astronautInfo" => $responseBody["results"]
                 ];
                 $data['status'] = 200;
-                return Result::success("Return astronaut by astronaut ID", $data);
+                return Result::success("Return astronaut by date of birth", $data);
             } else {
                 return $result;
             }

@@ -10,14 +10,34 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
 
+/**
+ * SpaceStationsController handles HTTP requests related to space stations, such as retrieving a list of space stations,
+ * getting space station details by ID, and applying filters for pagination and sorting.
+ */
 class SpaceStationsController extends BaseController
 {
 
 
+    /**
+     * Constructor initializes the SpaceStationsModel instance.
+     *
+     * @param SpaceStationsModel $space_station_model
+     */
     public function __construct(private SpaceStationsModel $space_station_model)
     {
         parent::__construct();
     }
+
+     /**
+     * Handles the GET request to retrieve a list of space stations with optional filters for pagination and sorting.
+     *
+     * @param Request  $request  The incoming request.
+     * @param Response $response The outgoing response.
+     *
+     * @return Response The JSON response containing the space stations data.
+     *
+     * @throws HttpInvalidInputsException If invalid query parameters are provided.
+     */
     //Route:GET /players
     public function handleGetSpaceStations(Request $request, Response $response): Response
     {
@@ -94,6 +114,18 @@ class SpaceStationsController extends BaseController
     }
 
 
+      /**
+     * Handles the GET request to retrieve a space station by its ID.
+     *
+     * @param Request  $request     The incoming request.
+     * @param Response $response    The outgoing response.
+     * @param array    $uri_args    The URI arguments (stationID).
+     *
+     * @return Response The JSON response containing the space station data.
+     *
+     * @throws HttpInvalidInputsException If the space station ID is invalid.
+     * @throws HttpNotFoundException If no space station is found with the provided ID.
+     */
     public function handleGetSpaceStationByID(Request $request, Response $response, array $uri_args): Response
     {
         //* Step 1) Receive the received spaceStation ID

@@ -11,13 +11,31 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
 
+/**
+ * SpaceCompaniesController handles HTTP requests related to space companies, such as retrieving company information,
+ * getting rockets by company, and applying filters for pagination and sorting.
+ */
 class SpaceCompaniesController extends BaseController
 {
+
+     /**
+     * Constructor initializes the SpaceCompaniesModel instance.
+     *
+     * @param SpaceCompaniesModel $spaceCompanies_model
+     */
     public function __construct(private SpaceCompaniesModel $spaceCompanies_model)
     {
         parent::__construct();
     }
 
+       /**
+     * Handles the GET request to retrieve a list of space companies with optional filters for pagination.
+     *
+     * @param Request  $request  The incoming request.
+     * @param Response $response The outgoing response.
+     *
+     * @return Response The JSON response containing the space companies data.
+     */
     //! Get spaceCompanies
     public function handleGetSpaceCompanies(Request $request, Response $response): Response
     {
@@ -35,6 +53,17 @@ class SpaceCompaniesController extends BaseController
         return $this->renderJson($response, $spaceCompanies);
     }
 
+     /**
+     * Handles the GET request to retrieve a space company by its name.
+     *
+     * @param Request  $request     The incoming request.
+     * @param Response $response    The outgoing response.
+     * @param array    $uri_args    The URI arguments (companyName).
+     *
+     * @return Response The JSON response containing the space company data.
+     *
+     * @throws HttpNotFoundException If no company is found with the provided name.
+     */
     //! Get spaceCompany by Name
     public function handleGetCompanyByName(Request $request, Response $response, array $uri_args): Response
     {
@@ -67,6 +96,18 @@ class SpaceCompaniesController extends BaseController
     }
 
 
+       /**
+     * Handles the GET request to retrieve rockets associated with a company by its name.
+     *
+     * @param Request  $request     The incoming request.
+     * @param Response $response    The outgoing response.
+     * @param array    $uri_args    The URI arguments (companyName).
+     *
+     * @return Response The JSON response containing the rockets data.
+     *
+     * @throws HttpInvalidInputsException If the company name is invalid.
+     * @throws HttpNotFoundException If no rockets are found for the specified company.
+     */
     //! Get rockets by companyName
     public function handleRocketsByCompanyName(Request $request, Response $response, array $uri_args): Response
     {

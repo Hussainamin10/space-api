@@ -9,14 +9,34 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
 
+/**
+ * Class PlayersController
+ * Controller for handling player-related operations.
+ *
+ * @package App\Controllers
+ */
 class PlayersController extends BaseController
 {
 
 
+      /**
+     * PlayersController constructor.
+     *
+     * @param PlayersModel $players_model The PlayersModel instance for accessing player data.
+     */
     public function __construct(private PlayersModel $players_model)
     {
         parent::__construct();
     }
+
+     /**
+     * Handle fetching a list of players with optional filtering and pagination.
+     * Route: GET /players
+     *
+     * @param Request $request The HTTP request.
+     * @param Response $response The HTTP response.
+     * @return Response The HTTP response containing the list of players in JSON format.
+     */
     //Route:GET /players
     public function handleGetPlayers(Request $request, Response $response): Response
     {
@@ -45,6 +65,18 @@ class PlayersController extends BaseController
         */
         return $this->renderJson($response, $players);
     }
+
+       /**
+     * Handle fetching details of a specific player by their ID.
+     * Route: GET /players/{player_id}
+     *
+     * @param Request $request The HTTP request.
+     * @param Response $response The HTTP response.
+     * @param array $uri_args The route parameters containing the player ID.
+     * @return Response The HTTP response containing the player details in JSON format.
+     * @throws HttpInvalidInputsException If the provided player ID is invalid.
+     * @throws HttpNotFoundException If no matching player is found.
+     */
     public function handleGetPlayerId(Request $request, Response $response, array $uri_args): Response
     {
         //dd($uri_args["player_id"]);

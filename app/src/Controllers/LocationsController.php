@@ -11,15 +11,35 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
 
+/**
+ * LocationsController handles CRUD operations and query-based actions related to locations.
+ */
 class LocationsController extends BaseController
 {
 
 
+      /**
+     * Constructor for the LocationsController.
+     *
+     * @param LocationsModel $location_model The model for accessing location data.
+     * @param LocationService $locationService The service for processing location business logic.
+     */
     public function __construct(private LocationsModel $location_model, private LocationService $locationService)
     {
         $this->location_model = $location_model;
         $this->locationService = $locationService;
     }
+
+    /**
+     * Handles retrieval of a paginated and sorted list of locations.
+     *
+     * @param Request $request The HTTP request containing query parameters for filtering and sorting.
+     * @param Response $response The HTTP response to return the location data.
+     *
+     * @return Response A JSON response with the list of locations.
+     *
+     * @throws HttpInvalidInputsException For invalid query parameters.
+     */
     //Route:GET /players
     public function handleGetLocations(Request $request, Response $response): Response
     {
@@ -101,6 +121,18 @@ class LocationsController extends BaseController
     }
 
 
+        /**
+     * Retrieves details of a specific location by its ID.
+     *
+     * @param Request $request The HTTP request.
+     * @param Response $response The HTTP response.
+     * @param array $uri_args URI arguments containing the location ID.
+     *
+     * @return Response A JSON response with the location details.
+     *
+     * @throws HttpInvalidInputsException For invalid location IDs.
+     * @throws HttpNotFoundException If no location is found for the provided ID.
+     */
     public function handleGetLocationByID(Request $request, Response $response, array $uri_args): Response
     {
 
@@ -133,6 +165,14 @@ class LocationsController extends BaseController
         return $this->renderJson($response, $location);
     }
 
+       /**
+     * Creates a new location entry.
+     *
+     * @param Request $request The HTTP request containing the new location data.
+     * @param Response $response The HTTP response to confirm creation.
+     *
+     * @return Response A JSON response with the creation result.
+     */
     public function handleCreateLocation(Request $request, Response $response): Response
     {
         // Retrieve POST request embedded body
@@ -152,6 +192,15 @@ class LocationsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+     /**
+     * Deletes a specific location.
+     *
+     * @param Request $request The HTTP request containing the location ID.
+     * @param Response $response The HTTP response confirming deletion.
+     * @param array $uri_args URI arguments (optional, not used here).
+     *
+     * @return Response A JSON response with the deletion result.
+     */
     public function handleDeleteLocation(Request $request, Response $response, array $uri_args): Response
     {
         // Retrieve POST request embedded body
@@ -170,6 +219,15 @@ class LocationsController extends BaseController
         return $this->renderJson($response, $payload, $payload['status']);
     }
 
+      /**
+     * Updates an existing location entry.
+     *
+     * @param Request $request The HTTP request containing the updated location data.
+     * @param Response $response The HTTP response confirming the update.
+     * @param array $uri_args URI arguments (optional, not used here).
+     *
+     * @return Response A JSON response with the update result.
+     */
     public function handleUpdateLocation(Request $request, Response $response, array $uri_args): Response
     {
         // Retrieve POST request embedded body

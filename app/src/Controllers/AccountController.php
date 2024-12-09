@@ -9,13 +9,35 @@ use Firebase\JWT\JWT;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * Class AccountController
+ *
+ * Controller for handling account-related operations such as login and registration.
+ */
 class AccountController extends BaseController
 {
+      /**
+     * AccountController constructor.
+     *
+     * @param AccountsModel $accountsModel The accounts model instance.
+     * @param AccountsService $accountsService The accounts service instance.
+     */
     public function __construct(private AccountsModel $accountsModel, private AccountsService $accountsService)
     {
         $this->accountsModel = $accountsModel;
         $this->accountsService = $accountsService;
     }
+
+      /**
+     * Handles user login and generates a JWT token for authenticated users.
+     *
+     * @param Request $request The incoming HTTP request.
+     * @param Response $response The HTTP response to be returned.
+     *
+     * @return Response The HTTP response containing the JWT token or an error message.
+     *
+     * @throws HttpInvalidInputsException If the request body is invalid.
+     */
     public function handleAccessLogin(Request $request, Response $response): Response
     {
         if (!isset($request->getParsedBody()[0])) {
@@ -61,6 +83,16 @@ class AccountController extends BaseController
         return $this->renderJson($response, $jwt_data);
     }
 
+     /**
+     * Handles user registration and creates a new account.
+     *
+     * @param Request $request The incoming HTTP request.
+     * @param Response $response The HTTP response to be returned.
+     *
+     * @return Response The HTTP response containing the registration result.
+     *
+     * @throws HttpInvalidInputsException If the request body is invalid.
+     */
     public function handleAccountRegister(Request $request, Response $response): Response
     {
         if (!isset($request->getParsedBody()[0])) {
