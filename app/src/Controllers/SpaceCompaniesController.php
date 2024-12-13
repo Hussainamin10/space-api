@@ -18,7 +18,7 @@ use Slim\Exception\HttpNotFoundException;
 class SpaceCompaniesController extends BaseController
 {
 
-     /**
+    /**
      * Constructor initializes the SpaceCompaniesModel instance.
      *
      * @param SpaceCompaniesModel $spaceCompanies_model
@@ -28,7 +28,7 @@ class SpaceCompaniesController extends BaseController
         parent::__construct();
     }
 
-       /**
+    /**
      * Handles the GET request to retrieve a list of space companies with optional filters for pagination.
      *
      * @param Request  $request  The incoming request.
@@ -53,7 +53,7 @@ class SpaceCompaniesController extends BaseController
         return $this->renderJson($response, $spaceCompanies);
     }
 
-     /**
+    /**
      * Handles the GET request to retrieve a space company by its name.
      *
      * @param Request  $request     The incoming request.
@@ -96,7 +96,7 @@ class SpaceCompaniesController extends BaseController
     }
 
 
-       /**
+    /**
      * Handles the GET request to retrieve rockets associated with a company by its name.
      *
      * @param Request  $request     The incoming request.
@@ -111,26 +111,26 @@ class SpaceCompaniesController extends BaseController
     //! Get rockets by companyName
     public function handleRocketsByCompanyName(Request $request, Response $response, array $uri_args): Response
     {
-        // Extract the company name from the URI arguments
-        $companyName = $uri_args["companyName"];
-        $validator = new Validator(['Name' => $companyName]);
+        $companyName = $uri_args["companyName"] ?? null;
 
-        $validator->rule('string', 'Name');
-
-        //If Name provided is not a string
-        if (!$validator->validate()) {
-            throw new HttpInvalidInputsException($request, "Invalid company name provided");
+        if (empty($companyName) || !is_string($companyName)) {
+            return $this->renderJson(
+                $response,
+                [
+                    "status" => "error",
+                    "code" => 400,
+                    "message" => "Invalid or missing company name"
+                ],
+                StatusCodeInterface::STATUS_BAD_REQUEST
+            );
         }
 
-        // Fetch the rockets by company name using the model
         $results = $this->spaceCompanies_model->getRocketsByCompanyName($companyName);
 
-        //If company doesn't exist
         if (!$results['company']) {
             throw new HttpNotFoundException($request, "No matching companies found");
         }
 
-        // Return the results as a JSON response
         return $this->renderJson($response, $results);
     }
 }

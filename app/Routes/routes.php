@@ -121,7 +121,8 @@ return static function (Slim\App $app): void {
 
         //?PUT
         $group->put('/planets', [PlanetController::class, 'handleUpdatePlanet']);
-    })->add(LoggingMiddleware::class)->addMiddleware(new AuthMiddleWare());
+    }); //->add(LoggingMiddleware::class);
+    //->addMiddleware(new AuthMiddleWare());
 
     //* ROUTE: GET /ping
     $app->get('/ping', function (Request $request, Response $response, $args) {

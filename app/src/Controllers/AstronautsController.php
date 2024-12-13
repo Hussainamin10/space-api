@@ -154,7 +154,7 @@ class AstronautsController extends BaseController
     public function handleDeleteAstronaut(Request $request, Response $response, array $uri_args): Response
     {
         //* Retrieve POST request embedded body
-        $astronautID = $request->getParsedBody()['astronautID'] ?? null;
+        $astronautID = $request->getParsedBody()[0]['astronautID'] ?? null;
         $result = $this->astronautsService->deleteAstronaut($astronautID);
         $payload = [];
 
